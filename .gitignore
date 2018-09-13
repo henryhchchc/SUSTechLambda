@@ -1,0 +1,9 @@
+*.log
+
+# Latex generated files
+docs/**/*.pdf
+docs/**/*.nav
+docs/**/*.out
+docs/**/*.toc
+docs/**/*.aux
+docs/**/*.snm
