@@ -7,7 +7,7 @@ Tool Used: Balsamiq Mockups
 
 
 @RainyTong  
-- [ ] Profile
+- [x] Profile
 - [ ] Script Detail page
 - [ ] Create Script Page 
 
