@@ -8,8 +8,8 @@ Tool Used: Balsamiq Mockups
 
 @RainyTong  
 - [x] Profile
-- [ ] Script Detail page
-- [ ] Create Script Page 
+- [x] Script Detail page
+- [x] Create Script Page 
 
 @DennielZhang 
 - [x] Home 
