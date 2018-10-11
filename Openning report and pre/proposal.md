@@ -153,6 +153,15 @@ viii. User & Script management page(for superuser):
 
 In this project, we propose to use React.JS as our front-end framework and APS.Net as our back-end framework. No relational databases are used in this project. Instead, we propose to use MongoDB as databse for the project. The detail API architecture is as follows:
 
+### Class Diagram
+<p align="center">
+    <img src="https://github.com/Henrycobaltech/SUSTechLambda/blob/master/Openning%20report%20and%20pre/img/class%20diagram.png"  width="600" height="500">
+    <p align="center">
+        <em>Fig12. class diagram</em>
+    </p>
+</p>
+
+
 ### Authentication APIs
 
 Login: POST ~/api/login
