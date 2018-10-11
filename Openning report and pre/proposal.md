@@ -47,14 +47,80 @@ execute the script
 #### 1. User stories for super user
   
 - **View user list (P1) and user's detail information**:
+  
+  As a superuser , I want to see the user list
+
+  1. I log in my account
+  2. I am directed to my own profile page
+  3. I click on the button "User Management"
+  4. a window jump out with the list of user list and their information (latest log-in time, rank , active/inactive, registration time)
+  5. I scroll the button to view more users
+  6. I can click each person's name to open their main page
+  7. I can also enter user's name into the search box on the head of the window to find some user
 - **Update user info: e.g. reset the password, assign a role to a user (P2)**:
+  
+  As a super user , I want to Update user information
+
+  1. I log in my account
+  2. I am directed to my own profile page
+  3. I click on the button "User Management"
+  4. a window jump out with the list of user list and their information(latest log-in time, rank , active/inactive, registration time)
+  5. I click the "rank" column for some row shown (use different icon to represent different rank) in order to change its rank 
+  6. I can also :heavy_check_mark: some people , selecting them as a group , and click the header of "rank" column to give a rank to this group 
+  7. I can click :closed_lock_with_key: icon of each person to reset their key
 - **Delete user: may be marked as inactive or ban a user (P1)**:
+  
+  As a super user , I want to delete user
+  1. I log in my account
+  2. I am directed to my own profile page
+  3. I click on the button "User Management"
+  4. a window jump out with the list of user list and their information(latest log-in time, rank , active/inactive, registration time)
+  5. I can click :heavy_check_mark: icon on the column "active" for each person to delete it or make it inactive , and this icon will become :heavy_multiplication_x: and this row will become gray with a line on it .
 - **Run-time: how long at most can a script run (P2)**:
+  
+  
+  As a super user , I want to set the max run-time for scripts
+
+  1. I log in my account
+  2. I am directed to my own profile page
+  3. I click on the button "Scripts Management"
+  4. a window jump out with the list of all scripts and their information(author , size , memory , running-time , CPU usage , active/inactive , usage amount )
+  5. I click the "set" button on the left bottom 
+  6. a window jump out with settings on it
+  7. I click "Max memory-occupation" box 
+  8. the cursor will shining in the box and a image that shows current memory occupation condition will appear besides the box
+  9. I enter the number into the box, then there will be time-clock on the left of the box which means they are checking the validation of the number
+  10. a :heavy_check_mark: will supersede the time-clock if the number is valid , otherwise a :heavy_multiplication_x:
+  11. I click "save" and close the window
+
 - **Memory: how much memory can be used by a script (P1)**:
 - **CPU: how much CPU usage can be consumed by a script (P2)**:
+  
+  As a super user, I want to manage CPU usage/ Script Size.
+  1. I login to the platform. 
+  2. I enter 'executing setting'
+  3. I entered the number on blank titling 'CPU Usage'/ 'Script Size'.
+  4. I click button 'update setting'. 
 - **Script size: what's the maximum file size of a script (P1)**:
 - **Manage scripts (P2)**:
+  
+  As a super user, I want to manage scripts.
+  1. I login to the platform 
+  2. I check a script on the script list.
+  3. I click 'pin to the top' to pin this on the top of all the list.
+  4. I click 'ban' to temporally delete the script.
+  5. I click 'delete' to permanently delete the script.  
 - **Login to the platform (P1)**:
+  
+  As a super user, I want to login to the platform.
+
+  1. I open the home page
+  2. I click on the login button
+  3. I will be redirected to the login page
+  4. I type in my username and password
+  5. I click on the login button
+  6. I will be redirected to the management portal
+
 
 #### 2. User stories for script user
 - **Run Scripts (P1)**:
