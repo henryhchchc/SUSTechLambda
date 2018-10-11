@@ -16,7 +16,7 @@ The overall goal for this project is to build an online platform in which users 
 
 ### Databse development:
 
-何海滨
+何海彬
 
 ### Architecture deisgn and Back-end development:
 
