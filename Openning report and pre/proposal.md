@@ -41,7 +41,7 @@ execute the script
         <em>Fig1. use case diagram</em>
     </p>
 </p>
-[^ ^]: ![use_case](https://github.com/Henrycobaltech/SUSTechLambda/blob/master/Openning%20report%20and%20pre/img/use_case.png)
+[^_^]: ![use_case](https://github.com/Henrycobaltech/SUSTechLambda/blob/master/Openning%20report%20and%20pre/img/use_case.png)
 
 ### UI Design 
 
