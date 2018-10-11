@@ -35,21 +35,48 @@ execute the script
 ## Feature Description
 
 ### Use Case Diagram
-
-![use_case](https://github.com/Henrycobaltech/SUSTechLambda/blob/master/Openning%20report%20and%20pre/img/use_case.png)
+  <p align="center">
+    <img src="https://github.com/Henrycobaltech/SUSTechLambda/blob/master/Openning%20report%20and%20pre/img/use_case.png" alt="Sample"  width="600" height="500">
+    <p align="center">
+        <em>Fig1. use case diagram</em>
+    </p>
+</p>
+[^_^]: ![use_case](https://github.com/Henrycobaltech/SUSTechLambda/blob/master/Openning%20report%20and%20pre/img/use_case.png)
 
 ### UI Design 
 
 According to the functionalities of our Auto-Script website, we have designed the initial User Interface through Mockups. 
 
 i. Home page: 
-This is the first page when you access our website ---- SUSTech Lambda.
-![homepage](https://github.com/Henrycobaltech/SUSTechLambda/blob/master/Openning%20report%20and%20pre/img/8201539248659_.pic_hd.jpg)
+  
+  This is the first page when you access our website ---- SUSTech Lambda.
+  <p align="center">
+    <img src="https://github.com/Henrycobaltech/SUSTechLambda/blob/master/Openning%20report%20and%20pre/img/8201539248659_.pic_hd.jpg" alt="Sample"  width="500" height="400">
+    <p align="center">
+        <em>Fig2. home page</em>
+    </p>
+</p>
+
+[^_^]: ![homepage](https://github.com/Henrycobaltech/SUSTechLambda/blob/master/Openning%20report%20and%20pre/img/8201539248659_.pic_hd.jpg)
 
 ii. Sign up and Log in page:
-We use dialoges for users to sign up or log in.
-![sign up](https://github.com/Henrycobaltech/SUSTechLambda/blob/master/Openning%20report%20and%20pre/img/8211539248685_.pic.jpg)
-![log in](https://github.com/Henrycobaltech/SUSTechLambda/blob/master/Openning%20report%20and%20pre/img/8221539248692_.pic.jpg)
+  
+  We use dialoges for users to sign up or log in.
+<p align="center">
+    <img src="https://github.com/Henrycobaltech/SUSTechLambda/blob/master/Openning%20report%20and%20pre/img/8211539248685_.pic.jpg" alt="Sample"  width="300" height="400">
+    <p align="center">
+        <em>Fig3. sign up</em>
+    </p>
+</p>
+<p align="center">
+    <img src="https://github.com/Henrycobaltech/SUSTechLambda/blob/master/Openning%20report%20and%20pre/img/8221539248692_.pic.jpg" alt="Sample"  width="300" height="400">
+    <p align="center">
+        <em>Fig4. log in</em>
+    </p>
+</p>
+
+[^_^]: ![sign up](https://github.com/Henrycobaltech/SUSTechLambda/blob/master/Openning%20report%20and%20pre/img/8211539248685_.pic.jpg)
+[^_^]: ![log in](https://github.com/Henrycobaltech/SUSTechLambda/blob/master/Openning%20report%20and%20pre/img/8221539248692_.pic.jpg)
 
 iii. Script page:
 After pressing the “Try it now” button, you can enter the script-list page. There are many published scripts listing on the page. If you want to run some script, enter the “run” button. 
