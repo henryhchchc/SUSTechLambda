@@ -42,6 +42,40 @@ execute the script
     </p>
 </p>
 
+### User Stories
+
+#### i. User stories for super user
+  
+- View user list (P1) and user's detail information 
+- Update user info: e.g. reset the password, assign a role to a user (P2)
+- Delete user: may be marked as inactive or ban a user (P1)
+- Run-time: how long at most can a script run (P2)
+- Memory: how much memory can be used by a script (P1)
+- CPU: how much CPU usage can be consumed by a script (P2)
+- Script size: what's the maximum file size of a script (P1)
+- Manage scripts (P2)
+- Login to the platform (P1)
+
+#### ii. User stories for script user
+- Run Scripts (P1)
+- View Script List (P1)
+- Comment (P2)
+- Rate (P2)
+- Script request(P2)
+- Login to the platform
+- Create script lists (every list include a name, a description, and a set of links to specific scripts pages) (P2)
+
+#### iii. User stories for script designer
+- Create Scripts(P1)
+- View Scripts(P1)
+- Update Scripts(P1)
+- Delete Scripts(P2)
+- Publish Scripts(P2)
+- Execute Scripts for testing (P3)
+- Reply Comments (P3)
+- Login to the platform (P1)
+
+
 ### UI Design 
 
 According to the functionalities of our Auto-Script website, we have designed the initial User Interface through Mockups. 
