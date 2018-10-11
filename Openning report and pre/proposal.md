@@ -44,7 +44,7 @@ execute the script
 
 ### User Stories
 
-#### i. User stories for super user
+#### 1. User stories for super user
   
 - View user list (P1) and user's detail information 
 - Update user info: e.g. reset the password, assign a role to a user (P2)
@@ -56,7 +56,7 @@ execute the script
 - Manage scripts (P2)
 - Login to the platform (P1)
 
-#### ii. User stories for script user
+#### 2. User stories for script user
 - Run Scripts (P1)
 - View Script List (P1)
 - Comment (P2)
@@ -65,15 +65,70 @@ execute the script
 - Login to the platform
 - Create script lists (every list include a name, a description, and a set of links to specific scripts pages) (P2)
 
-#### iii. User stories for script designer
-- Create Scripts(P1)
-- View Scripts(P1)
-- Update Scripts(P1)
-- Delete Scripts(P2)
-- Publish Scripts(P2)
-- Execute Scripts for testing (P3)
+#### 3. User stories for script designer
+- Create Scripts(P1):
+  
+  As a script designer, I want to create a script.
+
+  1. I write a script for a specific need
+  2. I open the scripts page
+  3. I click on the upload button
+  4. I choose the script to upload
+  5. I click on the confirm button
+  6. I will see my script uploading
+  7. I set the parameter to be passed by a user
+  8. I finish creating a script 
+  9. I will see my script on the script list
+
+- View Scripts(P1):
+  
+  As a script designer, I want to view all my scripts
+
+  1. I open my personal page
+  2. I click on scripts link
+  3. I see a list of scripts designed by myself
+- Update Scripts(P1):
+  
+  As a script designer, I want to update my script
+
+  1. I open my scripts page (Same steps above as view all my scripts)
+  2. I click on the script I want to update
+  3. I will be redirected to the script design page
+  4. I update the name, code, parameters etc. of the script
+  5. I click on save button
+- Delete Scripts(P2):
+  
+  As a script designer, I want to delete my script
+
+  1. I open my scripts page 
+  2. I click on the script I want to delete
+  3. I will click on the confirm button
+  4. I will be redirected to the script design page
+
+- Publish Scripts(P2):
+  
+  As a script designer, I want to publish the scripts,
+  1. I open my scripts page
+  2. I see scripts I wrote before
+  3. I write the description and readme
+  4. I click the bottom "publish" to publish the script.
+- Execute Scripts for testing (P3):
+     
+    As a script designer, I want to execute the script for testing. 
+  1. I open my scripts page
+  2. I enter the debug mode. 
+  3. I see a terminal and use Unix command to run and debug the scripts. 
 - Reply Comments (P3)
-- Login to the platform (P1)
+- Login to the platform (P1):
+    
+    As a script designer, I want to login to the platform.
+
+  1. I open the home page
+  2. I click on the login button
+  3. I will be redirected to the login page 
+  4. I type in my username and password
+  5. I click on the login button
+  6. I will be redirected to my personal page
 
 
 ### UI Design 
