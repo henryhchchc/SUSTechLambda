@@ -48,7 +48,7 @@ execute the script
   
 - **View user list (P1) and user's detail information**:
   
-  As a superuser , I want to see the user list
+  As a superuser , I want to see the user list.
 
   1. I log in my account
   2. I am directed to my own profile page
@@ -59,7 +59,7 @@ execute the script
   7. I can also enter user's name into the search box on the head of the window to find some user
 - **Update user info: e.g. reset the password, assign a role to a user (P2)**:
   
-  As a super user , I want to Update user information
+  As a super user , I want to Update user information.
 
   1. I log in my account
   2. I am directed to my own profile page
@@ -70,7 +70,7 @@ execute the script
   7. I can click :closed_lock_with_key: icon of each person to reset their key
 - **Delete user: may be marked as inactive or ban a user (P1)**:
   
-  As a super user , I want to delete user
+  As a super user , I want to delete user.
   1. I log in my account
   2. I am directed to my own profile page
   3. I click on the button "User Management"
@@ -79,7 +79,7 @@ execute the script
 - **Run-time: how long at most can a script run (P2)**:
   
   
-  As a super user , I want to set the max run-time for scripts
+  As a super user , I want to set the max run-time for scripts.
 
   1. I log in my account
   2. I am directed to my own profile page
@@ -93,7 +93,7 @@ execute the script
   10. a :heavy_check_mark: will supersede the time-clock if the number is valid , otherwise a :heavy_multiplication_x:
   11. I click "save" and close the window
 
-- **Memory: how much memory can be used by a script (P1)**:
+- **Memory: how much memory can be used by a script (P1)**
 - **CPU: how much CPU usage can be consumed by a script (P2)**:
   
   As a super user, I want to manage CPU usage/ Script Size.
@@ -101,7 +101,7 @@ execute the script
   2. I enter 'executing setting'
   3. I entered the number on blank titling 'CPU Usage'/ 'Script Size'.
   4. I click button 'update setting'. 
-- **Script size: what's the maximum file size of a script (P1)**:
+- **Script size: what's the maximum file size of a script (P1)**
 - **Manage scripts (P2)**:
   
   As a super user, I want to manage scripts.
@@ -138,14 +138,14 @@ execute the script
 
 - **View Script List (P1)**:
   
-  As a script user, I want to view all the scripts
+  As a script user, I want to view all the scripts.
 
   1. I open the home page
   2. I click on the scripts link
   3. I will be redirected to all scripts page
 - **Comment (P2)**:
   
-  As a script user, I want to comment a script
+  As a script user, I want to comment a script.
 
   1. I open the script page
   2. I click on the script link
@@ -179,7 +179,7 @@ execute the script
 
 - **Create script lists (every list include a name, a description, and a set of links to specific scripts pages) (P2)**:
   
-  As a script user, I want to create script lists
+  As a script user, I want to create script lists.
 
   1. I open the scripts page.
   2. I click on and create a script list
