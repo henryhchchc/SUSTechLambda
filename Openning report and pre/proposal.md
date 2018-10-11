@@ -50,7 +50,7 @@ i. Home page:
   
   This is the first page when you access our website ---- SUSTech Lambda.
   <p align="center">
-    <img src="https://github.com/Henrycobaltech/SUSTechLambda/blob/master/Openning%20report%20and%20pre/img/8201539248659_.pic_hd.jpg" alt="Sample"  width="500" height="400">
+    <img src="https://github.com/Henrycobaltech/SUSTechLambda/blob/master/Openning%20report%20and%20pre/img/8201539248659_.pic_hd.jpg" alt="Sample"  width="600" height="500">
     <p align="center">
         <em>Fig2. home page</em>
     </p>
@@ -62,13 +62,13 @@ ii. Sign up and Log in page:
   
   We use dialoges for users to sign up or log in.
 <p align="center">
-    <img src="https://github.com/Henrycobaltech/SUSTechLambda/blob/master/Openning%20report%20and%20pre/img/8211539248685_.pic.jpg" alt="Sample"  width="300" height="400">
+    <img src="https://github.com/Henrycobaltech/SUSTechLambda/blob/master/Openning%20report%20and%20pre/img/8211539248685_.pic.jpg" alt="Sample"  width="300" height="360">
     <p align="center">
         <em>Fig3. sign up</em>
     </p>
 </p>
 <p align="center">
-    <img src="https://github.com/Henrycobaltech/SUSTechLambda/blob/master/Openning%20report%20and%20pre/img/8221539248692_.pic.jpg" alt="Sample"  width="300" height="400">
+    <img src="https://github.com/Henrycobaltech/SUSTechLambda/blob/master/Openning%20report%20and%20pre/img/8221539248692_.pic.jpg" alt="Sample"  width="300" height="360">
     <p align="center">
         <em>Fig4. log in</em>
     </p>
@@ -78,7 +78,7 @@ iii. Script page:
   
   After pressing the “Try it now” button, you can enter the script-list page. There are many published scripts listing on the page. If you want to run some script, enter the “run” button. 
 <p align="center">
-    <img src="https://github.com/Henrycobaltech/SUSTechLambda/blob/master/Openning%20report%20and%20pre/img/8231539248701_.pic_hd.jpg" alt="Sample"  width="550" height="500">
+    <img src="https://github.com/Henrycobaltech/SUSTechLambda/blob/master/Openning%20report%20and%20pre/img/8231539248701_.pic_hd.jpg" alt="Sample"  width="600" height="500">
     <p align="center">
         <em>Fig5. script page</em>
     </p>
@@ -89,7 +89,7 @@ iv. Script_detail page:
   In the script_detail page, there are detailed description of this script. If you want to run this script, you need to enter the necessary parameters and click the “run” button to see the result. You can vote or star the specific script. And you can also see the raw code of script if it is released by the publisher.
 
 <p align="center">
-    <img src="https://github.com/Henrycobaltech/SUSTechLambda/blob/master/Openning%20report%20and%20pre/img/8291539248794_.pic_hd.jpg" alt="Sample"  width="550" height="500">
+    <img src="https://github.com/Henrycobaltech/SUSTechLambda/blob/master/Openning%20report%20and%20pre/img/8291539248794_.pic_hd.jpg" alt="Sample"  width="600" height="500">
     <p align="center">
         <em>Fig6. script detail page</em>
     </p>
@@ -101,7 +101,7 @@ v. Script_creating page:
   
   
 <p align="center">
-    <img src="https://github.com/Henrycobaltech/SUSTechLambda/blob/master/Openning%20report%20and%20pre/img/8281539248775_.pic.jpg" alt="Sample"  width="550" height="500">
+    <img src="https://github.com/Henrycobaltech/SUSTechLambda/blob/master/Openning%20report%20and%20pre/img/8281539248775_.pic.jpg" alt="Sample"  width="550" height="700">
     <p align="center">
         <em>Fig7. script creating page</em>
     </p>
@@ -112,7 +112,7 @@ vi. Forum page:
   There are requests for scripts and discussions on the forum page. Anyone can release a topic on the forum and provide your own solutions.
  
  <p align="center">
-    <img src="https://github.com/Henrycobaltech/SUSTechLambda/blob/master/Openning%20report%20and%20pre/img/8241539248707_.pic_hd.jpg" alt="Sample"  width="550" height="500">
+    <img src="https://github.com/Henrycobaltech/SUSTechLambda/blob/master/Openning%20report%20and%20pre/img/8241539248707_.pic_hd.jpg" alt="Sample"  width="600" height="500">
     <p align="center">
         <em>Fig8. forum page</em>
     </p>
@@ -122,7 +122,7 @@ vii. Profile page:
 Every user and developer have a profile which contains his/her personal information, recent contributions, and the personal script lists which can be either starred or created on his/her own.
 
 <p align="center">
-    <img src="https://github.com/Henrycobaltech/SUSTechLambda/blob/master/Openning%20report%20and%20pre/img/8271539248770_.pic.jpg" alt="Sample"  width="550" height="500">
+    <img src="https://github.com/Henrycobaltech/SUSTechLambda/blob/master/Openning%20report%20and%20pre/img/8271539248770_.pic.jpg" alt="Sample"  width="600" height="500">
     <p align="center">
         <em>Fig9. profile page</em>
     </p>
@@ -132,7 +132,7 @@ viii. User & Script management page(for superuser):
 These two pages can only be viewed by the superuser who can manage both users and scripts.
 
 <p align="center">
-    <img src="https://github.com/Henrycobaltech/SUSTechLambda/blob/master/Openning%20report%20and%20pre/img/8251539248727_.pic_hd.jpg" alt="Sample"  width="550" height="500">
+    <img src="https://github.com/Henrycobaltech/SUSTechLambda/blob/master/Openning%20report%20and%20pre/img/8251539248727_.pic_hd.jpg" alt="Sample"  width="600" height="500">
     <p align="center">
         <em>Fig10. superuser page1</em>
     </p>
@@ -140,7 +140,7 @@ These two pages can only be viewed by the superuser who can manage both users an
 
 
 <p align="center">
-    <img src="https://github.com/Henrycobaltech/SUSTechLambda/blob/master/Openning%20report%20and%20pre/img/8261539248751_.pic.jpg" alt="Sample"  width="550" height="500">
+    <img src="https://github.com/Henrycobaltech/SUSTechLambda/blob/master/Openning%20report%20and%20pre/img/8261539248751_.pic.jpg" alt="Sample"  width="550" height="700">
     <p align="center">
         <em>Fig11. superuser page2</em>
     </p>
