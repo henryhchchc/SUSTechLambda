@@ -46,24 +46,83 @@ execute the script
 
 #### 1. User stories for super user
   
-- View user list (P1) and user's detail information 
-- Update user info: e.g. reset the password, assign a role to a user (P2)
-- Delete user: may be marked as inactive or ban a user (P1)
-- Run-time: how long at most can a script run (P2)
-- Memory: how much memory can be used by a script (P1)
-- CPU: how much CPU usage can be consumed by a script (P2)
-- Script size: what's the maximum file size of a script (P1)
-- Manage scripts (P2)
-- Login to the platform (P1)
+- **View user list (P1) and user's detail information**:
+- **Update user info: e.g. reset the password, assign a role to a user (P2)**:
+- **Delete user: may be marked as inactive or ban a user (P1)**:
+- **Run-time: how long at most can a script run (P2)**:
+- **Memory: how much memory can be used by a script (P1)**:
+- **CPU: how much CPU usage can be consumed by a script (P2)**:
+- **Script size: what's the maximum file size of a script (P1)**:
+- **Manage scripts (P2)**:
+- **Login to the platform (P1)**:
 
 #### 2. User stories for script user
-- Run Scripts (P1)
-- View Script List (P1)
-- Comment (P2)
-- Rate (P2)
-- Script request(P2)
-- Login to the platform
-- Create script lists (every list include a name, a description, and a set of links to specific scripts pages) (P2)
+- **Run Scripts (P1)**:
+  
+  As a script user, I want to run a script.
+
+  1. I open the scripts page
+  2. I click on a script on the script list to choose it
+  3. I will be redirected to a script launching page
+  4. I type in the parameters
+  5. I click on the launch button
+  6. I will see a dialog showing the progress
+  7. I see the result of the execution
+
+
+- **View Script List (P1)**:
+  
+  As a script user, I want to view all the scripts
+
+  1. I open the home page
+  2. I click on the scripts link
+  3. I will be redirected to all scripts page
+- **Comment (P2)**:
+  
+  As a script user, I want to comment a script
+
+  1. I open the script page
+  2. I click on the script link
+  3. I write my comments below the script
+  4. I click on the comment button
+  5. I will see my comment in the comment area
+- **Rate (P2)**:
+  
+  As a script user, I want to rate a script. 
+  1. I open the scripts page
+  2. I click on a script on the script list to choose it
+  3. I run it.
+  4. I click to choose number of stars I would use to rate it. 
+- **Script request(P2)**:
+  
+  As a script user, I want to request for a script. 
+  1. I open the scripts page.
+  2. I click and create a script request
+  3. I write the description of the script I want to require for. 
+  4. I update it. 
+- **Login to the platform**:
+  
+  As a script user, I want to login to the platform.
+
+  1. I open the home page
+  2. I click on the login button
+  3. I will be redirected to the login page
+  4. I type in my username and password
+  5. I click on the login button
+  6. I will be redirected to the homepage
+
+- **Create script lists (every list include a name, a description, and a set of links to specific scripts pages) (P2)**:
+  
+  As a script user, I want to create script lists
+
+  1. I open the scripts page.
+  2. I click on and create a script list
+  3. I enter the name of the script list I want to create
+  4. I write the description of it
+  5. I click on the add link button
+  6. I will choose or search several specific scripts
+  7. I add the links of these specific scripts
+  8. I click on the finish button
 
 #### 3. User stories for script designer
 - **Create Scripts(P1)**:
@@ -82,14 +141,14 @@ execute the script
 
 - **View Scripts(P1)**:
   
-  As a script designer, I want to view all my scripts
+  As a script designer, I want to view all my scripts.
 
   1. I open my personal page
   2. I click on scripts link
   3. I see a list of scripts designed by myself
 - **Update Scripts(P1)**:
   
-  As a script designer, I want to update my script
+  As a script designer, I want to update my script.
 
   1. I open my scripts page (Same steps above as view all my scripts)
   2. I click on the script I want to update
@@ -98,7 +157,7 @@ execute the script
   5. I click on save button
 - **Delete Scripts(P2)**:
   
-  As a script designer, I want to delete my script
+  As a script designer, I want to delete my script.
 
   1. I open my scripts page 
   2. I click on the script I want to delete
@@ -107,14 +166,14 @@ execute the script
 
 - **Publish Scripts(P2)**:
   
-  As a script designer, I want to publish the scripts,
+  As a script designer, I want to publish the scripts.
   1. I open my scripts page
   2. I see scripts I wrote before
   3. I write the description and readme
   4. I click the bottom "publish" to publish the script.
 - **Execute Scripts for testing (P3)**:
      
-    As a script designer, I want to execute the script for testing. 
+    As a script designer, I want to execute the script for testing.
   1. I open my scripts page
   2. I enter the debug mode. 
   3. I see a terminal and use Unix command to run and debug the scripts. 
