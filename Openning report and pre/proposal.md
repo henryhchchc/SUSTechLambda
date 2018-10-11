@@ -36,7 +36,7 @@ execute the script
 
 ### Use Case Diagram
 
-![use_case](hhttps://raw.githubusercontent.com/Henrycobaltech/SUSTechLambda/master/Openning%20report%20and%20pre/img/use_case.png?token=Ao4MmdNZhgh6Wxnc4dbhi4zgzAM-UpFCks5byEuIwA%3D%3D)
+![use_case](https://github.com/Henrycobaltech/SUSTechLambda/blob/master/Openning%20report%20and%20pre/img/use_case.png)
 
 ### UI Design 
 
