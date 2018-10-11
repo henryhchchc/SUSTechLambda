@@ -119,7 +119,8 @@ vi. Forum page:
 </p>
  
 vii. Profile page:
-Every user and developer have a profile which contains his/her personal information, recent contributions, and the personal script lists which can be either starred or created on his/her own.
+  
+  Every user and developer have a profile which contains his/her personal information, recent contributions, and the personal script lists which can be either starred or created on his/her own.
 
 <p align="center">
     <img src="https://github.com/Henrycobaltech/SUSTechLambda/blob/master/Openning%20report%20and%20pre/img/8271539248770_.pic.jpg" alt="Sample"  width="600" height="500">
@@ -129,7 +130,8 @@ Every user and developer have a profile which contains his/her personal informat
 </p>
 
 viii. User & Script management page(for superuser):
-These two pages can only be viewed by the superuser who can manage both users and scripts.
+  
+  These two pages can only be viewed by the superuser who can manage both users and scripts.
 
 <p align="center">
     <img src="https://github.com/Henrycobaltech/SUSTechLambda/blob/master/Openning%20report%20and%20pre/img/8251539248727_.pic_hd.jpg" alt="Sample"  width="600" height="500">
