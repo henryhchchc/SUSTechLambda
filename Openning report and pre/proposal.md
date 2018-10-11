@@ -36,7 +36,7 @@ execute the script
 
 ### Use Case Diagram
 
-![use_case](/Users/DeriZsy/GitHub_Projects/SUSTechLambda/Openning report and pre/img/use_case.png)
+![use_case](SUSTechLambda/Openning report and pre/img/use_case.png)
 
 ### UI Design 
 
