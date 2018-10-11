@@ -66,7 +66,7 @@ execute the script
 - Create script lists (every list include a name, a description, and a set of links to specific scripts pages) (P2)
 
 #### 3. User stories for script designer
-- Create Scripts(P1):
+- **Create Scripts(P1)**:
   
   As a script designer, I want to create a script.
 
@@ -80,14 +80,14 @@ execute the script
   8. I finish creating a script 
   9. I will see my script on the script list
 
-- View Scripts(P1):
+- **View Scripts(P1)**:
   
   As a script designer, I want to view all my scripts
 
   1. I open my personal page
   2. I click on scripts link
   3. I see a list of scripts designed by myself
-- Update Scripts(P1):
+- **Update Scripts(P1)**:
   
   As a script designer, I want to update my script
 
@@ -96,7 +96,7 @@ execute the script
   3. I will be redirected to the script design page
   4. I update the name, code, parameters etc. of the script
   5. I click on save button
-- Delete Scripts(P2):
+- **Delete Scripts(P2)**:
   
   As a script designer, I want to delete my script
 
@@ -105,21 +105,21 @@ execute the script
   3. I will click on the confirm button
   4. I will be redirected to the script design page
 
-- Publish Scripts(P2):
+- **Publish Scripts(P2)**:
   
   As a script designer, I want to publish the scripts,
   1. I open my scripts page
   2. I see scripts I wrote before
   3. I write the description and readme
   4. I click the bottom "publish" to publish the script.
-- Execute Scripts for testing (P3):
+- **Execute Scripts for testing (P3)**:
      
     As a script designer, I want to execute the script for testing. 
   1. I open my scripts page
   2. I enter the debug mode. 
   3. I see a terminal and use Unix command to run and debug the scripts. 
-- Reply Comments (P3)
-- Login to the platform (P1):
+- **Reply Comments (P3)**
+- **Login to the platform (P1)**:
     
     As a script designer, I want to login to the platform.
 
