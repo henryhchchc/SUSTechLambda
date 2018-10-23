@@ -4,9 +4,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class SusTechLambdaApplication {
+public class SUSTechLambdaApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(SusTechLambdaApplication.class, args);
+		SpringApplication.run(SUSTechLambdaApplication.class, args);
 	}
 }
