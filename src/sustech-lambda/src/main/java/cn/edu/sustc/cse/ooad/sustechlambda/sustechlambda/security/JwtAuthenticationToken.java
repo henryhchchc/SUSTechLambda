@@ -17,7 +17,7 @@ public class JwtAuthenticationToken extends AbstractAuthenticationToken {
 
     public JwtAuthenticationToken(Claims claims) {
         super(null);
-        String subject = claims.getSubject();
+        var subject = claims.getSubject();
         if (subject != null) {
             this.principal = new SLUserDetails(subject);
             this.setAuthenticated(true);
@@ -25,7 +25,7 @@ public class JwtAuthenticationToken extends AbstractAuthenticationToken {
             this.principal = null;
         }
 
-        String roles = claims.get("Roles", String.class);
+        var roles = claims.get("Roles", String.class);
         if (roles != null) {
             this.roleAuthorities
                     = Arrays.stream(roles.split(","))

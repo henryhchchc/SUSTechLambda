@@ -19,7 +19,7 @@ public class AuthController {
     public ResponseEntity<String> login(@RequestBody LoginDto dto) {
         HashMap<String, Object> roles = new HashMap<>();
         roles.put("Roles", "USER,DESIGNER");
-        String token =
+        var token =
                 Jwts.builder()
                         .setSubject("henry")
                         .addClaims(roles)

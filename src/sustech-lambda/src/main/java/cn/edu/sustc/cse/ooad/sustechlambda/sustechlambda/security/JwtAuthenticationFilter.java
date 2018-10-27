@@ -1,6 +1,5 @@
 package cn.edu.sustc.cse.ooad.sustechlambda.sustechlambda.security;
 
-import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -18,20 +17,20 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                     HttpServletResponse response,
                                     FilterChain filterChain)
             throws ServletException, IOException {
-        String token = extractToken(request);
+        var token = extractToken(request);
         if (token != null) {
-            Claims claims = Jwts.parser()
+            var claims = Jwts.parser()
                     .setSigningKey("my super signing key".getBytes())
                     .parseClaimsJws(token)
                     .getBody();
-            JwtAuthenticationToken authenticationToken = new JwtAuthenticationToken(claims);
+            var authenticationToken = new JwtAuthenticationToken(claims);
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
         }
         filterChain.doFilter(request, response);
     }
 
     private String extractToken(HttpServletRequest request) {
-        String authHeader = request.getHeader("Authorization");
+        var authHeader = request.getHeader("Authorization");
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             return authHeader.substring(7);
         }
