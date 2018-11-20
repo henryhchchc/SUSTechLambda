@@ -3,6 +3,7 @@ package cn.edu.sustc.cse.ooad.sustechlambda.sustechlambda.controllers
 import cn.edu.sustc.cse.ooad.sustechlambda.sustechlambda.dtos.LoginDto
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -25,4 +26,7 @@ class AuthController {
                     .let {
                         ResponseEntity.ok(it)
                     }
+
+    @PostMapping("logout")
+    fun logout() = ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(null)
 }
