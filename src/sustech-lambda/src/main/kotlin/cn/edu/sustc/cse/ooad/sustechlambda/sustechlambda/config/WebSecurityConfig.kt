@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletResponse
 @EnableWebSecurity
 class WebSecurityConfig : WebSecurityConfigurerAdapter() {
 
-    @Throws(Exception::class)
     override fun configure(http: HttpSecurity) {
         http
                 .csrf().disable()
@@ -27,6 +26,6 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
                 .authorizeRequests()
                 .antMatchers("/api/auth/login").permitAll()
                 .antMatchers("/api/test/**").hasRole("USER")
-                .anyRequest().authenticated()
+                .antMatchers("/api/**").authenticated()
     }
 }
