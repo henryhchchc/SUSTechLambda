@@ -4,6 +4,7 @@ import cn.edu.sustc.cse.ooad.sustechlambda.dtos.ScriptDto
 import cn.edu.sustc.cse.ooad.sustechlambda.entities.Script
 import cn.edu.sustc.cse.ooad.sustechlambda.persistence.ScriptsRepository
 import cn.edu.sustc.cse.ooad.sustechlambda.services.IdentityService
+import cn.edu.sustc.cse.ooad.sustechlambda.utilities.getById
 import cn.edu.sustc.cse.ooad.sustechlambda.utilities.pagingQuery
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
@@ -35,7 +36,7 @@ class ScriptsController
 
     @ApiOperation("Get a script", authorizations = [Authorization("Bearer")])
     @GetMapping("{id}")
-    fun getScript() = ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(null)
+    fun getScript(@PathVariable id: Int) = getById(id, this.repo)
 
     @ApiOperation("Create script", authorizations = [Authorization("Bearer")])
     @PostMapping("")

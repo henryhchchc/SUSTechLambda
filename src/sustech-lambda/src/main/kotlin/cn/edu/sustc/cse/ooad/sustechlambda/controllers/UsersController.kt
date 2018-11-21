@@ -1,6 +1,8 @@
 package cn.edu.sustc.cse.ooad.sustechlambda.controllers
 
+import cn.edu.sustc.cse.ooad.sustechlambda.dtos.UserDto
 import cn.edu.sustc.cse.ooad.sustechlambda.persistence.UsersRepository
+import cn.edu.sustc.cse.ooad.sustechlambda.utilities.getById
 import cn.edu.sustc.cse.ooad.sustechlambda.utilities.pagingQuery
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
@@ -28,11 +30,15 @@ class UsersController
             @RequestParam("page_idx", defaultValue = "0") pageIndex: Int,
             @ApiParam("Page size")
             @RequestParam("page_size", defaultValue = "10") pageSize: Int
-    ) = pagingQuery(pageIndex, pageSize, this.repo)
+    ) = pagingQuery(pageIndex, pageSize, this.repo) {
+        UserDto(it.id, it.userName, it.displayName, it.roles)
+    }
 
-    @ApiOperation("Get detail of a user", authorizations = [Authorization("Bearer")])
+    @ApiOperation("Get detail of a user", authorizations = [Authorization("Bearer")], response = UserDto::class)
     @GetMapping("{id}")
-    fun getUserDetail() = ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(null)
+    fun getUserDetail(@PathVariable id: Int) = getById(id, this.repo) {
+        UserDto(it.id, it.userName, it.displayName, it.roles)
+    }
 
     @ApiOperation("Update user", authorizations = [Authorization("Bearer")])
     @PutMapping("{id}")

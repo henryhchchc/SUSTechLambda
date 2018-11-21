@@ -1,18 +1,14 @@
 package cn.edu.sustc.cse.ooad.sustechlambda.controllers
 
 import cn.edu.sustc.cse.ooad.sustechlambda.persistence.TasksRepository
+import cn.edu.sustc.cse.ooad.sustechlambda.utilities.getById
 import cn.edu.sustc.cse.ooad.sustechlambda.utilities.pagingQuery
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import io.swagger.annotations.ApiParam
 import io.swagger.annotations.Authorization
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.http.HttpStatus
-import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 
 @RestController
@@ -32,6 +28,6 @@ class TasksController
 
     @ApiOperation("Get task", authorizations = [Authorization("Bearer")])
     @GetMapping("{id}")
-    fun getTaskDetail() = ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(null)
+    fun getTaskDetail(@PathVariable id: Int) = getById(id, this.repo)
 
 }
