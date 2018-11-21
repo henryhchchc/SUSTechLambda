@@ -1,19 +1,36 @@
 package cn.edu.sustc.cse.ooad.sustechlambda.controllers
 
+import cn.edu.sustc.cse.ooad.sustechlambda.persistence.TasksRepository
+import cn.edu.sustc.cse.ooad.sustechlambda.utilities.pagingQuery
+import io.swagger.annotations.Api
+import io.swagger.annotations.ApiOperation
+import io.swagger.annotations.ApiParam
+import io.swagger.annotations.Authorization
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 
 @RestController
+@Api(tags = ["Tasks APIs"])
 @RequestMapping("/api/tasks")
-class TasksController {
+class TasksController
+@Autowired constructor(private val repo: TasksRepository) {
 
+    @ApiOperation("Query tasks", authorizations = [Authorization("Bearer")])
     @GetMapping("")
-    fun getTasks() = ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(null)
+    fun query(
+            @ApiParam("Page index, starting at 0")
+            @RequestParam("page_idx", defaultValue = "0") pageIndex: Int,
+            @ApiParam("Page size")
+            @RequestParam("page_size", defaultValue = "10") pageSize: Int
+    ) = pagingQuery(pageIndex, pageSize, this.repo)
 
+    @ApiOperation("Get task", authorizations = [Authorization("Bearer")])
     @GetMapping("{id}")
     fun getTaskDetail() = ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(null)
 

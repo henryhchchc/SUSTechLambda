@@ -4,6 +4,11 @@ import cn.edu.sustc.cse.ooad.sustechlambda.dtos.ScriptDto
 import cn.edu.sustc.cse.ooad.sustechlambda.entities.Script
 import cn.edu.sustc.cse.ooad.sustechlambda.persistence.ScriptsRepository
 import cn.edu.sustc.cse.ooad.sustechlambda.services.IdentityService
+import cn.edu.sustc.cse.ooad.sustechlambda.utilities.pagingQuery
+import io.swagger.annotations.Api
+import io.swagger.annotations.ApiOperation
+import io.swagger.annotations.ApiParam
+import io.swagger.annotations.Authorization
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -11,6 +16,7 @@ import org.springframework.web.bind.annotation.*
 import java.net.URI
 
 @RestController
+@Api(tags = ["Scripts APIs"])
 @RequestMapping("/api/scripts")
 class ScriptsController
 @Autowired constructor(
@@ -18,12 +24,20 @@ class ScriptsController
         private val identityService: IdentityService
 ) {
 
+    @ApiOperation("Query scrips", authorizations = [Authorization("Bearer")])
     @GetMapping("")
-    fun getScripts() = ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(null)
+    fun query(
+            @ApiParam("Page index, starting at 0")
+            @RequestParam("page_idx", defaultValue = "0") pageIndex: Int,
+            @ApiParam("Page size")
+            @RequestParam("page_size", defaultValue = "10") pageSize: Int
+    ) = pagingQuery(pageIndex, pageSize, this.repo)
 
+    @ApiOperation("Get a script", authorizations = [Authorization("Bearer")])
     @GetMapping("{id}")
     fun getScript() = ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(null)
 
+    @ApiOperation("Create script", authorizations = [Authorization("Bearer")])
     @PostMapping("")
     fun createScript(@RequestBody dto: ScriptDto) = dto.let {
         Script(0, it.name, it.description, it.content, identityService.getCurrentUser())
@@ -31,6 +45,7 @@ class ScriptsController
         ResponseEntity.created(URI.create("/api/scripts/${it.id}")).body(it)
     }
 
+    @ApiOperation("Update a script", authorizations = [Authorization("Bearer")])
     @PutMapping("{id}")
     fun updateScript(@PathVariable id: Int, @RequestBody dto: ScriptDto): ResponseEntity<*> {
         val scriptOpt = this.repo.findById(id)
@@ -48,9 +63,11 @@ class ScriptsController
         }
     }
 
+    @ApiOperation("Delete a script", authorizations = [Authorization("Bearer")])
     @DeleteMapping("{id}")
     fun deleteScript() = ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(null)
 
+    @ApiOperation("Run a script", authorizations = [Authorization("Bearer")])
     @PostMapping("{id}/run")
     fun runScript() = ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(null)
 
