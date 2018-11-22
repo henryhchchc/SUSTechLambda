@@ -16,7 +16,7 @@ class JwtAuthenticationFilter : OncePerRequestFilter() {
     ) {
         extractToken(request)?.let {
             Jwts.parser()
-                    .setSigningKey("my super signing key".toByteArray())
+                    .setSigningKey("SUSTech lambda signing key".toByteArray())
                     .parseClaimsJws(it)
                     .body
         }?.let {

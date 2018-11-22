@@ -41,8 +41,8 @@ class ScriptsController
     @ApiOperation("Create script", authorizations = [Authorization("Bearer")])
     @PostMapping("")
     fun createScript(@RequestBody dto: ScriptDto) = dto.let {
-        Script(0, it.name, it.description, it.content, identityService.getCurrentUser())
-    }.also { this.repo.save(it) }.let {
+        Script(0, it.name, it.description, it.content, identityService.getCurrentUser()!!)
+    }.let { this.repo.save(it) }.let {
         ResponseEntity.created(URI.create("/api/scripts/${it.id}")).body(it)
     }
 

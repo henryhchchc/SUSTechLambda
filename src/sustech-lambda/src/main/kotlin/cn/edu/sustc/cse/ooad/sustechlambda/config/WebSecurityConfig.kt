@@ -28,7 +28,7 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
                 .addFilterAfter(JwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter::class.java)
                 .authorizeRequests()
                 .antMatchers("/api/auth/login").permitAll()
-                .antMatchers("/api/test/**").hasRole("USER")
+                .antMatchers("/api/users/register").permitAll()
                 .antMatchers("/api/**").authenticated()
     }
 

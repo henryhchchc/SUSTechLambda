@@ -37,7 +37,7 @@ class IdentityServiceImpl
 
 
     private fun validatePassword(it: User, password: String) =
-            it.passwordHash == this.passwordEncoder.encode(password)
+            this.passwordEncoder.matches(password, it.passwordHash)
 
 
     override fun getCurrentUser() = SecurityContextHolder.getContext()

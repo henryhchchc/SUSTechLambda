@@ -1,9 +1,11 @@
 package cn.edu.sustc.cse.ooad.sustechlambda.entities
 
+import java.util.*
+
 data class User(
-        var id: Int,
+        val id: UUID,
         var userName: String,
         var passwordHash: String,
         var displayName: String,
-        var roles: List<String> = ArrayList()
+        var roles: Set<String> = emptySet()
 )
