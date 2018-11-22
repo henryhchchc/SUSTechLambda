@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import java.net.URI
+import java.util.*
 
 @RestController
 @Api(tags = ["Scripts APIs"])
@@ -36,19 +37,25 @@ class ScriptsController
 
     @ApiOperation("Get a script", authorizations = [Authorization("Bearer")])
     @GetMapping("{id}")
-    fun getScript(@PathVariable id: Int) = getById(id, this.repo)
+    fun getScript(@PathVariable id: UUID) = getById(id, this.repo)
 
     @ApiOperation("Create script", authorizations = [Authorization("Bearer")])
     @PostMapping("")
     fun createScript(@RequestBody dto: ScriptDto) = dto.let {
-        Script(0, it.name, it.description, it.content, identityService.getCurrentUser()!!)
+        Script(
+                UUID.randomUUID(),
+                it.name,
+                it.description,
+                it.content,
+                identityService.getCurrentUser()!!
+        )
     }.let { this.repo.save(it) }.let {
         ResponseEntity.created(URI.create("/api/scripts/${it.id}")).body(it)
     }
 
     @ApiOperation("Update a script", authorizations = [Authorization("Bearer")])
     @PutMapping("{id}")
-    fun updateScript(@PathVariable id: Int, @RequestBody dto: ScriptDto): ResponseEntity<*> {
+    fun updateScript(@PathVariable id: UUID, @RequestBody dto: ScriptDto): ResponseEntity<*> {
         val scriptOpt = this.repo.findById(id)
         return when {
             scriptOpt.isPresent -> {

@@ -9,6 +9,7 @@ import io.swagger.annotations.ApiParam
 import io.swagger.annotations.Authorization
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
+import java.util.*
 
 
 @RestController
@@ -28,6 +29,6 @@ class TasksController
 
     @ApiOperation("Get task", authorizations = [Authorization("Bearer")])
     @GetMapping("{id}")
-    fun getTaskDetail(@PathVariable id: Int) = getById(id, this.repo)
+    fun getTaskDetail(@PathVariable id: UUID) = getById(id, this.repo)
 
 }
