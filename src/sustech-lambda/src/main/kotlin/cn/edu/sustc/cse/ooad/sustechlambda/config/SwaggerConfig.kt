@@ -23,7 +23,7 @@ class SwaggerConfig {
             .build()
             .apiInfo(ApiInfo(
                     "SUSTech Lambda API",
-                    "REST APIs for SUSTech",
+                    "REST APIs for SUSTech Lambda",
                     "v1",
                     "",
                     Contact("SUSTech Lambda Team", "", ""),

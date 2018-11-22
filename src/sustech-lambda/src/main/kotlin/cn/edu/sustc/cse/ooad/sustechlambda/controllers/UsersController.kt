@@ -18,9 +18,10 @@ import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.web.bind.annotation.*
 import java.net.URI
 import java.util.*
+import javax.annotation.security.RolesAllowed
 
 @RestController
-@Api(tags = ["Users APIs"])
+@Api(tags = ["Users management APIs"])
 @RequestMapping("/api/users/")
 class UsersController
 @Autowired constructor(
@@ -49,6 +50,7 @@ class UsersController
 
     private fun validateRegisterDto(dto: UserRegisterDto) = dto.roles.all { it in setOf("USER", "DESIGNER", "ADMIN") }
 
+    @RolesAllowed("ADMIN")
     @ApiOperation("Query users", authorizations = [Authorization("Bearer")])
     @GetMapping("")
     fun query(
@@ -58,18 +60,22 @@ class UsersController
             @RequestParam("page_size", defaultValue = "10") pageSize: Int
     ) = pagingQuery(pageIndex, pageSize, this.repo) { it.toDto() }
 
+    @RolesAllowed("ADMIN")
     @ApiOperation("Get detail of a user", authorizations = [Authorization("Bearer")], response = UserDto::class)
     @GetMapping("{id}")
     fun getUserDetail(@PathVariable id: UUID) = getById(id, this.repo) { it.toDto() }
 
+    @RolesAllowed("ADMIN")
     @ApiOperation("Update user", authorizations = [Authorization("Bearer")])
     @PutMapping("{id}")
     fun updateUser() = ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(null)
 
+    @RolesAllowed("ADMIN")
     @ApiOperation("Update advanced options for a user", authorizations = [Authorization("Bearer")])
     @PutMapping("{id}/advanced")
     fun updateUserAdvancedOptions() = ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(null)
 
+    @RolesAllowed("ADMIN")
     @ApiOperation("Reset password of a user")
     @PostMapping("{id}/reset-password")
     fun resetPassword() = ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(null)

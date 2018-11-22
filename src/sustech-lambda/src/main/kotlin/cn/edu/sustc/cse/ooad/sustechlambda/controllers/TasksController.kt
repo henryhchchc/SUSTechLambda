@@ -10,6 +10,7 @@ import io.swagger.annotations.Authorization
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
 import java.util.*
+import javax.annotation.security.RolesAllowed
 
 
 @RestController
@@ -18,6 +19,7 @@ import java.util.*
 class TasksController
 @Autowired constructor(private val repo: TasksRepository) {
 
+    @RolesAllowed("ADMIN")
     @ApiOperation("Query tasks", authorizations = [Authorization("Bearer")])
     @GetMapping("")
     fun query(
@@ -27,6 +29,7 @@ class TasksController
             @RequestParam("page_size", defaultValue = "10") pageSize: Int
     ) = pagingQuery(pageIndex, pageSize, this.repo)
 
+    @RolesAllowed("USER", "DESIGNER", "ADMIN")
     @ApiOperation("Get task", authorizations = [Authorization("Bearer")])
     @GetMapping("{id}")
     fun getTaskDetail(@PathVariable id: UUID) = getById(id, this.repo)

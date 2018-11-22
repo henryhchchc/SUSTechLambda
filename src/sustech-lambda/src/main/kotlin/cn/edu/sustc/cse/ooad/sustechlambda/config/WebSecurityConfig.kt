@@ -3,6 +3,7 @@ package cn.edu.sustc.cse.ooad.sustechlambda.config
 import cn.edu.sustc.cse.ooad.sustechlambda.security.JwtAuthenticationFilter
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
@@ -15,6 +16,9 @@ import javax.servlet.http.HttpServletResponse
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(
+        jsr250Enabled = true
+)
 class WebSecurityConfig : WebSecurityConfigurerAdapter() {
 
     override fun configure(http: HttpSecurity) {
@@ -27,8 +31,7 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
                 .and()
                 .addFilterAfter(JwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter::class.java)
                 .authorizeRequests()
-                .antMatchers("/api/auth/login").permitAll()
-                .antMatchers("/api/users/register").permitAll()
+                .antMatchers("/api/identity/login", "/api/users/register").permitAll()
                 .antMatchers("/api/**").authenticated()
     }
 
