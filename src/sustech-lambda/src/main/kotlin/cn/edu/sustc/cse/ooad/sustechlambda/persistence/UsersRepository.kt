@@ -2,5 +2,8 @@ package cn.edu.sustc.cse.ooad.sustechlambda.persistence
 
 import cn.edu.sustc.cse.ooad.sustechlambda.entities.User
 import org.springframework.data.mongodb.repository.MongoRepository
+import java.util.*
 
-interface UsersRepository : MongoRepository<User, Int>
+interface UsersRepository : MongoRepository<User, Int> {
+    fun findByUserName(userName: String): Optional<User>
+}
