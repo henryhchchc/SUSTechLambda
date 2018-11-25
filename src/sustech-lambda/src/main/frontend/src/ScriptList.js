@@ -1,25 +1,38 @@
 import React, {Component} from 'react';
+import List from "@material-ui/core/List/List";
+import ListItem from "@material-ui/core/ListItem/ListItem";
+import ListItemText from "@material-ui/core/ListItemText/ListItemText";
 
 const scriptA = {
-    'title'\]]]]]]]]]]]]]]]]]]]]]]]]]]]]\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]\]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]\]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]
+    'id':0,
+    'title':'THIS IS A GREAT ONE',
+    'description':'XXXXXXXX',
+    'code':'xxxxxxxx'
 }
 class ScriptList extends Component{
 
     constructor(props) {
         super(props);
         this.state = {
-            scriptes: [],
+            scripts: [{
+                'id':0,
+                'title':'THIS IS A GREAT ONE',
+                'description':'XXXXXXXX',
+                'code':'xxxxxxxx'
+            }],
             selectedPr: null
         };
     }
 
     componentDidMount() {
-        var page = this.props.pagevalue
-
-        fetch()
-            .then(res => res.json())
-            .then(prs => {this.setState({ pullRequests: prs.content });this.props.setPage(prs.content,prs.totalPages,"GitHub")});
-
+        // var page = this.props.pagevalue
+        //
+        // fetch()
+        //     .then(res => res.json())
+        //     .then(prs => {this.setState({ pullRequests: prs.content });this.props.setPage(prs.content,prs.totalPages,"GitHub")});
+        // this.setState({
+        //     scriptes: [scriptA]
+        // })
     }
 
     selectPr(pr,index) {
@@ -27,30 +40,27 @@ class ScriptList extends Component{
             this.setState({
                 selectedPr: pr
             }, function () {
-                this.props.setValue(pr, "GitHub",index);
+                this.props.setScriptValue(pr,index);
             });
         }
     }
-    select(pr){
-        if(pr["categories"].length>0){
-            return(
-                <ListItemIcon>
-                    <StarIcon />
-                </ListItemIcon>)
-        }
-    }
+    // select(pr){
+    //     if(pr["categories"].length>0){
+    //         return(
+    //             <ListItemIcon>
+    //                 <StarIcon />
+    //             </ListItemIcon>)
+    //     }
+    // }
 
     render() {
-
         return (
             <div className="app-root">
                 <List>
                     {
-                        this.state.pullRequests.map((pr, index) =>
-                            <ListItem button key={pr.id} onClick={this.selectPr(pr, index)}>
-
-                                {this.select(pr)}
-                                <ListItemText primary={pr.title} secondary={pr.repoName}/>
+                        this.state.scripts.map((pr, index) =>
+                            <ListItem button key={pr.id} onClick={this.selectPr()}>
+                                <ListItemText primary={pr.title} secondary={pr.description}/>
                             </ListItem>
                         )
                     }

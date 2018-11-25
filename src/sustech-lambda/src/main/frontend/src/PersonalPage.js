@@ -61,26 +61,33 @@ const styles = theme => ({
 
 class PersonalPage extends Component {
     state = {
-        value: 100,
+        tabValue: 100,
+
     };
 
-    handleChange = (event, value) => {
-        this.setState({value});
+    handleTabChange = (event, value) => {
+        this.setState({value: value});
     };
-    toggleDrawer = ( open) => () => {
+    toggleDrawer = ( open) => {
         this.setState({
-            value: 100,
+            tabValue: 100,
         });
     };
+    setScriptValue = (pr,index) => {
+        this.setState({
+
+        })
+    }
+
     render() {
         const {classes} = this.props;
-        const {value} = this.state;
+        const {tabValue} = this.state;
         return (
             <div>
                 <ButtonAppBar login={true}/>
                 <Tabs
-                    value={value}
-                    onChange={this.handleChange}
+                    value={tabValue}
+                    onChange={this.handleTabChange}
                     classes={{root: classes.tabsRoot, indicator: classes.tabsIndicator}}
                 >
                     <Tab
@@ -100,10 +107,16 @@ class PersonalPage extends Component {
                     />
                 </Tabs>
                 <SwipeableDrawer
-                    open={this.state.value===0}
+                    open={this.state.tabValue===1}
                     onClose={this.toggleDrawer}
                 >
-
+                    <ScriptList/>
+                </SwipeableDrawer>
+                <SwipeableDrawer
+                    open={this.state.tabValue===2}
+                    onClose={this.toggleDrawer}
+                >
+                    <ScriptList/>
                 </SwipeableDrawer>
                 {/*<Collapse in={this.state.value===0}>*/}
                     {/**/}
