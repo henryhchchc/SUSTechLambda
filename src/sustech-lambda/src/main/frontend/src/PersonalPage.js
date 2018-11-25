@@ -8,6 +8,7 @@ import Typography from "@material-ui/core/Typography/Typography";
 import Collapse from "@material-ui/core/Collapse/Collapse";
 import Profile from "./Profile";
 import ScriptList from "./ScriptList";
+import SwipeableDrawer from "@material-ui/core/SwipeableDrawer/SwipeableDrawer";
 
 const styles = theme => ({
     root: {
@@ -60,13 +61,17 @@ const styles = theme => ({
 
 class PersonalPage extends Component {
     state = {
-        value: 0,
+        value: 100,
     };
 
     handleChange = (event, value) => {
         this.setState({value});
     };
-
+    toggleDrawer = ( open) => () => {
+        this.setState({
+            value: 100,
+        });
+    };
     render() {
         const {classes} = this.props;
         const {value} = this.state;
@@ -94,15 +99,22 @@ class PersonalPage extends Component {
                         label="Forum"
                     />
                 </Tabs>
-                <Collapse in={this.state.value===0}>
-                    {/*<Profile />*/}
-                </Collapse>
-                <Collapse in={this.state.value===1}>
-                    {/*<ScriptList />*/}
-                </Collapse>
-                <Collapse in={this.state.value===2}>
+                <SwipeableDrawer
+                    open={this.state.value===0}
+                    onClose={this.toggleDrawer}
+                >
 
-                </Collapse>
+                </SwipeableDrawer>
+                {/*<Collapse in={this.state.value===0}>*/}
+                    {/**/}
+                    {/*/!*<Profile />*!/*/}
+                {/*</Collapse>*/}
+                {/*<Collapse in={this.state.value===1}>*/}
+                    {/*/!*<ScriptList />*!/*/}
+                {/*</Collapse>*/}
+                {/*<Collapse in={this.state.value===2}>*/}
+
+                {/*</Collapse>*/}
             </div>
         )
     }
