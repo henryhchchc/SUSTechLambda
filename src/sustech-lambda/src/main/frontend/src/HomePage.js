@@ -54,7 +54,7 @@ class HomePage extends Component {
 
         return (
             <React.Fragment>
-                <ButtonAppBar/>
+                <ButtonAppBar login={false}/>
                 <Paper style={style.Paper}>
                     <Grid container spacing={24} >
                         <Grid item alignContent={"center"} style={style.grid1}>
