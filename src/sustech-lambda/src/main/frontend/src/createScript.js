@@ -9,65 +9,118 @@ import Collapse from "@material-ui/core/Collapse/Collapse";
 import Profile from "./Profile";
 import ScriptList from "./ScriptList";
 import SwipeableDrawer from "@material-ui/core/SwipeableDrawer/SwipeableDrawer";
+import FormControl from '@material-ui/core/FormControl';
+import FormLabel from '@material-ui/core/FormLabel';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormGroup from '@material-ui/core/FormGroup';
+import FilledInput from '@material-ui/core/FilledInput';
+import TextField from '@material-ui/core/TextField';
 
 const styles = theme => ({
-    root: {
-        flexGrow: 1,
-        backgroundColor: theme.palette.background.paper,
+    container: {
+      display: 'flex',
+      flexWrap: 'wrap',
     },
-    tabsRoot: {
-        marginTop: 80,
-        borderBottom: '1px solid #e8e8e8',
+    textField: {
+      marginLeft: theme.spacing.unit,
+      marginRight: theme.spacing.unit,
+      width: 200,
     },
-    tabsIndicator: {
-        backgroundColor: '#111111',
+    dense: {
+      marginTop: 19,
     },
-    tabRoot: {
-        color: '#9e9e9e',
-        textTransform: 'initial',
-        minWidth: 72,
-        fontWeight: theme.typography.fontWeightMedium,
-        fontSize:15,
-        marginRight: theme.spacing.unit * 4,
-        fontFamily: [
-            // '-apple-system',
-            // 'BlinkMacSystemFont',
-            // '"Segoe UI"',
-            // 'Roboto',
-            // '"Helvetica Neue"',
-            'Arial',
-            'sans-serif',
-            '"Apple Color Emoji"',
-            '"Segoe UI Emoji"',
-            '"Segoe UI Symbol"',
-        ].join(','),
-        '&:hover': {
-            color: '#111111',
-            opacity: 1,
-        },
-        '&$tabSelected': {
-            color: '#111111',
-            fontWeight: 'bold',
-        },
-        '&:focus': {
-            color: '#111111',
-        },
+    menu: {
+      width: 200,
     },
-    tabSelected: {},
-    typography: {
-        padding: theme.spacing.unit * 3,
-    },
-});
+  });
+
+
 
 class CreateScripts extends Component{
     constructor(props){
         super(props);
+        this.state = {
+            title: "Create A Script",
+            description: null,
+            scripts:null,
+            param1:null,
+            param2:null,
+            param3:null
+        }
     }
+
+    handleChange = name => event => {
+        this.setState({
+            [name]:event.target.value,
+        });
+    };
+
     render() {
         return(
-        <div>
-        <ButtonAppBar login={true}/>
-    </div>)
+            <div className="Basic Infrom">
+            <ButtonAppBar login={true}/>
+            <h1>"blank"</h1>
+            <h1>{this.state.title}</h1>
+            <form>
+            <TextField
+                id="title"
+                label="Title"
+                value={this.state.title}
+                onChange={this.handleChange('title')}
+                placeholder="Input your title here"
+                margin="normal"
+                fullWidth
+            />
+            <TextField 
+                id="description"
+                label="Description"
+                placeholder="Input your description here"  
+                value={this.state.scripts}
+                onChange={this.handleChange('scripts')}
+                margin="normal"
+                fullWidth
+                rows="3"
+                rowsMax="20"
+                multiline
+            />
+            <TextField 
+                id="code"
+                label="Edit Scripts"
+                placeholder="Input your scripts here"  
+                value={this.state.description}
+                onChange={this.handleChange('description')}
+                margin="normal"
+                fullWidth
+                rows="6"
+                rowsMax="50"
+                multiline
+            />
+            <TextField
+                id="param1"
+                label="Parameter1:"
+                value={this.state.param1}
+                onChange={this.handleChange('param1')}
+                margin="normal"
+            />
+            <br/>
+            <TextField
+            id="param2"
+            label="Parameter2:"
+            value={this.state.param1}
+            onChange={this.handleChange('param2')}
+            margin="normal"
+            />
+            <br/>
+            <TextField
+            id="param3"
+            label="Parameter3:"
+            value={this.state.param3}
+            onChange={this.handleChange('param3')}
+            margin="normal"
+            />
+            </form>
+            </div>
+            )
     }
 }
 

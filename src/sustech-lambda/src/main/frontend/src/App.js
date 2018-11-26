@@ -3,7 +3,7 @@ import './App.css';
 import HomePage from './HomePage'
 import  PersonalPage from './PersonalPage'
 import ScriptList from './ScriptList'
-import CreateScript from './createScript'
+import CreateScript from './CreateScript'
 class App extends Component {
     render() {
         return (
