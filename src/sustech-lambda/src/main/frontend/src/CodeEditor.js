@@ -38,11 +38,15 @@ class CodeEditor extends Component{
     return (
       <div className="Editor">
       <h1> Editor </h1>
+      <form>
       <SyntaxHighlighter 
       language={this.state.syntax}
-      onChange={this.handleChange('code')}
       >{this.state.code}
       </SyntaxHighlighter> 
+      <input type="text"
+      onChange={this.handleChange('code')}
+      />
+      </form>
       </div>
     )
   }

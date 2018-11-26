@@ -16,6 +16,7 @@ import FormGroup from '@material-ui/core/FormGroup';
 import FilledInput from '@material-ui/core/FilledInput';
 import TextField from '@material-ui/core/TextField';
 import CodeEditor from './CodeEditor';
+import SyntaxHighlighter from 'react-syntax-highlighter';
 
 const styles = theme => ({
     container: {
@@ -86,10 +87,11 @@ class CreateScripts extends Component{
                 multiline
             />
             <br/>
-            <CodeEditor 
-            syntax={this.state.syntax}
-            code={this.state.scripts}
-            /> 
+            <h3> Edit Script >  </h3>
+            <SyntaxHighlighter 
+            language={this.state.syntax}
+            >{this.state.scripts}
+            </SyntaxHighlighter> 
             <br/>
             <TextField 
                 id="code"
@@ -102,6 +104,10 @@ class CreateScripts extends Component{
                 rows="6"
                 rowsMax="50"
                 multiline
+            />
+            <input type="text"
+                onChange={this.handleChange('syntax')}
+                value={this.state.syntax}
             />
             <br/>
             <TextField
