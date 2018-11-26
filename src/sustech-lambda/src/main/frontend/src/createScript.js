@@ -15,6 +15,7 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import FormGroup from '@material-ui/core/FormGroup';
 import FilledInput from '@material-ui/core/FilledInput';
 import TextField from '@material-ui/core/TextField';
+import CodeEditor from './CodeEditor';
 
 const styles = theme => ({
     container: {
@@ -42,7 +43,8 @@ class CreateScripts extends Component{
         this.state = {
             title: "Create A Script",
             description: null,
-            scripts:null,
+            scripts:'import numpy as np\n import torch \n a = np.array([1,2,3])',
+            syntax:'python',
             param1:null,
             param2:null,
             param3:null
@@ -75,26 +77,33 @@ class CreateScripts extends Component{
                 id="description"
                 label="Description"
                 placeholder="Input your description here"  
-                value={this.state.scripts}
-                onChange={this.handleChange('scripts')}
+                value={this.state.description}
+                onChange={this.handleChange('description')}
                 margin="normal"
                 fullWidth
                 rows="3"
                 rowsMax="20"
                 multiline
             />
+            <br/>
+            <CodeEditor 
+            syntax={this.state.syntax}
+            code={this.state.scripts}
+            /> 
+            <br/>
             <TextField 
                 id="code"
                 label="Edit Scripts"
                 placeholder="Input your scripts here"  
-                value={this.state.description}
-                onChange={this.handleChange('description')}
+                value={this.state.scripts}
+                onChange={this.handleChange('scripts')}
                 margin="normal"
                 fullWidth
                 rows="6"
                 rowsMax="50"
                 multiline
             />
+            <br/>
             <TextField
                 id="param1"
                 label="Parameter1:"
