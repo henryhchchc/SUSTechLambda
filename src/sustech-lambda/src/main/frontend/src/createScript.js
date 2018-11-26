@@ -17,6 +17,11 @@ import FilledInput from '@material-ui/core/FilledInput';
 import TextField from '@material-ui/core/TextField';
 import CodeEditor from './CodeEditor';
 import SyntaxHighlighter from 'react-syntax-highlighter';
+import Button from '@material-ui/core/Button';
+import AddIcon from '@material-ui/icons/Add';
+import Icon from '@material-ui/core/Icon';
+import DeleteIcon from '@material-ui/icons/Delete';
+import NavigationIcon from '@material-ui/icons/Navigation';
 
 const styles = theme => ({
     container: {
@@ -48,7 +53,8 @@ class CreateScripts extends Component{
             syntax:'python',
             param1:null,
             param2:null,
-            param3:null
+            param3:null,
+            result:"No Result Found"
         }
     }
 
@@ -121,7 +127,7 @@ class CreateScripts extends Component{
             <TextField
             id="param2"
             label="Parameter2:"
-            value={this.state.param1}
+            value={this.state.param2}
             onChange={this.handleChange('param2')}
             margin="normal"
             />
@@ -134,7 +140,27 @@ class CreateScripts extends Component{
             margin="normal"
             />
             </form>
+          <h3>Result</h3>
+          <TextField 
+          id="result"
+          label="result"
+          value={this.state.result}
+          margin="normal"
+          fullWidth
+          rows="3"
+          rowsMax="20"
+          multiline
+      />
+      <br/><br/>
+      <Button variant="fab" color="primary" aria-label="Add" >
+            <AddIcon />
+       </Button>
+      <Button variant="fab" color="secondary" aria-label="Edit">
+        <Icon>edit_icon</Icon>
+        </Button>
+        <br/>
             </div>
+
             )
     }
 }
