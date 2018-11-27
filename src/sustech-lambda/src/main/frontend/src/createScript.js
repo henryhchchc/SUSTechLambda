@@ -195,11 +195,49 @@ class CreateScripts extends Component{
         
     }
 
+    EditorDisplay = () =>{
+        const syntax_ = {float:'right'};
+        if (this.state.mode == "Editing"){
+            return(
+                <div className="Editor">
+                <TextField 
+                    id="code"
+                    label="Edit Scripts"
+                    placeholder="Input your scripts here"  
+                    value={this.state.scripts}
+                    onChange={this.handleChange('scripts')}
+                    margin="normal"
+                    fullWidth
+                    rows="6"
+                    rowsMax="50"
+                    multiline
+                />
+                <input type="text"
+                    onChange={this.handleChange('syntax')}
+                    value={this.state.syntax}
+                    style={syntax_}
+                />
+                </div>
+            );
+        }
+        if (this.state.mode == "Viewing"){
+            return(
+                <div className="Editor">
+                <h3> Edit Script >  </h3>
+                <SyntaxHighlighter 
+                language={this.state.syntax}
+                >{this.state.scripts}
+                </SyntaxHighlighter> 
+                <br/>
+                </div>
+            );
+        }
+    }
+
 
     // render method 
     render() {
         const lower_right = {float:'right'};
-        const syntax_ = {float:'right'};
         return(
             <div className="Basic Infrom">
             <ButtonAppBar login={true}/>
@@ -229,29 +267,7 @@ class CreateScripts extends Component{
                 multiline
             />
             <br/>
-            <h3> Edit Script >  </h3>
-            <SyntaxHighlighter 
-            language={this.state.syntax}
-            >{this.state.scripts}
-            </SyntaxHighlighter> 
-            <br/>
-            <TextField 
-                id="code"
-                label="Edit Scripts"
-                placeholder="Input your scripts here"  
-                value={this.state.scripts}
-                onChange={this.handleChange('scripts')}
-                margin="normal"
-                fullWidth
-                rows="6"
-                rowsMax="50"
-                multiline
-            />
-            <input type="text"
-                onChange={this.handleChange('syntax')}
-                value={this.state.syntax}
-                style={syntax_}
-            />
+            <this.EditorDisplay />
             <br/>
             </form>
             <br/>
