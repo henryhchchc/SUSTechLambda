@@ -41,20 +41,33 @@ const styles = theme => ({
     },
   });
 
-
+const param_list = [
+    {
+        param_name: "param1",
+        param_type: "int",
+        param_value: 22
+    },
+    {
+        param_name: "param2",
+        param_type: "float",
+        param_value: 2.2
+    }
+]
 
 class CreateScripts extends Component{
     constructor(props){
         super(props);
         this.state = {
-            title: "Create A Script",
+            title: "Unamed Script ",
             description: null,
             scripts:'import numpy as np\n import torch \n a = np.array([1,2,3])',
             syntax:'python',
+            param_list:param_list,
             param1:null,
             param2:null,
             param3:null,
-            result:"No Result Found"
+            result:"No Result Found",
+            mode:"Editing"
         }
     }
 
@@ -64,12 +77,135 @@ class CreateScripts extends Component{
         });
     };
 
+
+    // Parameter for displaying 
+
+    // Viewing & Input the paramter
+    ShowParam = () => 
+    <div className="paramList">
+    {this.state.param_list.map(item =>{
+        return (
+            <div key={item.param_name}>
+            <span> {item.param_name} </span>
+            <span> {item.param_type} </span>
+            <span> {item.param_value} </span>
+            </div>
+       )
+    })}
+    </div>
+
+    // Editing paramter
+    EditParam = () =>
+    <div className="editParam">
+    <form>
+        <TextField
+            id="param1"
+            label="Parameter1:"
+            value={this.state.param1}
+            onChange={this.handleChange('param1')}
+            margin="normal"
+        />
+    <br/>
+        <TextField
+            id="param2"
+            label="Parameter2:"
+            value={this.state.param2}
+            onChange={this.handleChange('param2')}
+            margin="normal"
+        />
+    <br/>
+        <TextField
+            id="param3"
+            label="Parameter3:"
+            value={this.state.param3}
+            onChange={this.handleChange('param3')}
+            margin="normal"
+        /> 
+    </form>
+    </div>
+
+    // main method of displaying parameter
+    ParamDisplay=()=>{
+        if (this.state.mode == "Editing") {return this.EditParam()}
+        if (this.state.mode == "Viewing") {return this.ShowParam()}
+    }
+
+    // For result displaying
+    ResutlDisplay=()=>{
+        if (this.state.mode == "Viewing"){
+        return (
+        <div className="result">
+        <h2>Result</h2>
+        <TextField 
+        id="result"
+        label="result"
+        value={this.state.result}
+        margin="normal"
+        fullWidth
+        rows="3"
+        rowsMax="20"
+        multiline
+    />
+    </div>);}
+        else{
+            return(
+                <br/>
+            )
+        }
+    }
+   
+    // Mode Shifting
+    modeShift = (new_mode) =>{
+      this.setState({mode: new_mode});
+    }
+
+    buttonShift = () => {
+        if (this.state.mode == "Editing") {this.modeShift("Viewing")};
+        if (this.state.mode == "Viewing") {this.modeShift("Editing")};
+    }
+    ButtonDisplay = () =>{
+        const lower_right = {float:'right'};
+        if (this.state.mode == "Editing"){
+            return(
+                <Button 
+                variant="fab" 
+                color="primary" 
+                aria-label="Add" 
+                style={lower_right} 
+                onClick={()=>this.buttonShift()}
+                >
+                    <AddIcon/>
+            </Button>
+            );
+        }
+
+        if (this.state.mode == "Viewing"){
+            return(
+                <Button 
+                variant="fab" 
+                color="primary" 
+                aria-label="Add" 
+                style={lower_right} 
+                onClick={()=>this.buttonShift()}
+                >
+                    <AddIcon/>
+            </Button>
+            );
+        }
+        
+    }
+
+
+    // render method 
     render() {
+        const lower_right = {float:'right'};
+        const syntax_ = {float:'right'};
         return(
             <div className="Basic Infrom">
             <ButtonAppBar login={true}/>
             <h1>"blank"</h1>
             <h1>{this.state.title}</h1>
+            <h2>{this.state.mode} Mode</h2>
             <form>
             <TextField
                 id="title"
@@ -114,52 +250,23 @@ class CreateScripts extends Component{
             <input type="text"
                 onChange={this.handleChange('syntax')}
                 value={this.state.syntax}
+                style={syntax_}
             />
             <br/>
-            <TextField
-                id="param1"
-                label="Parameter1:"
-                value={this.state.param1}
-                onChange={this.handleChange('param1')}
-                margin="normal"
-            />
-            <br/>
-            <TextField
-            id="param2"
-            label="Parameter2:"
-            value={this.state.param2}
-            onChange={this.handleChange('param2')}
-            margin="normal"
-            />
-            <br/>
-            <TextField
-            id="param3"
-            label="Parameter3:"
-            value={this.state.param3}
-            onChange={this.handleChange('param3')}
-            margin="normal"
-            />
             </form>
-          <h3>Result</h3>
-          <TextField 
-          id="result"
-          label="result"
-          value={this.state.result}
-          margin="normal"
-          fullWidth
-          rows="3"
-          rowsMax="20"
-          multiline
-      />
-      <br/><br/>
-      <Button variant="fab" color="primary" aria-label="Add" >
-            <AddIcon />
-       </Button>
-      <Button variant="fab" color="secondary" aria-label="Edit">
-        <Icon>edit_icon</Icon>
-        </Button>
-        <br/>
-            </div>
+            <br/>
+            <this.ParamDisplay />
+            <this.ResutlDisplay/>
+            <Button 
+              variant="fab" 
+              color="primary" 
+              aria-label="Add" 
+              style={lower_right} 
+              onClick={()=>this.buttonShift()}
+              >
+                  <AddIcon/>
+             </Button>
+        </div>
 
             )
     }
