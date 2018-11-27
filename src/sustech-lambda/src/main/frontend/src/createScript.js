@@ -1,30 +1,11 @@
 import React, {Component} from 'react';
 import ButtonAppBar from "./Navigation Bar";
-import Tabs from "@material-ui/core/Tabs/Tabs";
-import Tab from "@material-ui/core/Tab/Tab";
-import PropTypes from 'prop-types';
-import {withStyles} from '@material-ui/core/styles';
-import Typography from "@material-ui/core/Typography/Typography";
-import Collapse from "@material-ui/core/Collapse/Collapse";
-import Profile from "./Profile";
-import ScriptList from "./ScriptList";
-import SwipeableDrawer from "@material-ui/core/SwipeableDrawer/SwipeableDrawer";
-import FormControl from '@material-ui/core/FormControl';
-import FormLabel from '@material-ui/core/FormLabel';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import FormGroup from '@material-ui/core/FormGroup';
-import FilledInput from '@material-ui/core/FilledInput';
 import TextField from '@material-ui/core/TextField';
-import CodeEditor from './CodeEditor';
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
-import InputLabel from '@material-ui/core/InputLabel';
-import Icon from '@material-ui/core/Icon';
 import DeleteIcon from '@material-ui/icons/Delete';
-import NavigationIcon from '@material-ui/icons/Navigation';
 
 const styles = theme => ({
     container: {
