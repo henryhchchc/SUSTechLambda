@@ -129,20 +129,23 @@ class CreateScripts extends Component{
         );
     }
 
-    SingleParamInput = (param_name)=>{
-    // FIXME: Unfnished codes here
-        const var_type_list = [
-            {  
-             value: 'String '
-            },
-            {
-             value: 'Number '
-            }
-          ]
-          const name_label = param_name + '-name'
-          const type_label = param_name + '-type'
+    // Input paramter
+    SingleParamInput = ({param_name, data_type}) =>
+    {
+        const name_label = param_name + '-name'
+        const type_label = param_name + '-type'
         return (
             <div>
+            <span>
+                <TextField
+                id={type_label}
+                disabled
+                label="Select"
+                value={data_type}
+                placeholder="type"
+                margin="normal"
+                variant="outlined"
+                >{data_type}</TextField>
                 <TextField
                     id = {name_label}
                     label= {param_name}
@@ -151,28 +154,14 @@ class CreateScripts extends Component{
                     onChange={this.handleChange('param1')}
                     margin="normal"
                 />
-                <TextField
-                id={type_label}
-                select
-                label="Select"
-                value={this.state.currency}
-                onChange={this.handleChange('param1')}
-                placeholder="type"
-                margin="normal"
-                variant="outlined"
-              >
-                { var_type_list.map(option => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.value}
-                  </MenuItem>
-                ))}
-              </TextField>
+            </span>
            </div>
         );
     }
 
     EditParam = () =>
     {
+        // TODO: Icon for adding parameter input 
         return (
             <div className="editParam">
             <h3>Parameter</h3>
@@ -188,12 +177,11 @@ class CreateScripts extends Component{
 
         // Viewing & Input the paramter
     InputParam = () => 
-    // FIXME: Unfnished codes here
         <div className="paramList">
         {this.state.param_list.map(item =>{
         return (
             <div key={item.param_name}> 
-            <this.SingleParamInput param_name={item.param_name} />
+            <this.SingleParamInput param_name={item.param_name} data_type="int" />
             </div>
        )
         })}
@@ -205,6 +193,7 @@ class CreateScripts extends Component{
         if (this.state.mode == "Viewing") {return <this.InputParam/>}
     }
 
+/************************* Result Displaying ******************************/
     // For result displaying
     ResutlDisplay=()=>{
         if (this.state.mode == "Viewing"){
