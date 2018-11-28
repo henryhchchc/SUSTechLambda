@@ -7,3 +7,4 @@ docs/**/*.out
 docs/**/*.toc
 docs/**/*.aux
 docs/**/*.snm
+src/sustech-lambda/src/main/frontend/src/App.js
