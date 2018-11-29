@@ -1,9 +1,14 @@
 package cn.edu.sustc.cse.ooad.sustechlambda.controllers
 
 import cn.edu.sustc.cse.ooad.sustechlambda.dtos.ScriptDto
+import cn.edu.sustc.cse.ooad.sustechlambda.dtos.ScriptParameterDto
 import cn.edu.sustc.cse.ooad.sustechlambda.entities.Script
+import cn.edu.sustc.cse.ooad.sustechlambda.entities.ScriptParameterInfo
+import cn.edu.sustc.cse.ooad.sustechlambda.entities.Task
 import cn.edu.sustc.cse.ooad.sustechlambda.persistence.ScriptsRepository
+import cn.edu.sustc.cse.ooad.sustechlambda.persistence.TasksRepository
 import cn.edu.sustc.cse.ooad.sustechlambda.services.IdentityService
+import cn.edu.sustc.cse.ooad.sustechlambda.services.TaskServices
 import cn.edu.sustc.cse.ooad.sustechlambda.utilities.getById
 import cn.edu.sustc.cse.ooad.sustechlambda.utilities.pagingQuery
 import io.swagger.annotations.Api
@@ -23,8 +28,10 @@ import javax.annotation.security.RolesAllowed
 @RequestMapping("/api/scripts")
 class ScriptsController
 @Autowired constructor(
-        private val repo: ScriptsRepository,
-        private val identityService: IdentityService
+        private val scriptsRepository: ScriptsRepository,
+        private val tasksRepository: TasksRepository,
+        private val identityService: IdentityService,
+        private val taskService: TaskServices
 ) {
 
     @RolesAllowed("USER", "DESIGNER", "ADMIN")
@@ -35,12 +42,12 @@ class ScriptsController
             @RequestParam("page_idx", defaultValue = "0") pageIndex: Int,
             @ApiParam("Page size")
             @RequestParam("page_size", defaultValue = "10") pageSize: Int
-    ) = pagingQuery(pageIndex, pageSize, this.repo)
+    ) = pagingQuery(pageIndex, pageSize, this.scriptsRepository)
 
     @RolesAllowed("USER", "DESIGNER", "ADMIN")
     @ApiOperation("Get a script", authorizations = [Authorization("Bearer")])
     @GetMapping("{id}")
-    fun getScript(@PathVariable id: UUID) = getById(id, this.repo)
+    fun getScript(@PathVariable id: UUID) = getById(id, this.scriptsRepository)
 
     @RolesAllowed("DESIGNER")
     @ApiOperation("Create script", authorizations = [Authorization("Bearer")])
@@ -53,7 +60,7 @@ class ScriptsController
                 it.content,
                 identityService.getCurrentUser()!!
         )
-    }.let { this.repo.save(it) }.let {
+    }.let { this.scriptsRepository.save(it) }.let {
         ResponseEntity.created(URI.create("/api/scripts/${it.id}")).body(it)
     }
 
@@ -61,14 +68,14 @@ class ScriptsController
     @ApiOperation("Update a script", authorizations = [Authorization("Bearer")])
     @PutMapping("{id}")
     fun updateScript(@PathVariable id: UUID, @RequestBody dto: ScriptDto): ResponseEntity<*> {
-        val scriptOpt = this.repo.findById(id)
+        val scriptOpt = this.scriptsRepository.findById(id)
         return when {
             scriptOpt.isPresent -> {
                 scriptOpt.get().also {
                     it.name = dto.name
                     it.description = dto.description
                     it.content = dto.content
-                    this.repo.save(it)
+                    this.scriptsRepository.save(it)
                 }
                 ResponseEntity.noContent().build<Script>()
             }
@@ -79,11 +86,26 @@ class ScriptsController
     @RolesAllowed("DESIGNER")
     @ApiOperation("Delete a script", authorizations = [Authorization("Bearer")])
     @DeleteMapping("{id}")
-    fun deleteScript() = ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(null)
+    fun deleteScript() = ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body("This feature is not available yet.")
 
     @RolesAllowed("USER")
     @ApiOperation("Run a script", authorizations = [Authorization("Bearer")])
     @PostMapping("{id}/run")
-    fun runScript() = ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(null)
+    fun runScript(@PathVariable id: UUID, @RequestBody parameters: Set<ScriptParameterDto>): ResponseEntity<*> {
+        val scriptOpt = this.scriptsRepository.findById(id)
+        if (!scriptOpt.isPresent) {
+            return ResponseEntity.notFound().build<String>()
+        }
+        val script = scriptOpt.get()
+        if (!script.validateParameters(
+                        parameters.map { ScriptParameterInfo(it.name, it.type) }.toSet()
+                )) {
+            return ResponseEntity.badRequest().body("Invalid parameters")
+        }
+        val task = Task(UUID.randomUUID(), script, Date())
+        this.taskService.runTask(task)
+        this.tasksRepository.save(task)
+        return ResponseEntity.created(URI.create("/api/tasks/${task.id}")).body(task)
+    }
 
 }
