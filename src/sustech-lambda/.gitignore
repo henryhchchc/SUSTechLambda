@@ -23,3 +23,6 @@
 /dist/
 /nbdist/
 /.nb-gradle/
+
+### Frontend build path ###
+/src/main/resources/static/**

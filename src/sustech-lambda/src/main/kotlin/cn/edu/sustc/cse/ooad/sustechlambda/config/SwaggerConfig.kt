@@ -34,5 +34,5 @@ class SwaggerConfig {
             .produces(setOf("application/json"))
             .securitySchemes(mutableListOf(
                     ApiKey("Bearer", "Authorization", "header")
-            ))
+            ))!!
 }

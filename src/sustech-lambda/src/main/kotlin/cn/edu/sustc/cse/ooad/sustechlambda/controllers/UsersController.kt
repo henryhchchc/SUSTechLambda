@@ -75,8 +75,8 @@ class UsersController
     @PutMapping("{id}/advanced")
     fun updateUserAdvancedOptions() = ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(null)
 
-    @RolesAllowed("ADMIN")
-    @ApiOperation("Reset password of a user")
+    @RolesAllowed("USER", "DESIGNER", "ADMIN")
+    @ApiOperation("Reset password of a user", authorizations = [Authorization("Bearer")])
     @PostMapping("{id}/reset-password")
     fun resetPassword() = ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(null)
 }
