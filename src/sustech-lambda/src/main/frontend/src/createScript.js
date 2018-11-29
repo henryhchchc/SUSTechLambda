@@ -177,19 +177,22 @@ class CreateScripts extends Component{
     handleDelParam(param_name){
         // FIXME: String comparision failed
         let new_param_list = this.state.param_list
+        let flag = false
         new_param_list.map(item=>
             {
-                if (item.param_name == param_name) {
+                if (item.param_name.localeCompare(param_name) == 0) {
+                    // alert("deleting done")
                     new_param_list.pop(item);
                     this.setState({param_list:new_param_list})
-                    return true;
+                    flag = true;
                 }
             }
             )
-        alert("parameter to be deleted not found")
-        return false;
+        if (!flag)
+            alert("parameter to be deleted not found")
+        // return false;
     }
-    
+
     // Display all paramter Edit mode 
     DisplayParamEdit = () =>
     <div className="currentParamListEdit">
@@ -242,7 +245,7 @@ class CreateScripts extends Component{
     
     InputValidCheck = (value, type) =>{
         // FIXME: Comparision failed
-        if (type == "Number") {
+        if (type.localeCompare("Number")) {
             alert(value)
             // alert(isNaN(value))
             if (!isNaN(value)) {
