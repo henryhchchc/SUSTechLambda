@@ -6,6 +6,7 @@ import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import MenuItem from '@material-ui/core/MenuItem';
 import DeleteIcon from '@material-ui/icons/Delete';
+import { List } from '@material-ui/core';
 
 const styles = theme => ({
     container: {
@@ -25,18 +26,20 @@ const styles = theme => ({
     },
   });
 
-const param_list = [
-    {
-        param_name: "param1",
-        param_type: "int",
-        param_value: 22
-    },
-    {
-        param_name: "param2",
-        param_type: "float",
-        param_value: 2.2
-    }
-]
+// const param_list = [
+//     {
+//         param_name: "param1",
+//         param_type: "int",
+//         param_value: 2
+//     },
+//     {
+//         param_name: "param2",
+//         param_type: "float",
+//         param_value: 2.2
+//     }
+// ]
+
+const param_list = []
 
 class CreateScripts extends Component{
 
@@ -64,38 +67,90 @@ class CreateScripts extends Component{
     };
 
 
-/************************* Parameter ******************************/
 
-    
+/************************* Parameter ******************************/
+    checkDuplicateName = (param_name) => {
+        const filter_list = this.state.param_list.filter((item) => item.param_name == param_name)
+        if (filter_list.length > 0) {
+            alert("You cannot add duplicate paramter");
+            return false;
+        }
+        return true;
+    }   
+
+    handleAddParam = (param_name, param_type) =>{
+        let new_param = {
+            param_name: param_name,
+            param_value: null,
+            param_type: param_type
+        };
+        if (this.checkDuplicateName(param_name)){
+            let curent_param_list = this.state.param_list;
+            curent_param_list.push(new_param);
+            this.setState(
+                {param_list: curent_param_list,}
+            )
+        }
+    }
+
+    handleAddParam = (param_name, param_value, param_type) =>{
+        let new_param = {
+            param_name: param_name,
+            param_value: param_value,
+            param_type: param_type
+        };
+        if (this.checkDuplicateName(param_name)){
+            let curent_param_list = this.state.param_list;
+            curent_param_list.push(new_param);
+            this.setState(
+                {param_list: curent_param_list,}
+            )
+        }
+    }
+
+    handleAddParam = (new_param) =>{
+        if (this.checkDuplicateName(new_param.param_name)){
+            let curent_param_list = this.state.param_list;
+            curent_param_list.push(new_param);
+            this.setState(
+                {param_list: curent_param_list,}
+            )
+        }
+    }
+
     // Editing paramter
-    SingleParamEdit = ({param_name}) =>
+    SingleParamEdit = () =>
     {
         const var_type_list = [
           {  
-           value: 'String '
+              value: 'String '
           },
           {
-           value: 'Number '
+              value: 'Number '
+          },
+          {
+              value: 'longString'
           }
         ]
-        const name_label = param_name + '-name'
-        const type_label = param_name + '-type'
+        let new_param = {
+            param_name:"origin_param_name",
+            param_value: "origin_init_value",
+            param_type:"String"
+        };
         return (
             <div>
                 <TextField
-                    id = {name_label}
-                    label= {param_name}
-                    value={this.state.param1}
-                    placeholder="value"
-                    onChange={this.handleChange('param1')}
+                    id = "param-edit-name"
+                    label= "Parameter Name"
+                    placeholder="Param Name"
+                    onChange={(event)=>{new_param.param_name=event.target.value;}}
                     margin="normal"
                 />
                 <TextField
-                id={type_label}
+                id="param-edit-type"
                 select
-                label="Select"
-                value={this.state.currency}
-                onChange={this.handleChange('param1')}
+                label="Type"
+                onChange={(event)=>{new_param.param_type=event.target.value;}}
                 placeholder="type"
                 margin="normal"
                 variant="outlined"
@@ -106,63 +161,151 @@ class CreateScripts extends Component{
                   </MenuItem>
                 ))}
               </TextField>
+              <Button 
+              variant="fab" 
+              color="default" 
+              aria-label="Add-param" 
+              onClick={()=>this.handleAddParam(new_param)}
+              >
+                  <AddIcon/>
+            </Button>
            </div>
         );
     }
 
-    // Input paramter
-    SingleParamInput = ({param_name, data_type}) =>
-    {
-        const name_label = param_name + '-name'
-        const type_label = param_name + '-type'
-        return (
-            <div>
-            <span>
-                <TextField
-                id={type_label}
-                disabled
-                label="Select"
-                value={data_type}
-                placeholder="type"
-                margin="normal"
-                variant="outlined"
-                >{data_type}</TextField>
-                <TextField
-                    id = {name_label}
-                    label= {param_name}
-                    value={this.state.param1}
-                    placeholder="value"
-                    onChange={this.handleChange('param1')}
-                    margin="normal"
-                />
-            </span>
-           </div>
-        );
+
+    handleDelParam(param_name){
+        // FIXME: String comparision failed
+        let new_param_list = this.state.param_list
+        let flag = false
+        new_param_list.map(item=>
+            {
+                if (item.param_name.localeCompare(param_name) == 0) {
+                    // alert("deleting done")
+                    new_param_list.pop(item);
+                    this.setState({param_list:new_param_list})
+                    flag = true;
+                }
+            }
+            )
+        if (!flag)
+            alert("parameter to be deleted not found")
+        // return false;
     }
 
+    // Display all paramter Edit mode 
+    DisplayParamEdit = () =>
+    <div className="currentParamListEdit">
+        {this.state.param_list.map(item =>
+            <div key={item.param_name}>
+            <span> 
+            {item.param_name} 
+            {item.param_type}
+                          <Button 
+              variant="fab" 
+              color="default" 
+              aria-label="Add-param" 
+              onClick={()=> this.handleDelParam(item.param_name)}
+              >
+                  --
+            </Button>
+             </span>
+            <br/>
+            </div>
+        )}
+    </div>
+
+    // Editing paramter
     EditParam = () =>
     {
-        // TODO: Icon for adding parameter input 
         return (
             <div className="editParam">
             <h3>Parameter</h3>
             <form>
-                <this.SingleParamEdit param_name="website_address" />
-                <br/>
-                <this.SingleParamEdit param_name="video_type" />
+                <this.DisplayParamEdit/>
+                <this.SingleParamEdit />
                 <br/>
             </form>
             </div>
         );
     }
 
-        // Viewing & Input the paramter
+    DisplayParamInput = () =>
+    <div className="currentParamListEdit">
+        {this.state.param_list.map(item =>
+            <div key={item.param_name}>
+            <span> 
+                {item.param_name} 
+                {item.param_value}  
+            </span>
+            <br/>
+            </div>
+        )}
+    </div>
+    
+    InputValidCheck = (value, type) =>{
+        // FIXME: Comparision failed
+        if (type.localeCompare("Number")) {
+            alert(value)
+            // alert(isNaN(value))
+            if (!isNaN(value)) {
+                alert("Success");
+                return true;
+            }
+            else {
+                alert("Please input a number!");
+                return false;
+            }
+        }
+    }
+    // Input paramter
+    SingleParamInput = ({param}) =>
+    {
+        const name_label = param.param_name + '-value-edit'
+        const type_label = param.param_name + '-type'
+        return (
+            <div>
+            <span>
+            <form>
+                <TextField
+                id={type_label}
+                disabled
+                label="Select"
+                value={param.param_type}
+                placeholder="type"
+                margin="normal"
+                variant="outlined"
+                >{param.param_type}</TextField>
+                <TextField
+                    id = {name_label}
+                    label= "Value"
+                    placeholder="value"
+                    variant="outlined"
+                    onChange={(event)=>{
+                        param.value=event.target.value;
+                        this.state.param_list.map(item => {
+                            if (item.param_name == param.param_name){
+                                if (this.InputValidCheck(param.param_value, param.param_type)) {item.param_value = param.value;}
+                            }
+                        })
+                    }}
+                    margin="normal"
+                />
+            </form>
+            </span>
+            <br/>
+            <this.DisplayParamInput/>
+           </div>
+        );
+    }
+
+    // Viewing & Input the paramter
     InputParam = () => 
         <div className="paramList">
         {this.state.param_list.map(item =>{
         return (
             <div key={item.param_name}> 
-            <this.SingleParamInput param_name={item.param_name} data_type="int" />
+            <this.SingleParamInput param={item} />
             </div>
        )
         })}
