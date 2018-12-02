@@ -3,12 +3,7 @@ import List from "@material-ui/core/List/List";
 import ListItem from "@material-ui/core/ListItem/ListItem";
 import ListItemText from "@material-ui/core/ListItemText/ListItemText";
 
-const scriptA = {
-    'id':0,
-    'title':'THIS IS A GREAT ONE',
-    'description':'XXXXXXXX',
-    'code':'xxxxxxxx'
-}
+
 class ScriptList extends Component{
 
     constructor(props) {
@@ -18,7 +13,8 @@ class ScriptList extends Component{
                 'id':0,
                 'title':'THIS IS A GREAT ONE',
                 'description':'XXXXXXXX',
-                'code':'xxxxxxxx'
+                'code':'xxxxxxxx',
+                'parameter':['a','b','c']
             }],
             selectedPr: null
         };
@@ -44,22 +40,14 @@ class ScriptList extends Component{
             });
         }
     }
-    // select(pr){
-    //     if(pr["categories"].length>0){
-    //         return(
-    //             <ListItemIcon>
-    //                 <StarIcon />
-    //             </ListItemIcon>)
-    //     }
-    // }
 
     render() {
         return (
             <div className="app-root">
-                <List>
+                <List style={{width:500}}>
                     {
                         this.state.scripts.map((pr, index) =>
-                            <ListItem button key={pr.id} onClick={this.selectPr()}>
+                            <ListItem button key={pr.id} onClick={this.selectPr(pr,index)}>
                                 <ListItemText primary={pr.title} secondary={pr.description}/>
                             </ListItem>
                         )

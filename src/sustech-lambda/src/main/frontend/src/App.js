@@ -3,13 +3,13 @@ import './App.css';
 import HomePage from './HomePage'
 import  PersonalPage from './PersonalPage'
 import ScriptList from './ScriptList'
-import CreateScript from './CreateScript'
+import CreateScript from './createScript'
 class App extends Component {
     render() {
         return (
-            // <PersonalPage/>
+            <PersonalPage/>
             // <ScriptList/>
-            <CreateScript/>
+            // <CreateScript/>
             // <CodeEditor/>
         );
     }
