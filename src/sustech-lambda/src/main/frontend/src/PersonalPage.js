@@ -11,6 +11,7 @@ import Grid from "@material-ui/core/Grid/Grid";
 import TextField from "@material-ui/core/TextField/TextField";
 import Fab from "@material-ui/core/Fab/Fab";
 import AddIcon from '@material-ui/icons/Add';
+import Profile from "./Profile";
 
 
 const labels = ["My Profile", "Script List", "Forum"]
@@ -64,7 +65,7 @@ class PersonalPage extends Component {
         tabValue: 100,
         content: null,
         contentType: null,
-        parameterValues: null,
+        parameterValues: {},
     };
 
     /****************************Handlers****************************/
@@ -150,7 +151,7 @@ class PersonalPage extends Component {
                     <Paper style={{width: window.screen.availWidth - 500}}>
                         <Typography>
                             OutPut
-                        </Typography>
+                        </Typography>P
                     </Paper>
                     <Fab color="primary" aria-label="Add" >
                         <AddIcon />

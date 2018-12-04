@@ -7,6 +7,7 @@ import Fade from "@material-ui/core/Fade/Fade";
 import {ControlBar, Player} from 'video-react';
 import "video-react/dist/video-react.css";
 import Button from "@material-ui/core/Button/Button";
+
 const style = {
     Paper:{
         background : `url(${require("./image/he.jpg")})`,
@@ -73,6 +74,7 @@ class HomePage extends Component {
                                     Try it now!
                                     </Typography>
                                 </Button>
+
                             </Fade>
                         </Grid>
                     </Grid>
@@ -81,7 +83,6 @@ class HomePage extends Component {
                             <Player autoPlay={true}
                                 fluid = {false}
                                 width = {800}
-
                             >
                                 <source src={'http://media.w3.org/2010/05/bunny/movie.mp4'} />
                                 <ControlBar autoHide={true} disableCompletely/>

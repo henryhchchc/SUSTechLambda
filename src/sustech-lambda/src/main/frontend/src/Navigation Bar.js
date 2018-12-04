@@ -1,6 +1,4 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
-import {withStyles} from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
@@ -8,13 +6,10 @@ import {MuiThemeProvider, createMuiTheme} from '@material-ui/core/styles';
 import Typography from "@material-ui/core/Typography/Typography";
 import AccountCircle from "@material-ui/icons/es/AccountCircle";
 import ExpandMore from "@material-ui/icons/es/ExpandMore";
-import Popper from "@material-ui/core/Popper/Popper";
-import ClickAwayListener from "@material-ui/core/ClickAwayListener/ClickAwayListener";
-import MenuList from "@material-ui/core/MenuList/MenuList";
 import MenuItem from "@material-ui/core/MenuItem/MenuItem";
-import Grow from "@material-ui/core/Grow/Grow";
-import Paper from "@material-ui/core/Paper/Paper";
 import Menu from "@material-ui/core/Menu/Menu";
+import Modal from "@material-ui/core/Modal/Modal";
+import Login from "./login";
 
 const theme = createMuiTheme({
     palette: {
@@ -47,7 +42,9 @@ class ButtonAppBar extends Component {
             login: props.login,
             userName: 'aaa',
             menueListOpen: false,
-            anchorEl:null
+            anchorEl:null,
+            modalOpen: false
+
         };
     }
     state = {
@@ -58,6 +55,9 @@ class ButtonAppBar extends Component {
     }
     handleClose = event =>{
         this.setState({ anchorEl: null });
+    }
+    handleModal = () =>{
+        this.setState({modalOpen: !this.state.modalOpen})
     }
     render() {
         if (this.state.login) {
@@ -99,7 +99,7 @@ class ButtonAppBar extends Component {
                         <AppBar position='fixed' color='primary'>
                             <Toolbar>
                                 <icon>Lambda</icon>
-                                <Button variant={"outlined"} style={{borderColor: '#ffffff', marginLeft: 1130}}>
+                                <Button variant={"outlined"} style={{borderColor: '#ffffff', marginLeft: 1130}} onClick={this.handleModal}>
                                     <Typography style={{color: '#ffffff'}}>
                                         Login in
                                     </Typography>
@@ -109,6 +109,14 @@ class ButtonAppBar extends Component {
                                         Login in
                                     </Typography>
                                 </Button>
+                                <Modal
+                                    aria-labelledby="simple-modal-title"
+                                    aria-describedby="simple-modal-description"
+                                    open={this.state.modalOpen}
+                                    onClose={this.handleModal}
+                                >
+                                    <Login/>
+                                </Modal>
                             </Toolbar>
 
                         </AppBar>
