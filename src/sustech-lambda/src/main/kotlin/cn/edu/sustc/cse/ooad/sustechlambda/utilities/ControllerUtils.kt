@@ -25,3 +25,13 @@ fun <T, ID, U> getById(id: ID, repo: MongoRepository<T, ID>, dtoMapper: (T) -> U
         .orElseGet { ResponseEntity.notFound().build() }!!
 
 infix fun <T, U, V> ((T) -> U).compose(right: (U) -> V): (T) -> V = { it.let(this).let(right) }
+
+fun <T, ID, R : MongoRepository<T, ID>, RE> R.updateEntityById(id: ID, action: (T) -> RE): ResponseEntity<*> {
+    val entityOptional = this.findById(id)
+    return if (entityOptional.isPresent) {
+        val entity = entityOptional.get()
+        val result = action(entity)
+        this.save(entity)
+        ResponseEntity.ok(result)
+    } else ResponseEntity.notFound().build<String>()
+}

@@ -1,13 +1,15 @@
 package cn.edu.sustc.cse.ooad.sustechlambda.controllers
 
-import cn.edu.sustc.cse.ooad.sustechlambda.dtos.UserDto
+import cn.edu.sustc.cse.ooad.sustechlambda.dtos.UserBriefDto
+import cn.edu.sustc.cse.ooad.sustechlambda.dtos.UserEditDto
 import cn.edu.sustc.cse.ooad.sustechlambda.dtos.UserRegisterDto
-import cn.edu.sustc.cse.ooad.sustechlambda.dtos.toDto
+import cn.edu.sustc.cse.ooad.sustechlambda.dtos.toBriefDto
 import cn.edu.sustc.cse.ooad.sustechlambda.entities.User
 import cn.edu.sustc.cse.ooad.sustechlambda.persistence.UsersRepository
 import cn.edu.sustc.cse.ooad.sustechlambda.services.PasswordGenerator
 import cn.edu.sustc.cse.ooad.sustechlambda.utilities.getById
 import cn.edu.sustc.cse.ooad.sustechlambda.utilities.pagingQuery
+import cn.edu.sustc.cse.ooad.sustechlambda.utilities.updateEntityById
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import io.swagger.annotations.ApiParam
@@ -60,17 +62,25 @@ class UsersController
             @RequestParam("page_idx", defaultValue = "0") pageIndex: Int,
             @ApiParam("Page size")
             @RequestParam("page_size", defaultValue = "10") pageSize: Int
-    ) = pagingQuery(pageIndex, pageSize, this.repo) { it.toDto() }
+    ) = pagingQuery(pageIndex, pageSize, this.repo) { it.toBriefDto() }
 
     @RolesAllowed("ADMIN")
-    @ApiOperation("Get detail of a user", authorizations = [Authorization("Bearer")], response = UserDto::class)
+    @ApiOperation("Get detail of a user", authorizations = [Authorization("Bearer")], response = UserBriefDto::class)
     @GetMapping("{id}")
-    fun getUserDetail(@PathVariable id: UUID) = getById(id, this.repo) { it.toDto() }
+    fun getUserDetail(@PathVariable id: UUID) = getById(id, this.repo) { it.toBriefDto() }
 
     @RolesAllowed("ADMIN")
     @ApiOperation("Update user", authorizations = [Authorization("Bearer")])
     @PutMapping("{id}")
-    fun updateUser() = ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(null)
+    fun updateUser(@PathVariable id: UUID, @RequestBody dto: UserEditDto): ResponseEntity<*> {
+        return if (this.repo.findByUserName(dto.userName).isPresent) {
+            ResponseEntity.status(HttpStatus.CONFLICT).body("User name \"${dto.userName}\"already exists.")
+        } else this.repo.updateEntityById(id) {
+            it.displayName = dto.displayName
+            it.userName = dto.userName
+            null
+        }
+    }
 
     @RolesAllowed("ADMIN")
     @ApiOperation("Update advanced options for a user", authorizations = [Authorization("Bearer")])
@@ -82,17 +92,10 @@ class UsersController
     @PostMapping("{id}/reset-password")
     fun resetPassword(
             @PathVariable id: UUID
-    ): ResponseEntity<*> {
-        val userOpt = this.repo.findById(id)
-        return if (userOpt.isPresent) {
-            val newPassword = this.passwordGenerator.generatePassword(8)
-            val user = userOpt.get()
-            val passwordHash = this.passwordEncoder.encode(newPassword)
-            user.passwordHash = passwordHash
-            this.repo.save(user)
-            ResponseEntity.ok(mapOf(
-                    "newPassword" to newPassword
-            ))
-        } else ResponseEntity.notFound().build<String>()
+    ) = this.repo.updateEntityById(id) {
+        val newPassword = this.passwordGenerator.generatePassword(8)
+        val passwordHash = this.passwordEncoder.encode(newPassword)
+        it.passwordHash = passwordHash
+        mapOf("newPassword" to newPassword)
     }
 }
