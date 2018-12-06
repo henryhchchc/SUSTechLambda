@@ -5,6 +5,7 @@ import cn.edu.sustc.cse.ooad.sustechlambda.dtos.UserRegisterDto
 import cn.edu.sustc.cse.ooad.sustechlambda.dtos.toDto
 import cn.edu.sustc.cse.ooad.sustechlambda.entities.User
 import cn.edu.sustc.cse.ooad.sustechlambda.persistence.UsersRepository
+import cn.edu.sustc.cse.ooad.sustechlambda.services.PasswordGenerator
 import cn.edu.sustc.cse.ooad.sustechlambda.utilities.getById
 import cn.edu.sustc.cse.ooad.sustechlambda.utilities.pagingQuery
 import io.swagger.annotations.Api
@@ -26,7 +27,8 @@ import javax.annotation.security.RolesAllowed
 class UsersController
 @Autowired constructor(
         private val repo: UsersRepository,
-        private val passwordEncoder: PasswordEncoder
+        private val passwordEncoder: PasswordEncoder,
+        private val passwordGenerator: PasswordGenerator
 ) {
 
     @ApiOperation("Register a user")
@@ -75,8 +77,22 @@ class UsersController
     @PutMapping("{id}/advanced")
     fun updateUserAdvancedOptions() = ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(null)
 
-    @RolesAllowed("USER", "DESIGNER", "ADMIN")
+    @RolesAllowed("ADMIN")
     @ApiOperation("Reset password of a user", authorizations = [Authorization("Bearer")])
     @PostMapping("{id}/reset-password")
-    fun resetPassword() = ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(null)
+    fun resetPassword(
+            @PathVariable id: UUID
+    ): ResponseEntity<*> {
+        val userOpt = this.repo.findById(id)
+        return if (userOpt.isPresent) {
+            val newPassword = this.passwordGenerator.generatePassword(8)
+            val user = userOpt.get()
+            val passwordHash = this.passwordEncoder.encode(newPassword)
+            user.passwordHash = passwordHash
+            this.repo.save(user)
+            ResponseEntity.ok(mapOf(
+                    "newPassword" to newPassword
+            ))
+        } else ResponseEntity.notFound().build<String>()
+    }
 }
