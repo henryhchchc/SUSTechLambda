@@ -65,7 +65,7 @@ class PersonalPage extends Component {
         tabValue: 100,
         content: null,
         contentType: null,
-        parameterValues: null,
+        parameterValues: {},
     };
 
     /****************************Handlers****************************/
@@ -151,7 +151,7 @@ class PersonalPage extends Component {
                     <Paper style={{width: window.screen.availWidth - 500}}>
                         <Typography>
                             OutPut
-                        </Typography>
+                        </Typography>P
                     </Paper>
                     <Fab color="primary" aria-label="Add" >
                         <AddIcon />

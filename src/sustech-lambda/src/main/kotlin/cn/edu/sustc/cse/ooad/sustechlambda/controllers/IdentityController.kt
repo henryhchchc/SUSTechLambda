@@ -1,8 +1,8 @@
 package cn.edu.sustc.cse.ooad.sustechlambda.controllers
 
 import cn.edu.sustc.cse.ooad.sustechlambda.dtos.LoginDto
-import cn.edu.sustc.cse.ooad.sustechlambda.dtos.UserDto
-import cn.edu.sustc.cse.ooad.sustechlambda.dtos.toDto
+import cn.edu.sustc.cse.ooad.sustechlambda.dtos.UserBriefDto
+import cn.edu.sustc.cse.ooad.sustechlambda.dtos.toBriefDto
 import cn.edu.sustc.cse.ooad.sustechlambda.services.IdentityService
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
@@ -31,9 +31,9 @@ class IdentityController
 
 
     @RolesAllowed("USER", "DESIGNER", "ADMIN")
-    @ApiOperation("Get current user", authorizations = [Authorization("Bearer")], response = UserDto::class)
+    @ApiOperation("Get current user", authorizations = [Authorization("Bearer")], response = UserBriefDto::class)
     @GetMapping("profile")
-    fun getCurrentUser() = this.identityService.getCurrentUser()!!.let { ResponseEntity.ok(it.toDto()) }
+    fun getCurrentUser() = this.identityService.getCurrentUser()!!.let { ResponseEntity.ok(it.toBriefDto()) }
 
 
     @ApiOperation("Logout", authorizations = [Authorization("Bearer")])
