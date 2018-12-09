@@ -10,7 +10,8 @@
     "react-dom": "^16.6.3",
     "react-scripts": "2.1.1",
     "react-syntax-highlighter": "^10.1.1",
-    "video-react": "^0.13.1"
+    "video-react": "^0.13.1",
+    "react-swipeable-views": "^0.13.0"
   },
   "scripts": {
     "start": "react-scripts start",

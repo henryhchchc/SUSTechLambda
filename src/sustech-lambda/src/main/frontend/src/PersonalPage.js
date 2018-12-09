@@ -11,6 +11,7 @@ import Grid from "@material-ui/core/Grid/Grid";
 import TextField from "@material-ui/core/TextField/TextField";
 import Fab from "@material-ui/core/Fab/Fab";
 import AddIcon from '@material-ui/icons/Add';
+import Profile from "./Profile";
 
 
 const labels = ["My Profile", "Script List", "Forum"]
@@ -166,7 +167,7 @@ class PersonalPage extends Component {
     }
     //Profile
     showProfile = () => {
-
+        return(<Profile/>)
     }
 
     /****************************Rendor****************************/
