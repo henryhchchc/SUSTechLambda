@@ -43,12 +43,9 @@ class ButtonAppBar extends Component {
             userName: 'aaa',
             menueListOpen: false,
             anchorEl:null,
-            modalOpen: false
-
+            modalOpen: false,
+            modalType: null,
         };
-    }
-    state = {
-
     }
     handleToggle = event =>{
         this.setState({ anchorEl: event.currentTarget });
@@ -56,8 +53,9 @@ class ButtonAppBar extends Component {
     handleClose = event =>{
         this.setState({ anchorEl: null });
     }
-    handleModal = () =>{
-        this.setState({modalOpen: !this.state.modalOpen})
+    handleModal = a =>{
+        this.setState({modalOpen: !this.state.modalOpen,
+                        modalType: a})
     }
     render() {
         if (this.state.login) {
@@ -99,14 +97,14 @@ class ButtonAppBar extends Component {
                         <AppBar position='fixed' color='primary'>
                             <Toolbar>
                                 <icon>Lambda</icon>
-                                <Button variant={"outlined"} style={{borderColor: '#ffffff', marginLeft: 1130}} onClick={this.handleModal}>
+                                <Button variant={"outlined"} style={{borderColor: '#ffffff', marginLeft: 1130}} onClick={()=>this.handleModal("in")}>
                                     <Typography style={{color: '#ffffff'}}>
-                                        Login in
+                                        Sign in
                                     </Typography>
                                 </Button>
-                                <Button variant={"outlined"} style={{borderColor: '#ffffff', marginLeft: 10}}>
+                                <Button variant={"outlined"} style={{borderColor: '#ffffff', marginLeft: 10}} onClick={()=>this.handleModal("up")}>
                                     <Typography style={{color: '#ffffff'}}>
-                                        Login in
+                                        Sign up
                                     </Typography>
                                 </Button>
                                 <Modal
@@ -115,7 +113,7 @@ class ButtonAppBar extends Component {
                                     open={this.state.modalOpen}
                                     onClose={this.handleModal}
                                 >
-                                    <Login/>
+                                    <Login type = {this.state.modalType}/>
                                 </Modal>
                             </Toolbar>
 
