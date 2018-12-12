@@ -8,7 +8,7 @@ class App extends Component {
     render() {
         return (
             <PersonalPage/>
-            // <ScriptList/>
+            //<ScriptList/>
             // <CreateScript/>
             // <CodeEditor/>
             //<HomePage/>
