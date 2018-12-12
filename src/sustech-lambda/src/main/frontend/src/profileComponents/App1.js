@@ -2,6 +2,7 @@ import React from 'react'
 import Nav from './Nav'
 import Profile from './Profile'
 
+
 export default class App1 extends React.Component {
   constructor (props) {
     super(props)
@@ -20,7 +21,11 @@ export default class App1 extends React.Component {
     return (
       <div>
         <Nav title='My Profile' />
+
+
         <Profile profileFields={this.state.profileFields} photo={this.state.photo} />
+
+
       </div>
     )
   }

@@ -9,7 +9,7 @@ import ScriptList from "./ScriptList";
 import Paper from "@material-ui/core/Paper/Paper";
 import Grid from "@material-ui/core/Grid/Grid";
 import TextField from "@material-ui/core/TextField/TextField";
-import Fab from "@material-ui/core/Fab/Fab";
+// import Fab from "@material-ui/core/Fab/Fab";
 import AddIcon from '@material-ui/icons/Add';
 import Profile from "./Profile";
 
@@ -153,9 +153,9 @@ class PersonalPage extends Component {
                             OutPut
                         </Typography>P
                     </Paper>
-                    <Fab color="primary" aria-label="Add" >
-                        <AddIcon />
-                    </Fab>
+                    {/*<Fab color="primary" aria-label="Add" >*/}
+                        {/*<AddIcon />*/}
+                    {/*</Fab>*/}
                 </Grid>
             </Grid>
         )

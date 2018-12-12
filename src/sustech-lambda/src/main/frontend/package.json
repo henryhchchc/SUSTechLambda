@@ -3,11 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@material-ui/core": "^3.5.1",
+    "@material-ui/core": "^1.5.1",
     "@material-ui/icons": "^1.0.0-beta.36",
     "material-kit": "^2.0.4",
     "node-sass": "^4.11.0",
     "react": "^16.6.3",
+    "react-burger-menu": "^2.5.4",
     "react-dom": "^16.6.3",
     "react-scripts": "2.1.1",
     "react-swipeable-views": "^0.13.0",

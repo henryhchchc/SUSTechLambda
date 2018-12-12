@@ -5,7 +5,7 @@ import Hamburger from './Hamburger'
 const Nav = (props) => (
   <nav>
     <Hamburger />
-    <h1>{props.title}</h1>
+
   </nav>
 )
 
