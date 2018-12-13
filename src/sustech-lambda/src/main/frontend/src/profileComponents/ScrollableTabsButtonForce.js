@@ -13,6 +13,7 @@ import ThumbDown from '@material-ui/icons/ThumbDown';
 import ThumbUp from '@material-ui/icons/ThumbUp';
 import Typography from '@material-ui/core/Typography';
 import Profile from "./Profile";
+import ControlledExpansionPanels from "./ControlledAccordion";
 
 function TabContainer(props) {
     return (
@@ -30,7 +31,6 @@ const styles = theme => ({
     root: {
         flexGrow: 1,
         width: '100%',
-
         backgroundColor: theme.palette.background.paper,
     },
 });
@@ -57,7 +57,7 @@ class ScrollableTabsButtonForce extends React.Component {
 
         return (
             <div className={classes.root}>
-                <AppBar position="static" color="default">
+                <AppBar position="static" color="default" >
                     <Tabs
                         value={value}
                         onChange={this.handleChange}
@@ -66,26 +66,30 @@ class ScrollableTabsButtonForce extends React.Component {
                         indicatorColor="primary"
                         textColor="primary"
                     >
-                        <Tab label="Item One" icon={<PhoneIcon />} />
-                        <Tab label="Item Two" icon={<FavoriteIcon />} />
-                        <Tab label="Item Three" icon={<PersonPinIcon />} />
-                        <Tab label="Item Four" icon={<HelpIcon />} />
-                        <Tab label="Item Five" icon={<ShoppingBasket />} />
-                        <Tab label="Item Six" icon={<ThumbDown />} />
-                        <Tab label="Item Seven" icon={<ThumbUp />} />
+                        <Tab label="Information" icon={<PhoneIcon />} />
+                        <Tab label="Repositories" icon={<ShoppingBasket />} />
+                        <Tab label="Stars" icon={<FavoriteIcon />} />
+                        <Tab label="Followers" icon={<PersonPinIcon />} />
+                        <Tab label="Following" icon={<ThumbUp />} />
+                        <Tab label="Item Six" icon={<HelpIcon />} />
+                        <Tab label="Item Seven" icon={<ThumbDown />} />
+
                     </Tabs>
                 </AppBar>
                 {value === 0 &&
-                <TabContainer>
+                <TabContainer >
                     <Profile profileFields={this.state.profileFields} photo={this.state.photo} />
                 </TabContainer>
                 }
-                {value === 1 && <TabContainer>Item Two</TabContainer>}
-                {value === 2 && <TabContainer>Item Three</TabContainer>}
-                {value === 3 && <TabContainer>Item Four</TabContainer>}
-                {value === 4 && <TabContainer>Item Five</TabContainer>}
-                {value === 5 && <TabContainer>Item Six</TabContainer>}
-                {value === 6 && <TabContainer>Item Seven</TabContainer>}
+                {value === 1 && <TabContainer>
+                    <ControlledExpansionPanels/>
+                </TabContainer>}
+                {value === 2 && <TabContainer>Repositories</TabContainer>}
+                {value === 3 && <TabContainer>Stars</TabContainer>}
+                {value === 4 && <TabContainer>Followers</TabContainer>}
+                {value === 5 && <TabContainer>Following</TabContainer>}
+                {value === 6 && <TabContainer>Item Six</TabContainer>}
+
             </div>
         );
     }
