@@ -1,0 +1,14 @@
+$color-peach-light: rgb(255,231,205);
+$color-peach-middle: rgb(253,208,184);
+$color-peach-full: rgb(252,185,162);
+$color-nav-footer-bg: rgb(54,54,54);
+$color-white: rgb(255,255,255);
+$color-input-bg: rgb(235,235,235);
+$color-text-body: rgb(112,112,112);
+$color-nav-text: rgb(214,214,214);
+$color-input-text: rgb(161,161,161);
+
+$gradient-light-full: linear-gradient($color-peach-light 11%, $color-peach-full 92%);
+$gradient-full-light: linear-gradient($color-peach-full 11%, $color-peach-light 92%);
+
+$font-family: 'Merriweather Sans', sans-serif;

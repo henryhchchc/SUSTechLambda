@@ -1,0 +1,213 @@
+@import 'vars.scss';
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+.theme {
+  color: $color-text-body;
+  background: $color-white;
+  font-family: $font-family;
+}
+
+button {
+  cursor: pointer;
+  font-family: $font-family;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+nav,
+footer {
+  background-color: $color-nav-footer-bg;
+}
+
+nav {
+  height: 88px;
+  line-height: 88px;
+  text-align: center;
+  position: relative;
+
+  h1 {
+    margin: 0;
+    font-size: 35px;
+    font-weight: 700;
+    color: $color-nav-text;
+  }
+}
+
+footer {
+  height: 58px;
+}
+
+button.hamburger {
+  top: 0;
+  left: 0;
+  padding: 0;
+  width: 48px;
+  margin: 24px;
+  border: none;
+  position: absolute;
+  background: transparent;
+
+  span {
+    display: block;
+    height: 5px;
+    border-radius: 5px;
+    background: $color-white;
+
+    &:nth-child(1) {
+      background-color: $color-peach-light;
+    }
+
+    &:nth-child(2) {
+      margin-top: 12px;
+      background-color: $color-peach-middle;
+    }
+
+    &:nth-child(3) {
+      margin-top: 12px;
+      background-color: $color-peach-full;
+    }
+  }
+}
+
+.accent {
+  height: 295px;
+  background: $gradient-light-full;
+  box-shadow: 0 3px 16px rgba(0,0,0,.41);
+}
+
+.profile-photo {
+  padding: 6px;
+  width: 364px;
+  height: 364px;
+  text-align: center;
+  border-radius: 50%;
+  margin: -240px auto 0;
+  animation-name: fadeIn;
+  animation-duration: .9s;
+  background: $gradient-full-light;
+  box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.44);
+
+  img {
+    width: 100%;
+    border-radius: 50%;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: .9;
+    transform: scale(.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+form  {
+  margin: 0 auto;
+  display: block;
+  overflow: hidden;
+  max-width: 750px;
+  padding: 0 52px 32px;
+}
+
+label,
+input,
+textarea {
+  width: 100%;
+  display: block;
+}
+
+label {
+  font-size: 25px;
+  margin-top: 24px;
+}
+
+input,
+textarea {
+  border: none;
+  font-size: 25px;
+  margin-top: 12px;
+  padding: 36px 24px;
+  border-radius: 10px;
+  font-family: inherit;
+  color: $color-input-text;
+  background-color: $color-input-bg;
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 4px 4px $color-peach-full;
+  }
+}
+
+textarea {
+  height: 228px;
+  resize: vertical;
+}
+
+button.cta-primary {
+  z-index: 1;
+  height: 88px;
+  float: right;
+  border: none;
+  width: 272px;
+  padding: 0 20px;
+  font-size: 35px;
+  margin-top: 32px;
+  font-weight: 700;
+  overflow: hidden;
+  line-height: 88px;
+  position: relative;
+  color: $color-white;
+  transition: .2s all;
+  border-radius: 40px;
+  background: transparent;
+  box-shadow: 0px 3px 13.28px 2.72px rgba(0, 0, 0, 0.41);
+
+  &:before,
+  &:after {
+    top: 0;
+    left: 0;
+    content: '';
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    transition: inherit;
+    transition: .3s all;
+  }
+
+  &:before {
+    opacity: 0;
+    background: $gradient-full-light;
+  }
+
+  &:after {
+    opacity: 1;
+    background: $gradient-light-full;
+  }
+
+  &:hover:before {
+    opacity: 1;
+  }
+
+  &:hover:after {
+    opacity: 0;
+  }
+
+  &:active {
+    box-shadow: none;
+  }
+}

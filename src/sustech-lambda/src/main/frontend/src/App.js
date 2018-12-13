@@ -7,10 +7,11 @@ import CreateScript from './createScript'
 class App extends Component {
     render() {
         return (
-            <PersonalPage identity = 'user'/>
-            //<CreateScript/>
+            <PersonalPage/>
+            //<ScriptList/>
+            // <CreateScript/>
             // <CodeEditor/>
-            /*<HomePage/>*/
+            //<HomePage/>
         );
     }
 }

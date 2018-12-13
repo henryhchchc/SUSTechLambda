@@ -9,14 +9,12 @@ import ScriptList from "./ScriptList";
 import Paper from "@material-ui/core/Paper/Paper";
 import Grid from "@material-ui/core/Grid/Grid";
 import TextField from "@material-ui/core/TextField/TextField";
-import Fab from "@material-ui/core/Fab/Fab";
+// import Fab from "@material-ui/core/Fab/Fab";
 import AddIcon from '@material-ui/icons/Add';
 import Profile from "./Profile";
-import Login from "./login";
-import Modal from "@material-ui/core/Modal/Modal";
-import CreateScripts from './createScript'
-import Button from "@material-ui/core/Button/Button";
-import EnhancedTable from './userManagement'
+
+
+const labels = ["My Profile", "Script List", "Forum"]
 const styles = theme => ({
     root: {
         flexGrow: 1,
@@ -63,24 +61,12 @@ const styles = theme => ({
 
 class PersonalPage extends Component {
     /****************************States****************************/
-    constructor(props) {
-        super(props);
-        let labels = ["My Profile", "Script List", "Forum"]
-        if(this.props.identity === 'admin'){
-            labels = ["My Profile", "User Management","Script Management"]
-        }
-        this.state = {
-            tabValue: 100,
-            content: null,
-            contentType: null,
-            parameterValues: {},
-            modalOpen: false,
-            identity: props.identity,
-            label: labels
-        }
-    }
-
-
+    state = {
+        tabValue: 100,
+        content: null,
+        contentType: null,
+        parameterValues: {},
+    };
 
     /****************************Handlers****************************/
     handleTabChange = (event, value) => {
@@ -109,34 +95,18 @@ class PersonalPage extends Component {
             parameterValues: t,
         })
     }
-    handleModal = () =>{
-        this.setState({
-            modalOpen: !this.state.modalOpen
-        })
-    }
+
 
     /****************************Show the Content****************************/
     showContent = (tabValue) => {
-        if(this.state.identity === 'user'){
-            if (this.state.tabValue === 0) {
-                return this.showProfile()
-            }
-            if (this.state.tabValue === 1) {
-                return this.showScriptList()
-            }
-            if (this.state.tabValue === 2) {
-                return this.showForum()
-            }
-        }else{
-            if (this.state.tabValue === 0) {
-                return this.showProfile()
-            }
-            if (this.state.tabValue === 1) {
-                return this.showUserManagement()
-            }
-            if (this.state.tabValue === 2) {
-                return this.showScriptManagement()
-            }
+        if (this.state.tabValue === 0) {
+            return this.showProfile()
+        }
+        if (this.state.tabValue === 1) {
+            return this.showScriptList()
+        }
+        if (this.state.tabValue === 2) {
+            return this.showForum()
         }
     }
 
@@ -183,17 +153,9 @@ class PersonalPage extends Component {
                             OutPut
                         </Typography>P
                     </Paper>
-                    <Button color="primary"  variant="fab"  onClick={()=>this.handleModal()}>
-                        <AddIcon />
-                    </Button>
-                    <Modal
-                        open={this.state.modalOpen}
-                        onClose={this.handleModal}
-                    >
-                        <Paper>
-                            <CreateScripts />
-                        </Paper>
-                    </Modal>
+                    {/*<Fab color="primary" aria-label="Add" >*/}
+                        {/*<AddIcon />*/}
+                    {/*</Fab>*/}
                 </Grid>
             </Grid>
         )
@@ -207,25 +169,20 @@ class PersonalPage extends Component {
     showProfile = () => {
         return(<Profile/>)
     }
-    showUserManagement = () =>{
-        return(<EnhancedTable/>)
-    }
-    showScriptManagement = () =>{
 
-    }
     /****************************Rendor****************************/
     render() {
-
-        let {classes} = this.props
+        const {classes} = this.props;
+        const {tabValue} = this.state;
         return (
             <div>
                 <ButtonAppBar login={true}/>
                 <Tabs
-                    value= {this.state.tabValue}
+                    value={tabValue}
                     onChange={this.handleTabChange}
                     classes={{root: classes.tabsRoot, indicator: classes.tabsIndicator}}
                 >
-                    {this.state.label.map(
+                    {labels.map(
                         label =>
                             <Tab
                                 disableRipple
