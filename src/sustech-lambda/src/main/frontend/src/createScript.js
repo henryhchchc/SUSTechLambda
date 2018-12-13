@@ -517,8 +517,8 @@ class CreateScripts extends Component{
         const lower_right = {float:'right'};
         return(
             <div className="Basic Infrom">
-            <ButtonAppBar login={true}/>
-            <h1>"blank"</h1>
+            {/*<ButtonAppBar login={true}/>*/}
+            {/*<h1>"blank"</h1>*/}
             <this.TitleDisplay/>
             <this.DescriptionDisplay />
             <form>

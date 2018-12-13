@@ -25,7 +25,8 @@ class Login extends Component {
             showText: q,
         }
     }
-
+    /****************************Handlers****************************/
+    //Save the input of the input fields
     handleParameterIn = (name) => event => {
         console.log(name.item)
         let t = this.state.parameterValues
@@ -35,6 +36,7 @@ class Login extends Component {
             parameterValues: t,
         })
     }
+    //handle submit , if not field , show alert ***left: verification
     handleSubmit = () => {
         let parameter = this.state.parameterValues
 
@@ -51,22 +53,18 @@ class Login extends Component {
             }
         )
     }
-
+    //handle close the alert
     handleClose = () => {
         this.setState({alertAllFieled: false})
     }
-
+    /****************************Rendor****************************/
     render() {
         console.log(this.state.showType)
         return (
-
             <Paper style={{height: 400, width: 300, marginLeft: 550, marginTop: 200}}>
                 <form noValidate autoComplete="off">
                     {this.state.fields.map(
                         item => {
-                            // if ((item) == 'Password'){
-                            //
-                            // }else{
                             if (item == 'Password') {
                                 return (
                                     <Grid container>

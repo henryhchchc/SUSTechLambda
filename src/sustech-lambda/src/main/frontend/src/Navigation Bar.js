@@ -34,7 +34,6 @@ const styles = {
         marginLeft: 1160,
     },
 };
-
 class ButtonAppBar extends Component {
     constructor(props) {
         super(props);
@@ -47,16 +46,21 @@ class ButtonAppBar extends Component {
             modalType: null,
         };
     }
+    /****************************Handlers****************************/
+    //handle open menu list
     handleToggle = event =>{
         this.setState({ anchorEl: event.currentTarget });
     }
+    //handle close the menu list
     handleClose = event =>{
         this.setState({ anchorEl: null });
     }
+    //handle open the Sign in and Sing up modal
     handleModal = a =>{
         this.setState({modalOpen: !this.state.modalOpen,
                         modalType: a})
     }
+    /****************************Rendor****************************/
     render() {
         if (this.state.login) {
             return (
