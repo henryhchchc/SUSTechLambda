@@ -9,12 +9,12 @@ import ScriptList from "./ScriptList";
 import Paper from "@material-ui/core/Paper/Paper";
 import Grid from "@material-ui/core/Grid/Grid";
 import TextField from "@material-ui/core/TextField/TextField";
-// import Fab from "@material-ui/core/Fab/Fab";
 import AddIcon from '@material-ui/icons/Add';
 import Profile from "./Profile";
-
-
-const labels = ["My Profile", "Script List", "Forum"]
+import Button from "@material-ui/core/Button/Button";
+import Modal from "@material-ui/core/Modal/Modal";
+import CreateScripts from "./createScript";
+import EnhancedTable from './userManagement'
 const styles = theme => ({
     root: {
         flexGrow: 1,
@@ -61,12 +61,22 @@ const styles = theme => ({
 
 class PersonalPage extends Component {
     /****************************States****************************/
-    state = {
-        tabValue: 100,
-        content: null,
-        contentType: null,
-        parameterValues: {},
-    };
+    constructor(props){
+        super(props)
+        let label= ["My Profile", "Script List", "Forum"]
+        if(this.props.user == 'admin'){
+            label = ['User Management','Script Management']
+        }
+        this.state = {
+            tabValue: 100,
+            content: null,
+            contentType: null,
+            parameterValues: {},
+            creatScriptModel: false,
+            label: label,
+        };
+    }
+
 
     /****************************Handlers****************************/
     handleTabChange = (event, value) => {
@@ -96,17 +106,32 @@ class PersonalPage extends Component {
         })
     }
 
-
+    handleAddScript = () => {
+        console.log(this.state.creatScriptModel)
+        this.setState({
+            creatScriptModel: !this.state.creatScriptModel
+                }
+        )
+    }
     /****************************Show the Content****************************/
     showContent = (tabValue) => {
-        if (this.state.tabValue === 0) {
-            return this.showProfile()
-        }
-        if (this.state.tabValue === 1) {
-            return this.showScriptList()
-        }
-        if (this.state.tabValue === 2) {
-            return this.showForum()
+        if(this.props.user == 'admin') {
+            if (this.state.tabValue === 0) {
+                return this.showUserManagement()
+            }
+            if (this.state.tabValue === 1) {
+                return this.showScriptManagement()
+            }
+        }else {
+            if (this.state.tabValue === 0) {
+                return this.showProfile()
+            }
+            if (this.state.tabValue === 1) {
+                return this.showScriptList()
+            }
+            if (this.state.tabValue === 2) {
+                return this.showForum()
+            }
         }
     }
 
@@ -153,9 +178,22 @@ class PersonalPage extends Component {
                             OutPut
                         </Typography>P
                     </Paper>
-                    {/*<Fab color="primary" aria-label="Add" >*/}
-                        {/*<AddIcon />*/}
-                    {/*</Fab>*/}
+                    <Button
+                        variant="fab"
+                        color="default"
+                        onClick={()=>this.handleAddScript()}
+                    >
+                        <AddIcon/>
+                    </Button>
+                    <Modal
+                        open={this.state.creatScriptModel}
+                        onClose={this.handleAddScript}
+                    >
+                        <Paper>
+                        <CreateScripts/>
+                        </Paper>
+                    </Modal>
+
                 </Grid>
             </Grid>
         )
@@ -170,6 +208,17 @@ class PersonalPage extends Component {
         return(<Profile/>)
     }
 
+    //UserManagement
+    showUserManagement = () => {
+        return(
+            <EnhancedTable />
+        )
+    }
+
+    //ScriptManagement
+    showScriptManagement = () => {
+
+    }
     /****************************Rendor****************************/
     render() {
         const {classes} = this.props;
@@ -182,7 +231,7 @@ class PersonalPage extends Component {
                     onChange={this.handleTabChange}
                     classes={{root: classes.tabsRoot, indicator: classes.tabsIndicator}}
                 >
-                    {labels.map(
+                    {this.state.label.map(
                         label =>
                             <Tab
                                 disableRipple
