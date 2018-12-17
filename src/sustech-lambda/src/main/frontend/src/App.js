@@ -11,7 +11,7 @@ class App extends Component {
             //<ScriptList/>
             // <CreateScript/>
             // <CodeEditor/>
-            // <HomePage/>
+             //<HomePage/>
         );
     }
 }
