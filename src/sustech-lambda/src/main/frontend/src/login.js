@@ -60,17 +60,18 @@ class Login extends Component {
             if (this.props.type == 'up') {
                 //http request for sign up
 
-                let url = `${apiHost}/api/user/register`
+                let url = `${apiHost}/api/users/register`
                 let message = {
                     'displayName': this.state.parameterValues['Username'],
                     'password': this.state.parameterValues['Password'],
                     'roles': ['USER', 'DESIGNER'],
-                    'userName': this.state.parameterValues['userName']
+                    'userName': this.state.parameterValues['Id']
                 }
-
+                console.log(message)
                 const myRequest = new Request(url, {
                     method: 'POST', body: JSON.stringify(message), headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        'accept': 'application/json'
                     }
                 });
 
