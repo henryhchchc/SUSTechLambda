@@ -15,17 +15,25 @@ class ScriptList extends Component{
             token: this.props.token,
             scripts: [{
                 "content": {
-                    "code": "string",
-                    "language": "string",
+                    "code": "\n" +
+                        "import multiprocessing as mp\n" +
+                        "import time\n" +
+                        "import sys\n" +
+                        "import numpy as np",
+                    "language": "Python",
                     "parameters": [
                         {
-                            "name": "string",
+                            "name": "P1",
                             "type": "STRING"
+                        },
+                        {
+                            "name": "P2",
+                            "type": "INT"
                         }
                     ]
                 },
-                "description": "string",
-                "name": "string"
+                "description": "This is a test example",
+                "name": "Hello World"
             }],
             selectedPr: null
         };

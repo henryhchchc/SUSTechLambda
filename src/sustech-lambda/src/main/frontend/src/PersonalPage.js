@@ -15,6 +15,10 @@ import Button from "@material-ui/core/Button/Button";
 import Modal from "@material-ui/core/Modal/Modal";
 import CreateScripts from "./createScript";
 import EnhancedTable from './userManagement'
+import SyntaxHighlighter from 'react-syntax-highlighter';
+import ErrorIcon from "@material-ui/core/SvgIcon/SvgIcon";
+import SnackbarContent from "@material-ui/core/SnackbarContent/SnackbarContent";
+import Snackbar from "@material-ui/core/Snackbar/Snackbar";
 
 const styles = theme => ({
     root: {
@@ -64,7 +68,7 @@ class PersonalPage extends Component {
     /****************************States****************************/
     constructor(props) {
         super(props)
-        let label = ["My Profile", "Script List", "Forum"]
+        let label = ["My Profile", "Script List"]
         if (this.props.user == 'admin') {
             label = ['User Management', 'Script Management']
         }
@@ -76,6 +80,9 @@ class PersonalPage extends Component {
             parameterValues: {},
             creatScriptModel: false,
             label: label,
+            snakebarContent: '',
+            alertAllFieled: false
+
         };
     }
 
@@ -103,6 +110,7 @@ class PersonalPage extends Component {
     handleParameterIn = name => event => {
         let t = this.state.parameterValues
         t[name] = event.target.value
+        console.log(t)
         this.setState({
             parameterValues: t,
         })
@@ -112,6 +120,22 @@ class PersonalPage extends Component {
         console.log(this.state.creatScriptModel)
         this.setState({
                 creatScriptModel: !this.state.creatScriptModel
+            }
+        )
+    }
+    handleRunScript = () => {
+        let parameter = this.state.parameterValues
+        let verified = true
+        this.state.content['content']['parameters'].map(
+            item => {
+                if (parameter[item['name']] === undefined || parameter[item['name']] === "") {
+                    // console.log(parameter[[item]])
+                    verified = false
+                    this.setState({
+                        snakebarContent: 'Please fill all required parameter',
+                        alertAllFieled: true,
+                    })
+                }
             }
         )
     }
@@ -143,61 +167,74 @@ class PersonalPage extends Component {
     //ScriptList
     showScriptList = () => {
         let title = 'name'
-        let code = 'XXXX'
+        let code = 'XXXXaaaa'
         let parameter = []
         let language = 'XXX'
         if (this.state.contentType != null) {
             title = this.state.content['name']
-            code = this.state.content['code']
-            parameter = this.state.content['parameters']
-            language = this.state.content['language']
+            code = this.state.content['content']['code']
+            parameter = this.state.content['content']['parameters']
+            language = this.state.content['content']['language']
         }
         return (
-            <Grid container>
+            <Grid container style={{height: 600}}>
                 <Grid item>
                     <ScriptList setScriptValue={this.setScriptValue} token={this.state.token}/>
                 </Grid>
-                <Grid item>
-                    <Typography>
+                <Grid item style={{backgroundColor: '#f1f5f9', width: window.screen.availWidth - 500}}>
+                    <Typography style={{fontSize: 25, fontFamily: 'courier', paddingLeft: 30, paddingTop: 30}}>
                         {title}
                     </Typography>
-                    <Paper style={{width: window.screen.availWidth - 500}}>
-                        {code}
+                    <Paper style={{marginLeft: 20, marginRight: 20}}>
+                        <SyntaxHighlighter
+                            language={language}
+                        >
+                            {code}
+                        </SyntaxHighlighter>
+
                     </Paper>
-                    <form noValidate autoComplete="off">
-                        {parameter.map(
-                            item =>
-                                <Grid container>
-                                    <TextField
-                                        id="standard-name"
-                                        label={item}
-                                        onChange={this.handleParameterIn({item})}
-                                        margin="normal"
-                                    />
-                                </Grid>
-                        )}
-                    </form>
-                    <button>
+                    <Paper style={{marginLeft: 20, marginRight: 20}}>
+                        <form noValidate autoComplete="off" style={{marginLeft: 0}}>
+                            {parameter.map(
+                                item =>
+                                    <Grid container style={{marginTop: 1}}>
+                                        <TextField
+                                            id="standard-name"
+                                            label={item['name']}
+                                            placeholder={item['type']}
+                                            onChange={this.handleParameterIn(item['name'])}
+                                            style={{margin: 8}}
+                                            InputLabelProps={{
+                                                shrink: true,
+                                                style: {marginTop: 4}
+                                            }}
+                                        />
+                                    </Grid>
+                            )}
+                        </form>
+                    </Paper>
+                    <Button variant="contained" style={{marginTop: 20, marginLeft: 20}}
+                            onClick={() => this.handleRunScript()}>
                         Run
-                    </button>
-                    <Paper style={{width: window.screen.availWidth - 500}}>
+                    </Button>
+                    <Paper style={{marginTop: 20, marginLeft: 20, marginRight: 20}}>
                         <Typography>
                             OutPut
-                        </Typography>P
+                        </Typography>
                     </Paper>
                     <Button
                         variant="fab"
-                        color="default"
+
+                        style={{bottom: 20, right: 20, position: 'fixed', backgroundColor: "#2b2b2b"}}
                         onClick={() => {
                             this.setState({tabValue: 3})
                         }}
                     >
                         <AddIcon/>
                     </Button>
-
-
                 </Grid>
             </Grid>
+
         )
     }
 
@@ -250,7 +287,20 @@ class PersonalPage extends Component {
                     )}
                 </Tabs>
                 {this.showContent(this.state.tabValue)}
-
+                <Snackbar
+                    anchorOrigin={{vertical: 'top', horizontal: 'right'}}
+                    open={this.state.alertAllFieled}
+                    onClose={()=>{this.setState({alertAllFieled:false})}}
+                >
+                    <SnackbarContent
+                        style={{backgroundColor: "#ff1a24"}}
+                        message={<span style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                        }}>  <ErrorIcon/>{this.state.snakebarContent}</span>}
+                    >
+                    </SnackbarContent>
+                </Snackbar>
             </div>
         )
     }
