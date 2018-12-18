@@ -20,6 +20,9 @@ import FilterListIcon from '@material-ui/icons/FilterList';
 import { lighten } from '@material-ui/core/styles/colorManipulator';
 import Block from "@material-ui/icons/es/Block"
 let counter = 0;
+const isDebug = true;
+
+const apiHost = isDebug?"http://localhost:8080":"";
 function createData(name, calories, fat, carbs, protein) {
     counter += 1;
     return { id: counter, name, calories, fat, carbs, protein };
@@ -211,7 +214,20 @@ class EnhancedTable extends React.Component {
         page: 0,
         rowsPerPage: 5,
     };
+    componentDidMount() {
 
+        let url = `${apiHost}/api/scripts?page_idx=0&page_size=100`
+
+
+        const myRequest = new Request(url, {
+            method: 'GET',  headers: {
+                'Authorization' : `Bearer ${this.props.token}`
+            }
+        });
+        fetch(url)
+            .then(res => res.json())
+            .then(prs => {this.setState({ scripts: prs.content })});
+    }
     handleRequestSort = (event, property) => {
         const orderBy = property;
         let order = 'desc';

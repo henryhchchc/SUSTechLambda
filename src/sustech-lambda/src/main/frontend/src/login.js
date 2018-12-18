@@ -95,49 +95,13 @@ class Login extends Component {
                         alertAllFieled: true,
                     })
                 }
+                //TODO ve
             }
         )
+
+
         if (verified) {
-            if (this.props.type == 'up') {
-                //http request for sign up
 
-                let url = `${apiHost}/api/users/register`
-                let message = {
-                    'displayName': this.state.parameterValues['Username'],
-                    'password': this.state.parameterValues['Password'],
-                    'roles': ['USER', 'DESIGNER'],
-                    'userName': this.state.parameterValues['Id']
-                }
-                console.log(message)
-                const myRequest = new Request(url, {
-                    method: 'POST', body: JSON.stringify(message), headers: {
-                        'Content-Type': 'application/json',
-                        'accept': 'application/json'
-                    }
-                });
-
-                fetch(myRequest)
-                    .then(response => {
-                        console.log(response.status)
-                        if (response.status === 201) {
-                            this.setState({
-                                snakebarContent:'Login up successfully!',
-                                alertAllFieled: true,
-
-                            })
-                        } else if (response.status == 409) {
-                            this.setState({
-                                snakebarContent:'This id is occupied by others',
-                                alertAllFieled: true,
-                            })
-                        }
-                    })
-                this.signIn(this.state.parameterValues['Id'],this.state.parameterValues['Password'])
-
-            } else {
-                //http request for sign in
-                this.signIn(this.state.parameterValues['Id'],this.state.parameterValues['Password'])
-            }
         }
     }
     //handle close the alert
