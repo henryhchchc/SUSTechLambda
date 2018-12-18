@@ -29,7 +29,7 @@ class App extends Component {
             )
         }else{
             return(
-                <PersonalPage user = {this.state.status} />
+                <PersonalPage user = {this.state.status} token={this.state.token} />
             )
         }
     }
@@ -37,10 +37,10 @@ class App extends Component {
     render() {
         if (isdebug){
             return(
-
                 <div>
-                    <ButtonAppBar login={true} setToken={this.setToken}/>
+                    <ButtonAppBar login={true} setToken={this.setToken} token={this.state.token}/>
                     <PersonalPage user = 'user' />
+                    {/*<CreateScript/>*/}
                 </div>
             )
         }else {

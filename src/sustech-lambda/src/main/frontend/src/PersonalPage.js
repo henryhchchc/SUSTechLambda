@@ -15,6 +15,7 @@ import Button from "@material-ui/core/Button/Button";
 import Modal from "@material-ui/core/Modal/Modal";
 import CreateScripts from "./createScript";
 import EnhancedTable from './userManagement'
+
 const styles = theme => ({
     root: {
         flexGrow: 1,
@@ -61,13 +62,14 @@ const styles = theme => ({
 
 class PersonalPage extends Component {
     /****************************States****************************/
-    constructor(props){
+    constructor(props) {
         super(props)
-        let label= ["My Profile", "Script List", "Forum"]
-        if(this.props.user == 'admin'){
-            label = ['User Management','Script Management']
+        let label = ["My Profile", "Script List", "Forum"]
+        if (this.props.user == 'admin') {
+            label = ['User Management', 'Script Management']
         }
         this.state = {
+            token: this.props.token,
             tabValue: 0,
             content: null,
             contentType: null,
@@ -89,8 +91,8 @@ class PersonalPage extends Component {
     };
     setScriptValue = (pr, index) => {
         let parameterValues = {}
-        pr['parameter'].map(
-            item => parameterValues[item] = ''
+        pr['content']['parameters'].map(
+            item => parameterValues[item['name']] = ''
         )
         this.setState({
             content: pr,
@@ -109,20 +111,20 @@ class PersonalPage extends Component {
     handleAddScript = () => {
         console.log(this.state.creatScriptModel)
         this.setState({
-            creatScriptModel: !this.state.creatScriptModel
-                }
+                creatScriptModel: !this.state.creatScriptModel
+            }
         )
     }
     /****************************Show the Content****************************/
     showContent = (tabValue) => {
-        if(this.props.user == 'admin') {
+        if (this.props.user == 'admin') {
             if (this.state.tabValue === 0) {
                 return this.showUserManagement()
             }
             if (this.state.tabValue === 1) {
                 return this.showScriptManagement()
             }
-        }else {
+        } else {
             if (this.state.tabValue === 0) {
                 return this.showProfile()
             }
@@ -132,23 +134,28 @@ class PersonalPage extends Component {
             if (this.state.tabValue === 2) {
                 return this.showForum()
             }
+            if (this.state.tabValue === 3) {
+                return this.showCreateScript()
+            }
         }
     }
 
     //ScriptList
     showScriptList = () => {
-        let title = 'Title'
+        let title = 'name'
         let code = 'XXXX'
         let parameter = []
+        let language = 'XXX'
         if (this.state.contentType != null) {
-            title = this.state.content['title']
+            title = this.state.content['name']
             code = this.state.content['code']
-            parameter = this.state.content['parameter']
+            parameter = this.state.content['parameters']
+            language = this.state.content['language']
         }
         return (
             <Grid container>
                 <Grid item>
-                    <ScriptList setScriptValue={this.setScriptValue}/>
+                    <ScriptList setScriptValue={this.setScriptValue} token={this.state.token}/>
                 </Grid>
                 <Grid item>
                     <Typography>
@@ -181,18 +188,13 @@ class PersonalPage extends Component {
                     <Button
                         variant="fab"
                         color="default"
-                        onClick={()=>this.handleAddScript()}
+                        onClick={() => {
+                            this.setState({tabValue: 3})
+                        }}
                     >
                         <AddIcon/>
                     </Button>
-                    <Modal
-                        open={this.state.creatScriptModel}
-                        onClose={this.handleAddScript}
-                    >
-                        <Paper>
-                        <CreateScripts/>
-                        </Paper>
-                    </Modal>
+
 
                 </Grid>
             </Grid>
@@ -205,13 +207,20 @@ class PersonalPage extends Component {
     }
     //Profile
     showProfile = () => {
-        return(<Profile/>)
+        return (
+            <div>
+                <Profile/>
+            </div>
+        )
     }
-
+    //createScript
+    showCreateScript = () => {
+        return (<CreateScripts/>)
+    }
     //UserManagement
     showUserManagement = () => {
-        return(
-            <EnhancedTable />
+        return (
+            <EnhancedTable/>
         )
     }
 
@@ -219,6 +228,7 @@ class PersonalPage extends Component {
     showScriptManagement = () => {
 
     }
+
     /****************************Rendor****************************/
     render() {
         const {classes} = this.props;
