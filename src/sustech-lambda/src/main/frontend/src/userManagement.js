@@ -155,7 +155,7 @@ let EnhancedTableToolbar = props => {
                     </Typography>
                 ) : (
                     <Typography variant="h6" id="tableTitle">
-                        Nutrition
+                        All users
                     </Typography>
                 )}
             </div>
@@ -205,19 +205,8 @@ class EnhancedTable extends React.Component {
         orderBy: 'calories',
         selected: [],
         data: [
-            createData('Cupcake', 305, 3.7, 67, 4.3),
-            createData('Donut', 452, 25.0, 51, 4.9),
-            createData('Eclair', 262, 16.0, 24, 6.0),
-            createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-            createData('Gingerbread', 356, 16.0, 49, 3.9),
-            createData('Honeycomb', 408, 3.2, 87, 6.5),
-            createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-            createData('Jelly Bean', 375, 0.0, 94, 0.0),
-            createData('KitKat', 518, 26.0, 65, 7.0),
-            createData('Lollipop', 392, 0.2, 98, 0.0),
-            createData('Marshmallow', 318, 0, 81, 2.0),
-            createData('Nougat', 360, 19.0, 9, 37.0),
-            createData('Oreo', 437, 18.0, 63, 4.0),
+            {id:1,userName:'bbbb',displayName:'cccc',roles:['USER']},
+            {id:2,userName:'babb',displayName:'cccc',roles:['USER']}
         ],
         page: 0,
         rowsPerPage: 5,
@@ -310,12 +299,18 @@ class EnhancedTable extends React.Component {
                                                 <Checkbox checked={isSelected} checkedIcon = {<Block />}/>
                                             </TableCell>
                                             <TableCell component="th" scope="row" padding="none">
-                                                {n.name}
+                                                {n.id}
                                             </TableCell>
-                                            <TableCell numeric>{n.calories}</TableCell>
-                                            <TableCell numeric>{n.fat}</TableCell>
-                                            <TableCell numeric>{n.carbs}</TableCell>
-                                            <TableCell numeric>{n.protein}</TableCell>
+                                            <TableCell component="th" scope="row" padding="none">
+                                                {n.userName}
+                                            </TableCell>
+                                            <TableCell component="th" scope="row" padding="none">
+                                                {n.displayName}
+                                            </TableCell>
+                                            <TableCell component="th" scope="row" padding="none">
+                                                {n.roles}
+                                            </TableCell>
+
                                         </TableRow>
                                     );
                                 })}

@@ -68,7 +68,7 @@ class PersonalPage extends Component {
             label = ['User Management','Script Management']
         }
         this.state = {
-            tabValue: 100,
+            tabValue: 0,
             content: null,
             contentType: null,
             parameterValues: {},
@@ -225,7 +225,6 @@ class PersonalPage extends Component {
         const {tabValue} = this.state;
         return (
             <div>
-                <ButtonAppBar login={true}/>
                 <Tabs
                     value={tabValue}
                     onChange={this.handleTabChange}

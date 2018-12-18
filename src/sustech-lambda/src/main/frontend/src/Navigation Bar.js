@@ -37,8 +37,9 @@ const styles = {
 class ButtonAppBar extends Component {
     constructor(props) {
         super(props);
+        console.log(this.props.login)
         this.state = {
-            login: props.login,
+            login: this.props.login,
             userName: 'aaa',
             menueListOpen: false,
             anchorEl:null,
@@ -52,17 +53,26 @@ class ButtonAppBar extends Component {
         this.setState({ anchorEl: event.currentTarget });
     }
     //handle close the menu list
-    handleClose = event =>{
+    handleClose = value =>{
         this.setState({ anchorEl: null });
+        if(value=='Profile'){
+
+        }else if(value== 'Account'){
+
+        }else if(value=='Signout') {
+            this.props.setToken(null)
+        }
+
     }
     //handle open the Sign in and Sing up modal
     handleModal = a =>{
         this.setState({modalOpen: !this.state.modalOpen,
                         modalType: a})
+
     }
     /****************************Rendor****************************/
     render() {
-        if (this.state.login) {
+        if (this.props.login) {
             return (
                 <div>
                     <MuiThemeProvider theme={theme}>
@@ -84,9 +94,9 @@ class ButtonAppBar extends Component {
                                       anchorEl={this.state.anchorEl}
                                       open={Boolean(this.state.anchorEl)}
                                       onClose={this.handleClose}>
-                                    <MenuItem onClick={this.handleClose}>Profile</MenuItem>
-                                    <MenuItem onClick={this.handleClose}>My account</MenuItem>
-                                    <MenuItem onClick={this.handleClose}>Logout</MenuItem>
+                                    {/*<MenuItem onClick={()=>this.handleClose('Profile')}>Profile</MenuItem>*/}
+                                    {/*<MenuItem onClick={()=>this.handleClose('Account')}>My account</MenuItem>*/}
+                                    <MenuItem onClick={()=>this.handleClose('Signout')}>Sign out</MenuItem>
                                 </Menu>
                             </Toolbar>
                         </AppBar>
@@ -117,7 +127,8 @@ class ButtonAppBar extends Component {
                                     open={this.state.modalOpen}
                                     onClose={this.handleModal}
                                 >
-                                    <Login type = {this.state.modalType}/>
+                                    <Login type = {this.state.modalType} setToken={this.props.setToken} handleModal={this.handleModal}/>
+
                                 </Modal>
                             </Toolbar>
 

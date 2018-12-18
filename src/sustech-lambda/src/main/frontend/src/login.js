@@ -28,6 +28,47 @@ class Login extends Component {
             snakebarContent: '',
         }
     }
+    signIn = (userName,password) =>{
+        let url = `${apiHost}/api/identity/login`
+        let message = {
+            'password': password,
+            'userName': userName
+        }
+        const myRequest = new Request(url, {
+            method: 'POST', body: JSON.stringify(message), headers: {
+                'Content-Type': 'application/json',
+                'accept': 'application/json'
+            }
+        });
+
+        fetch(myRequest)
+            .then(response => {
+                console.log(response.status)
+                if (response.status === 401) {
+                    this.setState({
+                        snakebarContent:'Wrong username or password',
+                        alertAllFieled: true,
+
+                    })
+                } else if (response.status == 200) {
+                    this.setState({
+                        snakebarContent:'Sign in successfully',
+                        alertAllFieled: true,
+                    })
+                    let token = 'XXXX' //this need to be modified
+                    this.props.setToken(token)
+                }
+            })
+        this.setState({
+            snakebarContent:'Sign in successfully',
+            alertAllFieled: true,
+        })
+
+        let token = 'XXXX' //this need to be modified
+        this.props.setToken(token)
+        this.props.handleModal()
+
+    }
     /****************************Handlers****************************/
     //Save the input of the input fields
     handleParameterIn = (name) => event => {
@@ -82,6 +123,7 @@ class Login extends Component {
                             this.setState({
                                 snakebarContent:'Login up successfully!',
                                 alertAllFieled: true,
+
                             })
                         } else if (response.status == 409) {
                             this.setState({
@@ -90,10 +132,11 @@ class Login extends Component {
                             })
                         }
                     })
-
+                this.signIn(this.state.parameterValues['Id'],this.state.parameterValues['Password'])
 
             } else {
                 //http request for sign in
+                this.signIn(this.state.parameterValues['Id'],this.state.parameterValues['Password'])
             }
         }
     }
