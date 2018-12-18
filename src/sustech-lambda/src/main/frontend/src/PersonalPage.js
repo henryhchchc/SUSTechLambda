@@ -146,7 +146,7 @@ class PersonalPage extends Component {
     //UserManagement
     showUserManagement = () => {
         return (
-            <EnhancedTable/>
+            <EnhancedTable token={this.props.token}/>
         )
     }
 

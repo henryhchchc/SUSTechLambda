@@ -25,7 +25,7 @@ class App extends Component {
     showMainPage = () =>{
         if(this.state.token == null){
             return(
-                <HomePage />
+                <HomePage setToken={this.setToken}/>
             )
         }else{
             return(
@@ -38,8 +38,9 @@ class App extends Component {
         if (isdebug){
             return(
                 <div>
-                    <ButtonAppBar login={true} setToken={this.setToken} token={this.state.token}/>
-                    <PersonalPage user = 'user' />
+                    <ButtonAppBar login={false} setToken={this.setToken} token={this.state.token}/>
+                    {/*<HomePage />*/}
+                    <PersonalPage user = 'user' token={this.state.token}/>
                     {/*<CreateScript/>*/}
                 </div>
             )

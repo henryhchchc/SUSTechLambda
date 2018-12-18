@@ -6,6 +6,8 @@ import Paper from "@material-ui/core/Paper/Paper";
 import SnackbarContent from "@material-ui/core/SnackbarContent/SnackbarContent";
 import Snackbar from "@material-ui/core/Snackbar/Snackbar";
 import ErrorIcon from '@material-ui/icons/Error';
+import Button from "@material-ui/core/Button/Button";
+import Typography from "@material-ui/core/Typography/Typography";
 
 const isDebug = true;
 
@@ -113,16 +115,16 @@ class Login extends Component {
         console.log(this.state.showType)
         return (
             <Paper style={{height: 400, width: 300, marginLeft: 550, marginTop: 200}}>
-                <form noValidate autoComplete="off">
+                <form noValidate autoComplete="off" >
                     {this.state.fields.map(
                         item => {
                             if (item == 'Password') {
                                 return (
-                                    <Grid container>
+                                    <Grid container style={{marginTop:20, marginLeft:"10%"}}>
                                         <TextField
                                             required
                                             id="standard-name"
-                                            label={item}
+                                            placeholder={item}
                                             onChange={this.handleParameterIn({item})}
                                             margin="normal"
                                             type='password'
@@ -130,11 +132,11 @@ class Login extends Component {
                                     </Grid>)
                             } else {
                                 return (
-                                    <Grid container>
+                                    <Grid container style={{marginTop:20, marginLeft:"10%"}}>
                                         <TextField
                                             required
                                             id="standard-name"
-                                            label={item}
+                                            placeholder={item}
                                             onChange={this.handleParameterIn({item})}
                                             margin="normal"
                                         />
@@ -147,6 +149,8 @@ class Login extends Component {
                     anchorOrigin={{vertical: 'top', horizontal: 'right'}}
                     open={this.state.alertAllFieled}
                     onClose={this.handleClose}
+                    autoHideDuration={1000}
+
                 >
                     <SnackbarContent
                         style={{backgroundColor: "#ff1a24"}}
@@ -157,9 +161,11 @@ class Login extends Component {
                     >
                     </SnackbarContent>
                 </Snackbar>
-                < button onClick={this.handleSubmit}>
-                    {this.state.showText}
-                </button>
+                < Button onClick={this.handleSubmit} style={{backgroundColor:"#5eb85d",marginTop:30, marginRight:"20%",marginLeft:"20%"}}>
+                    <Typography style={{color:"#ffffff"}}>
+                        {this.state.showText}
+                    </Typography>
+                </Button>
             </Paper>
         )
     }
