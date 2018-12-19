@@ -3,6 +3,7 @@ package cn.edu.sustc.cse.ooad.sustechlambda.config
 import cn.edu.sustc.cse.ooad.sustechlambda.security.JwtAuthenticationFilter
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.http.HttpMethod
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
@@ -33,6 +34,7 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
                 .and()
                 .addFilterAfter(JwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter::class.java)
                 .authorizeRequests()
+                .antMatchers(HttpMethod.OPTIONS).permitAll()
                 .antMatchers("/api/identity/login", "/api/users/register").permitAll()
                 .antMatchers("/api/**").authenticated()
     }
