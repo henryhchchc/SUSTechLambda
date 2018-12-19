@@ -49,7 +49,6 @@ class Login extends Component {
                 'roles':['USER','DESIGNER']
             }
         }
-        console.log(message)
         const myRequest = new Request(url, {
             method: 'POST', body: JSON.stringify(message), headers: {
                 'Content-Type': 'application/json',
@@ -59,7 +58,6 @@ class Login extends Component {
 
         fetch(myRequest)
             .then(response => {
-                console.log(response.status)
                 if (response.status === 401) {
                     this.setState({
                         snakebarContent:'Wrong username or password',
@@ -68,9 +66,19 @@ class Login extends Component {
                     })
                 } else if (response.status == 200) {
                     response.json().then(data => {
-                        console.log(data['roles'])
-                        this.props.setToken(data['access_token'],data['roles'].indexOf('ADMIN')!==-1?'admin' : 'user')
-                        this.props.handleModal()
+
+                        let url = `${apiHost}/api/identity/profile`
+                        let myHeaders = new Headers();
+                        myHeaders.append('Authorization', `Bearer ${data['access_token']}`)
+                        let displayName = ''
+                        fetch(url,{method:'GET',headers:myHeaders})
+                            .then(response => response.json().then(data2 => {
+                                displayName = data2['displayName']
+                                this.props.setToken(data['access_token'],data['roles'].indexOf('ADMIN')!==-1?'admin' : 'user',displayName)
+                                this.props.handleModal()
+                            }))
+
+
                     })
                     //this.props.setToken(token)
                 } else if (response.status == 201){
@@ -86,16 +94,13 @@ class Login extends Component {
 
 
     }
-    signUp = (username,password,displayName) =>{
 
-    }
+
     /****************************Handlers****************************/
     //Save the input of the input fields
     handleParameterIn = (name) => event => {
-        console.log(name.item)
         let t = this.state.parameterValues
         t[name.item] = event.target.value
-        console.log(t)
         this.setState({
             parameterValues: t,
         })
@@ -106,9 +111,7 @@ class Login extends Component {
         let verified = true
         this.state.fields.map(
             item => {
-                // console.log(item)
                 if (parameter[[item]] === undefined || parameter[[item]] === "") {
-                    // console.log(parameter[[item]])
                     verified = false
                     this.setState({
                         snakebarContent:'Please fill all fields',
@@ -134,7 +137,6 @@ class Login extends Component {
     }
     /****************************Rendor****************************/
     render() {
-        console.log(this.state.showType)
         return (
             <Paper style={{height: 400, width: 300, marginLeft: 550, marginTop: 200}}>
                 <form noValidate autoComplete="off" >

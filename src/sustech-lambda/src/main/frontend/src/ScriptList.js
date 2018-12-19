@@ -70,7 +70,7 @@ class ScriptList extends Component{
                 'Authorization' : `Bearer ${this.props.token}`
             }
         });
-        fetch(url)
+        fetch(myRequest)
             .then(res => res.json())
             .then(prs => {this.setState({ scripts: prs.content })});
     }

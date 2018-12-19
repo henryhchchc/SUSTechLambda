@@ -112,16 +112,7 @@ class PersonalPage extends Component {
         return (
             <div>
                 <ScriptList token={this.state.token}/>
-                <Button
-                    variant="fab"
 
-                    style={{bottom: 20, right: 20, position: 'fixed', backgroundColor: "#2b2b2b"}}
-                    onClick={() => {
-                        this.setState({tabValue: 3})
-                    }}
-                >
-                    <AddIcon/>
-                </Button>
             </div>
         )
     }
@@ -133,7 +124,7 @@ class PersonalPage extends Component {
     showProfile = () => {
         return (
             <div>
-                <Profile/>
+                <Profile displayName={this.props.displayName}/>
             </div>
         )
     }
@@ -176,7 +167,16 @@ class PersonalPage extends Component {
                     )}
                 </Tabs>
                 {this.showContent(this.state.tabValue)}
+                <Button
+                    variant="fab"
 
+                    style={{bottom: 20, right: 20, position: 'fixed', backgroundColor: "#2b2b2b"}}
+                    onClick={() => {
+                        this.setState({tabValue: 3})
+                    }}
+                >
+                    <AddIcon/>
+                </Button>
             </div>
         )
     }

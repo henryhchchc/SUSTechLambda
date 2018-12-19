@@ -13,14 +13,16 @@ class App extends Component {
         super(props)
         this.state = {
             token: null,
-            status: 'admin'
+            status: 'admin',
+            displayName: 'XXX'
         }
     }
 
-    setToken = (token,status) => {
+    setToken = (token,status,displayName) => {
         this.setState({
             token: token,
-            status: status
+            status: status,
+            displayName:displayName,
         })
     }
     showMainPage = () => {
@@ -29,9 +31,8 @@ class App extends Component {
                 <HomePage setToken={this.setToken}/>
             )
         } else {
-            console.log(this.state.token,111)
             return (
-                <PersonalPage user={this.state.status} token={this.state.token}/>
+                <PersonalPage user={this.state.status} token={this.state.token} displayName={this.state.displayName} />
             )
         }
     }
@@ -40,7 +41,7 @@ class App extends Component {
         if (isdebug) {
             return (
                 <div>
-                    <ButtonAppBar login={false} setToken={this.setToken} token={this.state.token}/>
+                    <ButtonAppBar login={true} setToken={this.setToken} token={this.state.token}/>
                     {/*<HomePage />*/}
                     <PersonalPage user='user' token={this.state.token}/>
                     {/*<CreateScript/>*/}
@@ -49,7 +50,7 @@ class App extends Component {
         } else {
             return (
                 <React.Fragment>
-                    <ButtonAppBar login={this.state.token !== null} setToken={this.setToken}/>
+                    <ButtonAppBar login={this.state.token !== null} setToken={this.setToken} displayName={this.state.displayName}/>
                     {this.showMainPage()}
                     {/*<ScriptList/>*/}
                     {/*<CreateScript/>*/}

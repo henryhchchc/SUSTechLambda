@@ -5,10 +5,10 @@ export default class Form extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      firstName: this.props.values.firstName || 'Your name',
-      jobTitle: this.props.values.jobTitle || 'Your title',
-      birthday: this.props.values.birthday || 'mm/dd/yyyy',
-      bio: this.props.values.bio || 'A few words about yourself'
+      firstName:  'Your name',
+      jobTitle:  'Your title',
+      birthday:  'mm/dd/yyyy',
+      bio: 'A few words about yourself'
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
