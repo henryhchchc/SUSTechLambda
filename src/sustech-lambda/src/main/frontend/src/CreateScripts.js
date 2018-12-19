@@ -21,7 +21,8 @@ import SaveIcon from '@material-ui/icons/Save';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import DeleteIcon from '@material-ui/icons/Delete';
 
-
+const isDebug = true; 
+const apiHost = isDebug?"http://localhost:8080":"";
 
 const short_editor_edit= {
     width: '100%',
@@ -537,7 +538,6 @@ class ParamEditor extends Component {
     }
 }
 
-
 class CreateScripts extends Component {
 
     // Constructor 
@@ -553,6 +553,130 @@ class CreateScripts extends Component {
             mode: "Editing"
         }
     }
+    // Query Scripts 
+    getScripts = () => {
+        let url = `${apiHost}/api/scripts`
+        const message = {}
+        const myRequest = new Request(url, {
+            method: 'GET', body: JSON.stringify(message), headers: {
+                'Content-Type': 'application/json',
+                'accept': 'application/json'
+            }
+        });
+        fetch(myRequest)
+            .then(response => {
+                console.log(response.status)
+                if (response.status === 401) {
+                    alert("Script ID Not Found")
+                } else if (response.status == 200) {
+                    // TODO 
+                }
+            })
+    }
+        
+    // Create Scripts & Update
+    setScripts = (props, id) => {
+        let url = `${apiHost}/api/scripts`
+        // if scripts > 0: Update, else: create
+        if  (parseInt(id) > 0){
+            url = `${apiHost}/api/scripts/{id}` 
+        }
+        const {title,description, scripts, syntax, param_list} = props;
+        let param_msg = []
+        param_list.map(param=>(
+            param_msg.push({
+                "name": param.param_name,
+                "type": param.param_type,
+            })
+        )
+        );
+        const message = 
+        {
+            "content": {
+              "code": scripts,
+              "language": syntax,
+              "parameters": param_msg,
+            },
+            "description": description,
+            "name": title
+        };
+        const myRequest = new Request(url, {
+            method: 'POST', body: JSON.stringify(message), headers: {
+                'Content-Type': 'application/json',
+                'accept': 'application/json'
+            }
+        });
+        fetch(myRequest)
+            .then(response => {
+                console.log(response.status)
+                if (response.status === 401) {
+                    alert("Script ID Not Found")
+                } else if (response.status == 200) {
+                    // TODO 
+                }
+            })
+    }
+
+
+    // Delete a script 
+    delScript(id){
+        let url = `${apiHost}/api/scripts`
+        // if scripts > 0: Update, else: create
+        if  (parseInt(id) > 0){
+            url = `${apiHost}/api/scripts/{id}` 
+        }
+        const message = {};
+        const myRequest = new Request(url, {
+            method: 'DELETE', body: JSON.stringify(message), headers: {
+                'Content-Type': 'application/json',
+                'accept': 'application/json'
+            }
+        });
+        fetch(myRequest)
+            .then(response => {
+                console.log(response.status)
+                if (response.status === 401) {
+                    alert("Script ID Not Found")
+                } else if (response.status == 200) {
+                    // TODO 
+                }
+            })
+    }
+
+    // Run a script 
+    runScript=(param_list, id)=>{
+        let url = `${apiHost}/api/scripts/{id}/run`
+        // if scripts > 0: Update, else: create
+        if  (parseInt(id) < 0){
+            alert("Error, id should be greater than 0");
+        }
+        let param_msg = []
+        param_list.map(param=>(
+            param_msg.push({
+                "name": param.param_name,
+                "type": param.param_type,
+                "value": param.param_value
+            })
+        )
+        );
+        const message = {param_msg}
+        const myRequest = new Request(url, {
+            method: 'POST', body: JSON.stringify(message), headers: {
+                'Content-Type': 'application/json',
+                'accept': 'application/json'
+            }
+        });
+        fetch(myRequest)
+            .then(response => {
+                console.log(response.status)
+                if (response.status === 401) {
+                    alert("Script ID Not Found")
+                } else if (response.status == 200) {
+                    // TODO 
+                }
+            })
+    }
+
 
 /** Buttons For Shift ***/
     modeShift = (new_mode) => {

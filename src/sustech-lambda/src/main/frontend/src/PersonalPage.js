@@ -7,7 +7,7 @@ import ScriptList from "./ScriptList";
 import AddIcon from '@material-ui/icons/Add';
 import Profile from "./Profile";
 import Button from "@material-ui/core/Button/Button";
-import CreateScripts from "./createScript";
+import CreateScripts from "./CreateScripts";
 import EnhancedTable from './userManagement'
 
 
