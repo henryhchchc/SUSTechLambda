@@ -57,18 +57,16 @@ class Login extends Component {
                         snakebarContent:'Sign in successfully',
                         alertAllFieled: true,
                     })
-                    let token = 'XXXX' //this need to be modified
-                    this.props.setToken(token)
+                    let token = response.json() //this need to be modified
+                    console.log(token)
+                    //this.props.setToken(token)
                 }
             })
-        this.setState({
-            snakebarContent:'Sign in successfully',
-            alertAllFieled: true,
-        })
 
-        let token = 'XXXX' //this need to be modified
-        this.props.setToken(token)
-        this.props.handleModal()
+
+
+    }
+    signUp = (username,password,displayName) =>{
 
     }
     /****************************Handlers****************************/
@@ -97,13 +95,17 @@ class Login extends Component {
                         alertAllFieled: true,
                     })
                 }
-                //TODO ve
+                //TODO verify
             }
         )
 
 
         if (verified) {
-
+            if(this.state.showType=='in'){
+                this.signIn(parameter['Username'],parameter['Password'])
+            }else if(this.state.showType=='up'){
+                this.signUp()
+            }
         }
     }
     //handle close the alert
