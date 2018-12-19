@@ -24,7 +24,7 @@ export default class App1 extends React.Component {
   render () {
     return (
       <div>
-        <Nav title='My Profile' />
+        {/*<Nav title='My Profile' />*/}
         <ScrollableTabsButtonForce/>
 
         {/*<Profile profileFields={this.state.profileFields} photo={this.state.photo} />*/}

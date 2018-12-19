@@ -1,62 +1,66 @@
 import React, {Component} from 'react';
 import './App.css';
 import HomePage from './HomePage'
-import  PersonalPage from './PersonalPage'
-import ScriptList from './ScriptList'
-import CreateScript from './createScript'
+import PersonalPage from './PersonalPage'
 import ButtonAppBar from "./Navigation Bar";
 
 const isdebug = true
 
+
 class App extends Component {
-    constructor(props){
+    constructor(props) {
         super(props)
         this.state = {
-            token:null,
-            status: 'admin'
+            token: null,
+            status: 'admin',
+            displayName: 'XXX'
         }
     }
-    setToken = (token) => {
+
+    setToken = (token, status, displayName) => {
         this.setState({
             token: token,
-            status: 'admin'
+            status: status,
+            displayName: displayName,
         })
     }
-    showMainPage = () =>{
-        if(this.state.token == null){
-            return(
+    showMainPage = () => {
+        if (this.state.token == null) {
+            return (
                 <HomePage setToken={this.setToken}/>
             )
-        }else{
-            return(
-                <PersonalPage user = {this.state.status} token={this.state.token} />
+        } else {
+            return (
+                <PersonalPage user={this.state.status} token={this.state.token} displayName={this.state.displayName}/>
             )
         }
     }
 
     render() {
-        if (isdebug){
-            return(
+        if (isdebug) {
+            return (
                 <div>
-                    <ButtonAppBar login={false} setToken={this.setToken} token={this.state.token}/>
+                    <ButtonAppBar login={true} setToken={this.setToken} token={this.state.token}/>
                     {/*<HomePage />*/}
-                    <PersonalPage user = 'user' token={this.state.token}/>
+                    <PersonalPage user='user' token={this.state.token}/>
                     {/*<CreateScript/>*/}
                 </div>
             )
-        }else {
+        } else {
             return (
                 <React.Fragment>
-                    <ButtonAppBar login={this.state.token !== null} setToken={this.setToken}/>
+                    <ButtonAppBar login={this.state.token !== null} setToken={this.setToken}
+                                  displayName={this.state.displayName}/>
                     {this.showMainPage()}
                     {/*<ScriptList/>*/}
                     {/*<CreateScript/>*/}
                     {/*<CodeEditor/>*/}
-
                 </React.Fragment>
-            );
+            )
         }
     }
 }
+
+
 
 export default App;

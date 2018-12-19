@@ -37,10 +37,9 @@ const styles = {
 class ButtonAppBar extends Component {
     constructor(props) {
         super(props);
-        console.log(this.props.login)
         this.state = {
             login: this.props.login,
-            userName: 'aaa',
+            userName: this.props.diaplayName,
             menueListOpen: false,
             anchorEl:null,
             modalOpen: false,
@@ -55,11 +54,7 @@ class ButtonAppBar extends Component {
     //handle close the menu list
     handleClose = value =>{
         this.setState({ anchorEl: null });
-        if(value=='Profile'){
-
-        }else if(value== 'Account'){
-
-        }else if(value=='Signout') {
+        if(value=='Signout') {
             this.props.setToken(null)
         }
 
@@ -85,7 +80,7 @@ class ButtonAppBar extends Component {
                                         onClick={this.handleToggle}>
                                     <AccountCircle fontSize="large" color='secondary'/>
                                     <Typography style={{color: '#ffffff'}}>
-                                        {this.state.userName}
+                                        {this.props.displayName}
                                     </Typography>
                                     <ExpandMore fontSize="small" color='secondary' />
                                 </Button>

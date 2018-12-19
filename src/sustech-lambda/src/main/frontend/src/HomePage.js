@@ -55,7 +55,10 @@ class HomePage extends Component {
         open:false
     }
     handleModal = a =>{
-        this.setState({open: !this.state.open})
+        this.setState({open: false})
+    }
+    handleClose = () =>{
+        this.setState({open:false})
     }
     render() {
 
@@ -98,8 +101,7 @@ class HomePage extends Component {
                         open={this.state.open}
                         onClose={()=>{this.setState({open:false})}}
                     >
-
-                            <Login type = {"in"} setToken={this.props.setToken} handleModal={this.handleModal}/>
+                            <Login type = {"in"} setToken={this.props.setToken} handleModal={this.handleModal} />
                     </Modal>
                 </Paper>
                 {/*<ButtonAppBar/>*/}

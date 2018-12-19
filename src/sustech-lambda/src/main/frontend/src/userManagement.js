@@ -235,18 +235,18 @@ class EnhancedTable extends React.Component {
 
     componentDidMount() {
         let url = `${apiHost}/api/users/?page_idx=0&page_size=100`
+        let myHeaders = new Headers();
+        myHeaders.append('Authorization', `Bearer ${this.props.token}`)
+        let myinit = {
+            method: 'GET', headers: myHeaders, mode: 'cors' ,cache: 'default'
+        }
+        const myRequest = new Request(url, myinit);
+        fetch(url,{method:'GET',headers:myHeaders})
+            .then(response => response.json().then(data => {
+                this.setState({data: data.content})
+            }))
 
 
-        const myRequest = new Request(url, {
-            method: 'GET', headers: {
-                'Authorization': `Bearer ${this.props.token}`
-            }
-        });
-        fetch(url)
-            .then(res => res.json())
-            .then(prs => {
-                this.setState({data: prs.content})
-            });
     }
 
     handleResetPassword = () => {
@@ -256,7 +256,7 @@ class EnhancedTable extends React.Component {
             pr => {
                 let url = `${apiHost}/api/users/${pr.id}/reset-password`
                 const myRequest = new Request(url, {
-                    method: 'GET', headers: {
+                    method: 'POST', headers: {
                         'Authorization': `Bearer ${this.props.token}`
                     }
                 });
@@ -275,7 +275,7 @@ class EnhancedTable extends React.Component {
                 {
                     snakebarContent: 'Reset Successfully',
                     alertAllFieled: true,
-                    selected:[]
+                    selected: []
                 }
             )
         }
@@ -318,7 +318,6 @@ class EnhancedTable extends React.Component {
                 selected.slice(selectedIndex + 1),
             );
         }
-        console.log(newSelected)
         this.setState({selected: newSelected});
     };
 
@@ -412,7 +411,9 @@ class EnhancedTable extends React.Component {
                 <Snackbar
                     anchorOrigin={{vertical: 'top', horizontal: 'right'}}
                     open={this.state.alertAllFieled}
-                    onClose={()=>{this.setState({alertAllFieled:false})}}
+                    onClose={() => {
+                        this.setState({alertAllFieled: false})
+                    }}
                     autoHideDuration={1000}
                 >
                     <SnackbarContent
