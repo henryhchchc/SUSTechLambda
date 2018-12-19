@@ -18,7 +18,7 @@ class Login extends Component {
         let t = ['Username', 'Id', 'Password']
         let q = "Sing up for SUSTech Lambda"
         if (this.props.type === "in") {
-            t = ['Username', 'Password']
+            t = ['Id', 'Password']
             q = "Sign in for SUSTech Lambda"
         }
         this.state = {
@@ -38,7 +38,7 @@ class Login extends Component {
             url = `${apiHost}/api/identity/login`
             message = {
                 'password': this.state.parameterValues['Password'],
-                'userName': this.state.parameterValues['Username']
+                'userName': this.state.parameterValues['Id']
             }
         }else{
             url = `${apiHost}/api/users/register`
