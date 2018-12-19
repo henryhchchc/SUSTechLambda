@@ -7,6 +7,8 @@ import Fade from "@material-ui/core/Fade/Fade";
 import {ControlBar, Player} from 'video-react';
 import "video-react/dist/video-react.css";
 import Button from "@material-ui/core/Button/Button";
+import Modal from "@material-ui/core/Modal/Modal";
+import Login from "./login";
 
 const style = {
     Paper:{
@@ -38,7 +40,7 @@ const style = {
         // '&:hover': {
         //     backgroundColor: "#000a12",
         //     borderColor: '#0062cc',
-        // },
+        // ,
         '&:active': {
             boxShadow: 'none',
             backgroundColor: '#ffffff',
@@ -49,13 +51,16 @@ const style = {
         // },
     }}
 class HomePage extends Component {
-
-
+    state={
+        open:false
+    }
+    handleModal = a =>{
+        this.setState({open: !this.state.open})
+    }
     render() {
 
         return (
             <React.Fragment>
-                <ButtonAppBar login={false}/>
                 <Paper style={style.Paper}>
                     <Grid container spacing={24} >
                         <Grid item alignContent={"center"} style={style.grid1}>
@@ -69,7 +74,7 @@ class HomePage extends Component {
                     <Grid container spacing={24} >
                         <Grid item >
                             <Fade in={true} timeout={1000}>
-                                <Button variant="contained" style={style.bootstrapRoot }>
+                                <Button variant="contained" style={style.bootstrapRoot } onClick={()=>{this.setState({open:true})}}>
                                     <Typography style={{color:'#FFFFFF',fontFamily:'Arial',fontSize:20}}>
                                     Try it now!
                                     </Typography>
@@ -89,6 +94,13 @@ class HomePage extends Component {
                             </Player>
                         </Grid>
                     </Grid>
+                    <Modal
+                        open={this.state.open}
+                        onClose={()=>{this.setState({open:false})}}
+                    >
+
+                            <Login type = {"in"} setToken={this.props.setToken} handleModal={this.handleModal}/>
+                    </Modal>
                 </Paper>
                 {/*<ButtonAppBar/>*/}
             </React.Fragment>

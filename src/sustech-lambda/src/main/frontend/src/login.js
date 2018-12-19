@@ -6,6 +6,8 @@ import Paper from "@material-ui/core/Paper/Paper";
 import SnackbarContent from "@material-ui/core/SnackbarContent/SnackbarContent";
 import Snackbar from "@material-ui/core/Snackbar/Snackbar";
 import ErrorIcon from '@material-ui/icons/Error';
+import Button from "@material-ui/core/Button/Button";
+import Typography from "@material-ui/core/Typography/Typography";
 
 const isDebug = true;
 
@@ -27,6 +29,47 @@ class Login extends Component {
             showText: q,
             snakebarContent: '',
         }
+    }
+    signIn = (userName,password) =>{
+        let url = `${apiHost}/api/identity/login`
+        let message = {
+            'password': password,
+            'userName': userName
+        }
+        const myRequest = new Request(url, {
+            method: 'POST', body: JSON.stringify(message), headers: {
+                'Content-Type': 'application/json',
+                'accept': 'application/json'
+            }
+        });
+
+        fetch(myRequest)
+            .then(response => {
+                console.log(response.status)
+                if (response.status === 401) {
+                    this.setState({
+                        snakebarContent:'Wrong username or password',
+                        alertAllFieled: true,
+
+                    })
+                } else if (response.status == 200) {
+                    this.setState({
+                        snakebarContent:'Sign in successfully',
+                        alertAllFieled: true,
+                    })
+                    let token = 'XXXX' //this need to be modified
+                    this.props.setToken(token)
+                }
+            })
+        this.setState({
+            snakebarContent:'Sign in successfully',
+            alertAllFieled: true,
+        })
+
+        let token = 'XXXX' //this need to be modified
+        this.props.setToken(token)
+        this.props.handleModal()
+
     }
     /****************************Handlers****************************/
     //Save the input of the input fields
@@ -54,46 +97,13 @@ class Login extends Component {
                         alertAllFieled: true,
                     })
                 }
+                //TODO ve
             }
         )
+
+
         if (verified) {
-            if (this.props.type == 'up') {
-                //http request for sign up
 
-                let url = `${apiHost}/api/user/register`
-                let message = {
-                    'displayName': this.state.parameterValues['Username'],
-                    'password': this.state.parameterValues['Password'],
-                    'roles': ['USER', 'DESIGNER'],
-                    'userName': this.state.parameterValues['userName']
-                }
-
-                const myRequest = new Request(url, {
-                    method: 'POST', body: JSON.stringify(message), headers: {
-                        'Content-Type': 'application/json'
-                    }
-                });
-
-                fetch(myRequest)
-                    .then(response => {
-                        console.log(response.status)
-                        if (response.status === 201) {
-                            this.setState({
-                                snakebarContent:'Login up successfully!',
-                                alertAllFieled: true,
-                            })
-                        } else if (response.status == 409) {
-                            this.setState({
-                                snakebarContent:'This id is occupied by others',
-                                alertAllFieled: true,
-                            })
-                        }
-                    })
-
-
-            } else {
-                //http request for sign in
-            }
         }
     }
     //handle close the alert
@@ -105,16 +115,16 @@ class Login extends Component {
         console.log(this.state.showType)
         return (
             <Paper style={{height: 400, width: 300, marginLeft: 550, marginTop: 200}}>
-                <form noValidate autoComplete="off">
+                <form noValidate autoComplete="off" >
                     {this.state.fields.map(
                         item => {
                             if (item == 'Password') {
                                 return (
-                                    <Grid container>
+                                    <Grid container style={{marginTop:20, marginLeft:"10%"}}>
                                         <TextField
                                             required
                                             id="standard-name"
-                                            label={item}
+                                            placeholder={item}
                                             onChange={this.handleParameterIn({item})}
                                             margin="normal"
                                             type='password'
@@ -122,11 +132,11 @@ class Login extends Component {
                                     </Grid>)
                             } else {
                                 return (
-                                    <Grid container>
+                                    <Grid container style={{marginTop:20, marginLeft:"10%"}}>
                                         <TextField
                                             required
                                             id="standard-name"
-                                            label={item}
+                                            placeholder={item}
                                             onChange={this.handleParameterIn({item})}
                                             margin="normal"
                                         />
@@ -139,6 +149,8 @@ class Login extends Component {
                     anchorOrigin={{vertical: 'top', horizontal: 'right'}}
                     open={this.state.alertAllFieled}
                     onClose={this.handleClose}
+                    autoHideDuration={1000}
+
                 >
                     <SnackbarContent
                         style={{backgroundColor: "#ff1a24"}}
@@ -149,9 +161,11 @@ class Login extends Component {
                     >
                     </SnackbarContent>
                 </Snackbar>
-                < button onClick={this.handleSubmit}>
-                    {this.state.showText}
-                </button>
+                < Button onClick={this.handleSubmit} style={{backgroundColor:"#5eb85d",marginTop:30, marginRight:"20%",marginLeft:"20%"}}>
+                    <Typography style={{color:"#ffffff"}}>
+                        {this.state.showText}
+                    </Typography>
+                </Button>
             </Paper>
         )
     }

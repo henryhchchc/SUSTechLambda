@@ -1,20 +1,16 @@
 import React, {Component} from 'react';
-import ButtonAppBar from "./Navigation Bar";
 import Tabs from "@material-ui/core/Tabs/Tabs";
 import Tab from "@material-ui/core/Tab/Tab";
 import PropTypes from 'prop-types';
 import {withStyles} from '@material-ui/core/styles';
-import Typography from "@material-ui/core/Typography/Typography";
 import ScriptList from "./ScriptList";
-import Paper from "@material-ui/core/Paper/Paper";
-import Grid from "@material-ui/core/Grid/Grid";
-import TextField from "@material-ui/core/TextField/TextField";
 import AddIcon from '@material-ui/icons/Add';
 import Profile from "./Profile";
 import Button from "@material-ui/core/Button/Button";
-import Modal from "@material-ui/core/Modal/Modal";
 import CreateScripts from "./createScript";
 import EnhancedTable from './userManagement'
+
+
 const styles = theme => ({
     root: {
         flexGrow: 1,
@@ -61,18 +57,15 @@ const styles = theme => ({
 
 class PersonalPage extends Component {
     /****************************States****************************/
-    constructor(props){
+    constructor(props) {
         super(props)
-        let label= ["My Profile", "Script List", "Forum"]
-        if(this.props.user == 'admin'){
-            label = ['User Management','Script Management']
+        let label = ["My Profile", "Script List"]
+        if (this.props.user == 'admin') {
+            label = ['User Management', 'Script Management']
         }
         this.state = {
-            tabValue: 100,
-            content: null,
-            contentType: null,
-            parameterValues: {},
-            creatScriptModel: false,
+            token: this.props.token,
+            tabValue: 0,
             label: label,
         };
     }
@@ -87,42 +80,18 @@ class PersonalPage extends Component {
             tabValue: 100,
         });
     };
-    setScriptValue = (pr, index) => {
-        let parameterValues = {}
-        pr['parameter'].map(
-            item => parameterValues[item] = ''
-        )
-        this.setState({
-            content: pr,
-            contentType: 'Script',
-            parameterValues: parameterValues
-        })
-    }
-    handleParameterIn = name => event => {
-        let t = this.state.parameterValues
-        t[name] = event.target.value
-        this.setState({
-            parameterValues: t,
-        })
-    }
 
-    handleAddScript = () => {
-        console.log(this.state.creatScriptModel)
-        this.setState({
-            creatScriptModel: !this.state.creatScriptModel
-                }
-        )
-    }
+
     /****************************Show the Content****************************/
     showContent = (tabValue) => {
-        if(this.props.user == 'admin') {
+        if (this.props.user == 'admin') {
             if (this.state.tabValue === 0) {
                 return this.showUserManagement()
             }
             if (this.state.tabValue === 1) {
                 return this.showScriptManagement()
             }
-        }else {
+        } else {
             if (this.state.tabValue === 0) {
                 return this.showProfile()
             }
@@ -132,86 +101,52 @@ class PersonalPage extends Component {
             if (this.state.tabValue === 2) {
                 return this.showForum()
             }
+            if (this.state.tabValue === 3) {
+                return this.showCreateScript()
+            }
         }
     }
 
     //ScriptList
     showScriptList = () => {
-        let title = 'Title'
-        let code = 'XXXX'
-        let parameter = []
-        if (this.state.contentType != null) {
-            title = this.state.content['title']
-            code = this.state.content['code']
-            parameter = this.state.content['parameter']
-        }
         return (
-            <Grid container>
-                <Grid item>
-                    <ScriptList setScriptValue={this.setScriptValue}/>
-                </Grid>
-                <Grid item>
-                    <Typography>
-                        {title}
-                    </Typography>
-                    <Paper style={{width: window.screen.availWidth - 500}}>
-                        {code}
-                    </Paper>
-                    <form noValidate autoComplete="off">
-                        {parameter.map(
-                            item =>
-                                <Grid container>
-                                    <TextField
-                                        id="standard-name"
-                                        label={item}
-                                        onChange={this.handleParameterIn({item})}
-                                        margin="normal"
-                                    />
-                                </Grid>
-                        )}
-                    </form>
-                    <button>
-                        Run
-                    </button>
-                    <Paper style={{width: window.screen.availWidth - 500}}>
-                        <Typography>
-                            OutPut
-                        </Typography>P
-                    </Paper>
-                    <Button
-                        variant="fab"
-                        color="default"
-                        onClick={()=>this.handleAddScript()}
-                    >
-                        <AddIcon/>
-                    </Button>
-                    <Modal
-                        open={this.state.creatScriptModel}
-                        onClose={this.handleAddScript}
-                    >
-                        <Paper>
-                        <CreateScripts/>
-                        </Paper>
-                    </Modal>
+            <div>
+                <ScriptList token={this.state.token}/>
+                <Button
+                    variant="fab"
 
-                </Grid>
-            </Grid>
+                    style={{bottom: 20, right: 20, position: 'fixed', backgroundColor: "#2b2b2b"}}
+                    onClick={() => {
+                        this.setState({tabValue: 3})
+                    }}
+                >
+                    <AddIcon/>
+                </Button>
+            </div>
         )
     }
 
     //Forum
     showForum = () => {
-
     }
     //Profile
     showProfile = () => {
-        return(<Profile/>)
+        return (
+            <div>
+                <Profile/>
+            </div>
+        )
+    }
+
+    //createScript
+    showCreateScript = () => {
+        return (<CreateScripts/>)
     }
 
     //UserManagement
     showUserManagement = () => {
-        return(
-            <EnhancedTable />
+        return (
+            <EnhancedTable token={this.props.token}/>
         )
     }
 
@@ -219,13 +154,13 @@ class PersonalPage extends Component {
     showScriptManagement = () => {
 
     }
+
     /****************************Rendor****************************/
     render() {
         const {classes} = this.props;
         const {tabValue} = this.state;
         return (
             <div>
-                <ButtonAppBar login={true}/>
                 <Tabs
                     value={tabValue}
                     onChange={this.handleTabChange}
