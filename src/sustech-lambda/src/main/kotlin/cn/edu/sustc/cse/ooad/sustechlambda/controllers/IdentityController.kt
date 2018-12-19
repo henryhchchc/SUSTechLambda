@@ -25,7 +25,8 @@ class IdentityController
             this.identityService.authenticate(dto.userName, dto.password)
                     ?.let {
                         ResponseEntity.ok(mapOf(
-                                "access_token" to it
+                                "access_token" to this.identityService.generateAccessToken(it),
+                                "roles" to it.roles
                         ))
                     } ?: ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username of password")
 
