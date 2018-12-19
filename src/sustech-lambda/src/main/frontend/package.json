@@ -17,7 +17,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build && rm -rf ../resources/static/* && mv ./build/* ../resources/static/ && rm -rf ./build",
+    "build": "react-scripts build && rm -rf ../resources/static/* && mkdir -p ../resources/static && mv ./build/* ../resources/static/ && rm -rf ./build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
