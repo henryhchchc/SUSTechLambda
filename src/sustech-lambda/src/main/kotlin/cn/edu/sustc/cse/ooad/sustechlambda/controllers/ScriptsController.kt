@@ -44,10 +44,20 @@ class ScriptsController
             @RequestParam("page_size", defaultValue = "10") pageSize: Int
     ) = pagingQuery(pageIndex, pageSize, this.scriptsRepository)
 
+
     @RolesAllowed("USER", "DESIGNER", "ADMIN")
     @ApiOperation("Get a script", authorizations = [Authorization("Bearer")])
     @GetMapping("{id}")
     fun getScript(@PathVariable id: UUID) = getById(id, this.scriptsRepository)
+
+    @RolesAllowed("DESIGNER")
+    @ApiOperation("Get scripts created by current user.", authorizations = [Authorization("Bearer")])
+    @GetMapping("mine")
+    fun getMyScripts(): ResponseEntity<*> {
+        val currentUser = this.identityService.getCurrentUser()!!
+        return this.scriptsRepository.findAll().filter { it.author.id == currentUser.id }.let { ResponseEntity.ok(it) }
+    }
+
 
     @RolesAllowed("DESIGNER")
     @ApiOperation("Create script", authorizations = [Authorization("Bearer")])
