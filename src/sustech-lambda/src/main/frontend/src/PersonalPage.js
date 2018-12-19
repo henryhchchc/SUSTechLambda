@@ -111,7 +111,7 @@ class PersonalPage extends Component {
     showScriptList = () => {
         return (
             <div>
-                <ScriptList token={this.state.token}/>
+                <ScriptList token={this.state.token} type='run'/>
 
             </div>
         )
@@ -143,7 +143,11 @@ class PersonalPage extends Component {
 
     //ScriptManagement
     showScriptManagement = () => {
-
+        return (
+            <div>
+                <ScriptList token={this.state.token} type='edit'/>
+            </div>
+        )
     }
 
     /****************************Rendor****************************/
@@ -170,7 +174,7 @@ class PersonalPage extends Component {
                 <Button
                     variant="fab"
 
-                    style={{bottom: 20, right: 20, position: 'fixed', backgroundColor: "#2b2b2b"}}
+                    style={{bottom: 30, right: 20, position: 'fixed', backgroundColor: "#2b2b2b"}}
                     onClick={() => {
                         this.setState({tabValue: 3})
                     }}

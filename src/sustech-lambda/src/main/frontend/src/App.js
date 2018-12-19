@@ -6,7 +6,7 @@ import ScriptList from './ScriptList'
 import CreateScript from './createScript'
 import ButtonAppBar from "./Navigation Bar";
 
-const isdebug = false
+const isdebug = true
 
 class App extends Component {
     constructor(props) {
@@ -43,7 +43,7 @@ class App extends Component {
                 <div>
                     <ButtonAppBar login={true} setToken={this.setToken} token={this.state.token}/>
                     {/*<HomePage />*/}
-                    <PersonalPage user='user' token={this.state.token}/>
+                    <PersonalPage user='usr' token={this.state.token}/>
                     {/*<CreateScript/>*/}
                 </div>
             )
