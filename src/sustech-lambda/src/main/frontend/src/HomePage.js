@@ -101,7 +101,6 @@ class HomePage extends Component {
                         open={this.state.open}
                         onClose={()=>{this.setState({open:false})}}
                     >
-
                             <Login type = {"in"} setToken={this.props.setToken} handleModal={this.handleModal} />
                     </Modal>
                 </Paper>

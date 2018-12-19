@@ -84,9 +84,13 @@ class ScriptList extends Component {
     }
 
     selectPr = (pr, index) => {
-        this.setState({
-            content: pr,
-        });
+        if(this.props.type == 'run') {
+            this.setState({
+                content: pr,
+            });
+        }else{
+            this.props.handleSelectScript(pr)
+        }
     }
     handleParameterIn = name => event => {
         let t = this.state.parameterValues

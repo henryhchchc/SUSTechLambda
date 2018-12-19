@@ -144,7 +144,7 @@ class Login extends Component {
                         item => {
                             if (item == 'Password') {
                                 return (
-                                    <Grid container style={{marginTop:20, marginLeft:"10%"}}>
+                                    <Grid container style={{marginTop:20, marginLeft:'auto'}}>
                                         <TextField
                                             required
                                             id="standard-name"
@@ -156,7 +156,7 @@ class Login extends Component {
                                     </Grid>)
                             } else {
                                 return (
-                                    <Grid container style={{marginTop:20, marginLeft:"10%"}}>
+                                    <Grid container style={{marginTop:20, marginLeft:'auto'}}>
                                         <TextField
                                             required
                                             id="standard-name"

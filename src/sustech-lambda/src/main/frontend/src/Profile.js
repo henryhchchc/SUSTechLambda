@@ -17,6 +17,8 @@ import MenuItem from "@material-ui/core/MenuItem/MenuItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText/ListItemText";
 import ScriptList from "./ScriptList";
+import CreateScripts from "./CreateScripts";
+import Modal from "@material-ui/core/Modal/Modal";
 
 class Profile extends Component {
 
@@ -25,17 +27,24 @@ class Profile extends Component {
         console.log(this.props.displayName)
         this.state = {
             showContent: 'My Information',
-            displayName: this.props.displayName
+            displayName: this.props.displayName,
+            selectedScript:{},
+            showModal: false
         }
     }
 
-
+    handleSelectScript = (script) =>{
+        this.setState({
+            selectedScript: script,
+            showModal: true
+        })
+    }
     showContent = () => {
         if (this.state.showContent == 'My Information') {
             return('aaaa')
         } else if (this.state.showContent == 'My Scripts') {
             return (
-                <ScriptList/>
+                <ScriptList handleSelectScript={this.handleSelectScript}/>
             )
         }
 
@@ -72,7 +81,6 @@ class Profile extends Component {
                                 </ListItemIcon>
                                 <ListItemText inset primary="My Scripts"/>
                             </MenuItem>
-
                         </MenuList>
                     </Paper>
                 </Grid>
@@ -81,7 +89,17 @@ class Profile extends Component {
                         {this.showContent()}
                     </Paper>
                 </Grid>
+                <Modal
+                    open={this.state.showModal}
+                    onClose={()=>{this.setState({showModal:false})}}
+                    style={{paddingLeft:210,paddingTop:40}}
+                >
+                    <Paper style={{width:1000, height:800}}>
+                        <CreateScripts script={this.state.selectedScript}/>
+                    </Paper>
+                </Modal>
             </Grid>
+
         )
 
     }
