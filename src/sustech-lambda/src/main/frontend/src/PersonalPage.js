@@ -9,6 +9,8 @@ import Profile from "./Profile";
 import Button from "@material-ui/core/Button/Button";
 import CreateScripts from "./CreateScripts";
 import EnhancedTable from './userManagement'
+import Modal from "@material-ui/core/Modal/Modal";
+import Paper from "@material-ui/core/Paper/Paper";
 
 
 const styles = theme => ({
@@ -67,10 +69,9 @@ class PersonalPage extends Component {
             token: this.props.token,
             tabValue: 0,
             label: label,
+            showModal: false,
         };
     }
-
-
     /****************************Handlers****************************/
     handleTabChange = (event, value) => {
         this.setState({tabValue: value});
@@ -80,8 +81,6 @@ class PersonalPage extends Component {
             tabValue: 100,
         });
     };
-
-
     /****************************Show the Content****************************/
     showContent = (tabValue) => {
         if (this.props.user == 'admin') {
@@ -101,31 +100,18 @@ class PersonalPage extends Component {
             if (this.state.tabValue === 2) {
                 return this.showForum()
             }
-            if (this.state.tabValue === 3) {
-                return this.showCreateScript()
-            }
+
         }
     }
-
     //ScriptList
     showScriptList = () => {
         return (
             <div>
-                <ScriptList token={this.state.token}/>
-                <Button
-                    variant="fab"
+                <ScriptList token={this.state.token} type='run'/>
 
-                    style={{bottom: 20, right: 20, position: 'fixed', backgroundColor: "#2b2b2b"}}
-                    onClick={() => {
-                        this.setState({tabValue: 3})
-                    }}
-                >
-                    <AddIcon/>
-                </Button>
             </div>
         )
     }
-
     //Forum
     showForum = () => {
     }
@@ -133,16 +119,27 @@ class PersonalPage extends Component {
     showProfile = () => {
         return (
             <div>
-                <Profile/>
+                <Profile displayName={this.props.displayName}/>
             </div>
         )
     }
+    //Create Script Button
+    showButton = () => {
+        if (this.props.user == 'user') {
+            return (
+                <Button
+                    variant="fab"
 
-    //createScript
-    showCreateScript = () => {
-        return (<CreateScripts/>)
+                    style={{bottom: 30, right: 20, position: 'fixed', backgroundColor: "#2b2b2b"}}
+                    onClick={() => {
+                        this.setState({showModal: true})
+                    }}
+                >
+                    <AddIcon/>
+                </Button>
+            )
+        }
     }
-
     //UserManagement
     showUserManagement = () => {
         return (
@@ -152,7 +149,11 @@ class PersonalPage extends Component {
 
     //ScriptManagement
     showScriptManagement = () => {
-
+        return (
+            <div>
+                <ScriptList token={this.state.token} type='edit'/>
+            </div>
+        )
     }
 
     /****************************Rendor****************************/
@@ -176,7 +177,18 @@ class PersonalPage extends Component {
                     )}
                 </Tabs>
                 {this.showContent(this.state.tabValue)}
-
+                {this.showButton()}
+                <Modal
+                    open={this.state.showModal}
+                    onClose={() => {
+                        this.setState({showModal: false})
+                    }}
+                    style={{paddingLeft: 210, paddingTop: 40}}
+                >
+                    <Paper style={{width: 1000, height: 800}}>
+                        <CreateScripts script={{}}/>
+                    </Paper>
+                </Modal>
             </div>
         )
     }

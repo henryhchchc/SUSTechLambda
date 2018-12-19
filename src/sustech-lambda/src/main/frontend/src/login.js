@@ -18,7 +18,7 @@ class Login extends Component {
         let t = ['Username', 'Id', 'Password']
         let q = "Sing up for SUSTech Lambda"
         if (this.props.type === "in") {
-            t = ['Username', 'Password']
+            t = ['Id', 'Password']
             q = "Sign in for SUSTech Lambda"
         }
         this.state = {
@@ -30,11 +30,24 @@ class Login extends Component {
             snakebarContent: '',
         }
     }
-    signIn = (userName,password) =>{
-        let url = `${apiHost}/api/identity/login`
-        let message = {
-            'password': password,
-            'userName': userName
+    signIn = (type) =>{
+
+        let url = ''
+        let message = {}
+        if(type=='in'){
+            url = `${apiHost}/api/identity/login`
+            message = {
+                'password': this.state.parameterValues['Password'],
+                'userName': this.state.parameterValues['Id']
+            }
+        }else{
+            url = `${apiHost}/api/users/register`
+            message = {
+                'password': this.state.parameterValues['Password'],
+                'displayName': this.state.parameterValues['Username'],
+                'userName':this.state.parameterValues['Id'],
+                'roles':['USER','DESIGNER']
+            }
         }
         const myRequest = new Request(url, {
             method: 'POST', body: JSON.stringify(message), headers: {
@@ -45,7 +58,6 @@ class Login extends Component {
 
         fetch(myRequest)
             .then(response => {
-                console.log(response.status)
                 if (response.status === 401) {
                     this.setState({
                         snakebarContent:'Wrong username or password',
@@ -53,31 +65,42 @@ class Login extends Component {
 
                     })
                 } else if (response.status == 200) {
+                    response.json().then(data => {
+
+                        let url = `${apiHost}/api/identity/profile`
+                        let myHeaders = new Headers();
+                        myHeaders.append('Authorization', `Bearer ${data['access_token']}`)
+                        let displayName = ''
+                        fetch(url,{method:'GET',headers:myHeaders})
+                            .then(response => response.json().then(data2 => {
+                                displayName = data2['displayName']
+                                this.props.setToken(data['access_token'],data['roles'].indexOf('ADMIN')!==-1?'admin' : 'user',displayName)
+                                this.props.handleModal()
+                            }))
+
+
+                    })
+                    //this.props.setToken(token)
+                } else if (response.status == 201){
+                    this.signIn('in')
+                } else if (response.status == 409){
                     this.setState({
-                        snakebarContent:'Sign in successfully',
+                        snakebarContent:'This id has been occupied',
                         alertAllFieled: true,
                     })
-                    let token = 'XXXX' //this need to be modified
-                    this.props.setToken(token)
                 }
             })
-        this.setState({
-            snakebarContent:'Sign in successfully',
-            alertAllFieled: true,
-        })
 
-        let token = 'XXXX' //this need to be modified
-        this.props.setToken(token)
-        this.props.handleModal()
+
 
     }
+
+
     /****************************Handlers****************************/
     //Save the input of the input fields
     handleParameterIn = (name) => event => {
-        console.log(name.item)
         let t = this.state.parameterValues
         t[name.item] = event.target.value
-        console.log(t)
         this.setState({
             parameterValues: t,
         })
@@ -88,22 +111,24 @@ class Login extends Component {
         let verified = true
         this.state.fields.map(
             item => {
-                // console.log(item)
                 if (parameter[[item]] === undefined || parameter[[item]] === "") {
-                    // console.log(parameter[[item]])
                     verified = false
                     this.setState({
                         snakebarContent:'Please fill all fields',
                         alertAllFieled: true,
                     })
                 }
-                //TODO ve
+                //TODO verify
             }
         )
 
 
         if (verified) {
-
+            if(this.state.showType=='in'){
+                this.signIn('in')
+            }else if(this.state.showType=='up'){
+                this.signIn('up')
+            }
         }
     }
     //handle close the alert
@@ -112,7 +137,6 @@ class Login extends Component {
     }
     /****************************Rendor****************************/
     render() {
-        console.log(this.state.showType)
         return (
             <Paper style={{height: 400, width: 300, marginLeft: 550, marginTop: 200}}>
                 <form noValidate autoComplete="off" >
@@ -120,7 +144,7 @@ class Login extends Component {
                         item => {
                             if (item == 'Password') {
                                 return (
-                                    <Grid container style={{marginTop:20, marginLeft:"10%"}}>
+                                    <Grid container style={{marginTop:20, marginLeft:'auto'}}>
                                         <TextField
                                             required
                                             id="standard-name"
@@ -132,7 +156,7 @@ class Login extends Component {
                                     </Grid>)
                             } else {
                                 return (
-                                    <Grid container style={{marginTop:20, marginLeft:"10%"}}>
+                                    <Grid container style={{marginTop:20, marginLeft:'auto'}}>
                                         <TextField
                                             required
                                             id="standard-name"
