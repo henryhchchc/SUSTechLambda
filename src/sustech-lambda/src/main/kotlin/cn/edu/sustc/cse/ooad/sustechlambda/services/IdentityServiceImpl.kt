@@ -17,10 +17,10 @@ class IdentityServiceImpl
         private val usersRepo: UsersRepository
 ) : IdentityService {
 
-    override fun authenticate(userName: String, password: String): String? =
+    override fun authenticate(userName: String, password: String): User? =
             this.usersRepo.findByUserName(userName).map {
                 when {
-                    validatePassword(it, password) -> generateAccessToken(it)
+                    validatePassword(it, password) -> it
                     else -> null
                 }
             }.orElse(null)
