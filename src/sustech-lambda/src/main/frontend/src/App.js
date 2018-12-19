@@ -5,8 +5,60 @@ import PersonalPage from './PersonalPage'
 import ScriptList from './ScriptList'
 import CreateScript from './createScript'
 import ButtonAppBar from "./Navigation Bar";
+import CreateScripts from './createScript';
+import CreateScripts_new from './CreateScripts_new';
 
 const isdebug = true
+
+// class App extends Component {
+//     constructor(props){
+//         super(props)
+//         this.state = {
+//             token:null,
+//             status: 'admin'
+//         }
+//     }
+//     setToken = (token) => {
+//         this.setState({
+//             token: token,
+//             status: 'admin'
+//         })
+//     }
+//     showMainPage = () =>{
+//         if(this.state.token == null){
+//             return(
+//                 <HomePage />
+//             )
+//         }else{
+//             return(
+//                 <PersonalPage user = {this.state.status} token={this.state.token} />
+//             )
+//         }
+//     }
+
+//     render() {
+//         if (isdebug){
+//             return(
+//                 <div>
+//                     <ButtonAppBar login={true} setToken={this.setToken} token={this.state.token}/>
+//                     <PersonalPage user = 'user' />
+//                     {/*<CreateScript/>*/}
+//                 </div>
+//             )
+//         }else {
+//             return (
+//                 <React.Fragment>
+//                     <ButtonAppBar login={this.state.token !== null} setToken={this.setToken}/>
+//                     {this.showMainPage()}
+//                     {/*<ScriptList/>*/}
+//                     {/*<CreateScript/>*/}
+//                     {/*<CodeEditor/>*/}
+
+//                 </React.Fragment>
+//             );
+//         }
+//     }
+// }
 
 class App extends Component {
     constructor(props) {
@@ -56,9 +108,12 @@ class App extends Component {
                     {/*<CreateScript/>*/}
                     {/*<CodeEditor/>*/}
 
-                </React.Fragment>
+class App extends Component {
+    render(){
+        return (
+            // <PersonalPage />
+            <CreateScripts_new />
             );
-        }
     }
 }
 
