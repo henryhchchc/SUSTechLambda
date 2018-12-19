@@ -38,7 +38,7 @@ class Login extends Component {
             url = `${apiHost}/api/identity/login`
             message = {
                 'password': this.state.parameterValues['Password'],
-                'userName': this.state.parameterValues['Id']
+                'userName': this.state.parameterValues['Username']
             }
         }else{
             url = `${apiHost}/api/users/register`
@@ -49,6 +49,7 @@ class Login extends Component {
                 'roles':['USER','DESIGNER']
             }
         }
+        console.log(message)
         const myRequest = new Request(url, {
             method: 'POST', body: JSON.stringify(message), headers: {
                 'Content-Type': 'application/json',
@@ -67,7 +68,8 @@ class Login extends Component {
                     })
                 } else if (response.status == 200) {
                     response.json().then(data => {
-                        this.props.setToken(data['access_token'],'ADMIN' in data['roles']?'admin' : 'user')
+                        console.log(data['roles'])
+                        this.props.setToken(data['access_token'],data['roles'].indexOf('ADMIN')!==-1?'admin' : 'user')
                         this.props.handleModal()
                     })
                     //this.props.setToken(token)

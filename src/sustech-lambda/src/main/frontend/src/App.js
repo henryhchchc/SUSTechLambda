@@ -18,7 +18,6 @@ class App extends Component {
     }
 
     setToken = (token,status) => {
-        status='admin'
         this.setState({
             token: token,
             status: status
