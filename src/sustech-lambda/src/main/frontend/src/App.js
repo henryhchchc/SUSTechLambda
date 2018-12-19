@@ -17,10 +17,11 @@ class App extends Component {
         }
     }
 
-    setToken = (token) => {
+    setToken = (token,status) => {
+        status='admin'
         this.setState({
             token: token,
-            status: 'admin'
+            status: status
         })
     }
     showMainPage = () => {

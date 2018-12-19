@@ -30,11 +30,24 @@ class Login extends Component {
             snakebarContent: '',
         }
     }
-    signIn = (userName,password) =>{
-        let url = `${apiHost}/api/identity/login`
-        let message = {
-            'password': password,
-            'userName': userName
+    signIn = (type) =>{
+
+        let url = ''
+        let message = {}
+        if(type=='in'){
+            url = `${apiHost}/api/identity/login`
+            message = {
+                'password': this.state.parameterValues['Password'],
+                'userName': this.state.parameterValues['Id']
+            }
+        }else{
+            url = `${apiHost}/api/users/register`
+            message = {
+                'password': this.state.parameterValues['Password'],
+                'displayName': this.state.parameterValues['Username'],
+                'userName':this.state.parameterValues['Id'],
+                'roles':['USER','DESIGNER']
+            }
         }
         const myRequest = new Request(url, {
             method: 'POST', body: JSON.stringify(message), headers: {
@@ -53,13 +66,18 @@ class Login extends Component {
 
                     })
                 } else if (response.status == 200) {
+                    response.json().then(data => {
+                        this.props.setToken(data['access_token'],'ADMIN' in data['roles']?'admin' : 'user')
+                        this.props.handleModal()
+                    })
+                    //this.props.setToken(token)
+                } else if (response.status == 201){
+                    this.signIn('in')
+                } else if (response.status == 409){
                     this.setState({
-                        snakebarContent:'Sign in successfully',
+                        snakebarContent:'This id has been occupied',
                         alertAllFieled: true,
                     })
-                    let token = response.json() //this need to be modified
-                    console.log(token)
-                    //this.props.setToken(token)
                 }
             })
 
@@ -102,9 +120,9 @@ class Login extends Component {
 
         if (verified) {
             if(this.state.showType=='in'){
-                this.signIn(parameter['Username'],parameter['Password'])
+                this.signIn('in')
             }else if(this.state.showType=='up'){
-                this.signUp()
+                this.signIn('up')
             }
         }
     }
