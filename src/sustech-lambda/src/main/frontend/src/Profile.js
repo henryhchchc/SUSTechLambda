@@ -44,7 +44,7 @@ class Profile extends Component {
             return('aaaa')
         } else if (this.state.showContent == 'My Scripts') {
             return (
-                <ScriptList handleSelectScript={this.handleSelectScript}/>
+                <ScriptList handleSelectScript={this.handleSelectScript} type='user edit' token={this.props.token}/>
             )
         }
 

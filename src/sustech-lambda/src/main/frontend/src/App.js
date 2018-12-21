@@ -3,9 +3,8 @@ import './App.css';
 import HomePage from './HomePage'
 import PersonalPage from './PersonalPage'
 import ButtonAppBar from "./Navigation Bar";
-import CreateScripts from './CreateScripts';
 
-const isdebug = false
+const isdebug = true
 
 
 class App extends Component {
@@ -41,8 +40,12 @@ class App extends Component {
         if (isdebug) {
             return (
                 <div>
+                //FIXME: merge conflict
                     <ButtonAppBar login={true} setToken={this.setToken} token={this.state.token}/>
                     <PersonalPage />
+                    <ButtonAppBar login={true} setToken={this.setToken} token={this.state.token} displayName={this.state.displayName}/>
+                    <PersonalPage user='user' token={this.state.token} />
+                    {/*<CreateScript/>*/}
                 </div>
             )
         } else {
