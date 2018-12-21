@@ -2,10 +2,10 @@ package cn.edu.sustc.cse.ooad.sustechlambda.controllers
 
 import cn.edu.sustc.cse.ooad.sustechlambda.dtos.ScriptCreationDto
 import cn.edu.sustc.cse.ooad.sustechlambda.dtos.ScriptDto
-import cn.edu.sustc.cse.ooad.sustechlambda.dtos.ScriptParameterDto
 import cn.edu.sustc.cse.ooad.sustechlambda.dtos.toDto
 import cn.edu.sustc.cse.ooad.sustechlambda.entities.Script
 import cn.edu.sustc.cse.ooad.sustechlambda.entities.ScriptParameterInfo
+import cn.edu.sustc.cse.ooad.sustechlambda.entities.ScriptRunParameter
 import cn.edu.sustc.cse.ooad.sustechlambda.entities.Task
 import cn.edu.sustc.cse.ooad.sustechlambda.persistence.ScriptsRepository
 import cn.edu.sustc.cse.ooad.sustechlambda.persistence.TasksRepository
@@ -103,7 +103,7 @@ class ScriptsController
     @RolesAllowed("USER")
     @ApiOperation("Run a script", authorizations = [Authorization("Bearer")])
     @PostMapping("{id}/run")
-    fun runScript(@PathVariable id: UUID, @RequestBody parameters: Set<ScriptParameterDto>): ResponseEntity<*> {
+    fun runScript(@PathVariable id: UUID, @RequestBody parameters: Set<ScriptRunParameter>): ResponseEntity<*> {
         val scriptOpt = this.scriptsRepository.findById(id)
         if (!scriptOpt.isPresent) {
             return ResponseEntity.notFound().build<String>()
@@ -117,6 +117,7 @@ class ScriptsController
         val task = Task(
                 UUID.randomUUID(),
                 script,
+                parameters.map { ScriptRunParameter(it.name, it.type, it.value) },
                 Date(),
                 null,
                 this.identityService.getCurrentUser()!!

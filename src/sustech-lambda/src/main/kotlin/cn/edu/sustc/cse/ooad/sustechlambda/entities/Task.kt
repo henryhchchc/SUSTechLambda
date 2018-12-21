@@ -6,6 +6,7 @@ import java.util.*
 data class Task(
         val id: UUID,
         @DBRef val script: Script,
+        val parameters: List<ScriptRunParameter>,
         val startedTime: Date,
         var endTime: Date? = null,
         @DBRef val owner: User,

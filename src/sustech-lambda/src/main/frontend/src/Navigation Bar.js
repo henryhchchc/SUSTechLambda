@@ -10,11 +10,12 @@ import MenuItem from "@material-ui/core/MenuItem/MenuItem";
 import Menu from "@material-ui/core/Menu/Menu";
 import Modal from "@material-ui/core/Modal/Modal";
 import Login from "./login";
+import Avatar from "@material-ui/core/Avatar/Avatar";
 
 const theme = createMuiTheme({
     palette: {
         primary: {
-            main: '#212121',
+            main: '#101319',
         },
         secondary: {
             main: '#ffffff',
@@ -39,7 +40,7 @@ class ButtonAppBar extends Component {
         super(props);
         this.state = {
             login: this.props.login,
-            userName: this.props.diaplayName,
+            userName: this.props.displayName,
             menueListOpen: false,
             anchorEl:null,
             modalOpen: false,
@@ -74,11 +75,11 @@ class ButtonAppBar extends Component {
                         <AppBar position='absolute' color='primary'>
                             <Toolbar >
                                 <icon>Lambda</icon>
-                                <Button style={{marginLeft:1230}}
+                                <Button style={{marginLeft:1220}}
                                         aria-owns={this.state.anchorEl ? 'simple-menu' : undefined}
                                         aria-haspopup="true"
                                         onClick={this.handleToggle}>
-                                    <AccountCircle fontSize="large" color='secondary'/>
+                                    <Avatar style={{width:25,height:25}}>{this.props.displayName.charAt(0)}</Avatar>
                                     <Typography style={{color: '#ffffff'}}>
                                         {this.props.displayName}
                                     </Typography>
@@ -103,7 +104,7 @@ class ButtonAppBar extends Component {
             return (
                 <div>
                     <MuiThemeProvider theme={theme}>
-                        <AppBar position='fixed' color='primary'>
+                        <AppBar position='fixed' style={{backgroundColor:'#101319'}}>
                             <Toolbar>
                                 <icon>Lambda</icon>
                                 <Button variant={"outlined"} style={{borderColor: '#ffffff', marginLeft: 1130}} onClick={()=>this.handleModal("in")}>
@@ -123,7 +124,6 @@ class ButtonAppBar extends Component {
                                     onClose={this.handleModal}
                                 >
                                     <Login type = {this.state.modalType} setToken={this.props.setToken} handleModal={this.handleModal}/>
-
                                 </Modal>
                             </Toolbar>
 

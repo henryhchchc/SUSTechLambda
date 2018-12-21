@@ -40,9 +40,11 @@ class App extends Component {
         if (isdebug) {
             return (
                 <div>
+                //FIXME: merge conflict
                     <ButtonAppBar login={true} setToken={this.setToken} token={this.state.token}/>
-                    {/*<HomePage />*/}
-                    <PersonalPage user='user' token={this.state.token}/>
+                    <PersonalPage />
+                    <ButtonAppBar login={true} setToken={this.setToken} token={this.state.token} displayName={this.state.displayName}/>
+                    <PersonalPage user='user' token={this.state.token} />
                     {/*<CreateScript/>*/}
                 </div>
             )

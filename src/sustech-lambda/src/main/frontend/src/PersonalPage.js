@@ -70,6 +70,7 @@ class PersonalPage extends Component {
             tabValue: 0,
             label: label,
             showModal: false,
+            selectedScript:{},
         };
     }
     /****************************Handlers****************************/
@@ -81,6 +82,12 @@ class PersonalPage extends Component {
             tabValue: 100,
         });
     };
+    handleSelectScript = (script) =>{
+        this.setState({
+            selectedScript: script,
+            showModal: true
+        })
+    }
     /****************************Show the Content****************************/
     showContent = (tabValue) => {
         if (this.props.user == 'admin') {
@@ -107,8 +114,7 @@ class PersonalPage extends Component {
     showScriptList = () => {
         return (
             <div>
-                <ScriptList token={this.state.token} type='run'/>
-
+                <ScriptList token={this.props.token} type='run'/>
             </div>
         )
     }
@@ -119,7 +125,7 @@ class PersonalPage extends Component {
     showProfile = () => {
         return (
             <div>
-                <Profile displayName={this.props.displayName}/>
+                <Profile displayName={this.props.displayName} token={this.props.token}/>
             </div>
         )
     }
@@ -151,7 +157,7 @@ class PersonalPage extends Component {
     showScriptManagement = () => {
         return (
             <div>
-                <ScriptList token={this.state.token} type='edit'/>
+                <ScriptList token={this.state.token} type='admin edit' handleSelectScript={this.handleSelectScript}/>
             </div>
         )
     }
@@ -186,7 +192,7 @@ class PersonalPage extends Component {
                     style={{paddingLeft: 210, paddingTop: 40}}
                 >
                     <Paper style={{width: 1000, height: 800}}>
-                        <CreateScripts script={{}}/>
+                        <CreateScripts script={this.state.selectedScript} token={this.props.token}/>
                     </Paper>
                 </Modal>
             </div>
