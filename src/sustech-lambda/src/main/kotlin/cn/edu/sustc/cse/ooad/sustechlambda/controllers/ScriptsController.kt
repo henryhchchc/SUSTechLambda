@@ -1,7 +1,9 @@
 package cn.edu.sustc.cse.ooad.sustechlambda.controllers
 
+import cn.edu.sustc.cse.ooad.sustechlambda.dtos.ScriptCreationDto
 import cn.edu.sustc.cse.ooad.sustechlambda.dtos.ScriptDto
 import cn.edu.sustc.cse.ooad.sustechlambda.dtos.ScriptParameterDto
+import cn.edu.sustc.cse.ooad.sustechlambda.dtos.toDto
 import cn.edu.sustc.cse.ooad.sustechlambda.entities.Script
 import cn.edu.sustc.cse.ooad.sustechlambda.entities.ScriptParameterInfo
 import cn.edu.sustc.cse.ooad.sustechlambda.entities.Task
@@ -62,7 +64,7 @@ class ScriptsController
     @RolesAllowed("DESIGNER")
     @ApiOperation("Create script", authorizations = [Authorization("Bearer")])
     @PostMapping("")
-    fun createScript(@RequestBody dto: ScriptDto) = dto.let {
+    fun createScript(@RequestBody dto: ScriptCreationDto) = dto.let {
         Script(
                 UUID.randomUUID(),
                 it.name,
@@ -71,7 +73,7 @@ class ScriptsController
                 identityService.getCurrentUser()!!
         )
     }.let { this.scriptsRepository.save(it) }.let {
-        ResponseEntity.created(URI.create("/api/scripts/${it.id}")).body(it)
+        ResponseEntity.created(URI.create("/api/scripts/${it.id}")).body(it.toDto())
     }
 
     @RolesAllowed("DESIGNER")
