@@ -1,5 +1,6 @@
 package cn.edu.sustc.cse.ooad.sustechlambda.services
 
+import cn.edu.sustc.cse.ooad.sustechlambda.config.AccessTokenConfig
 import cn.edu.sustc.cse.ooad.sustechlambda.entities.User
 import cn.edu.sustc.cse.ooad.sustechlambda.persistence.UsersRepository
 import cn.edu.sustc.cse.ooad.sustechlambda.security.JwtAuthenticationToken
@@ -14,7 +15,8 @@ import org.springframework.stereotype.Service
 class IdentityServiceImpl
 @Autowired constructor(
         private val passwordEncoder: PasswordEncoder,
-        private val usersRepo: UsersRepository
+        private val usersRepo: UsersRepository,
+        private val config: AccessTokenConfig
 ) : IdentityService {
 
     override fun authenticate(userName: String, password: String): User? =
@@ -32,7 +34,7 @@ class IdentityServiceImpl
                     .addClaims(mapOf(
                             "Roles" to user.roles.joinToString(",")
                     ))
-                    .signWith(SignatureAlgorithm.HS512, "SUSTech lambda signing key".toByteArray())
+                    .signWith(this.config.getKey(), SignatureAlgorithm.HS384)
                     .compact()
 
 

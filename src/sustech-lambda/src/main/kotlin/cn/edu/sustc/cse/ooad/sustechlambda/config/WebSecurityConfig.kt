@@ -1,6 +1,7 @@
 package cn.edu.sustc.cse.ooad.sustechlambda.config
 
 import cn.edu.sustc.cse.ooad.sustechlambda.security.JwtAuthenticationFilter
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpMethod
@@ -21,7 +22,8 @@ import javax.servlet.http.HttpServletResponse
 @EnableGlobalMethodSecurity(
         jsr250Enabled = true
 )
-class WebSecurityConfig : WebSecurityConfigurerAdapter() {
+class WebSecurityConfig
+@Autowired constructor(private val config: AccessTokenConfig) : WebSecurityConfigurerAdapter() {
 
     override fun configure(http: HttpSecurity) {
         http
@@ -32,7 +34,7 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
                 .exceptionHandling()
                 .authenticationEntryPoint { _, res, _ -> res.sendError(HttpServletResponse.SC_UNAUTHORIZED) }
                 .and()
-                .addFilterAfter(JwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter::class.java)
+                .addFilterAfter(JwtAuthenticationFilter(this.config.getKey()), UsernamePasswordAuthenticationFilter::class.java)
                 .authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS).permitAll()
                 .antMatchers("/api/identity/login", "/api/users/register").permitAll()

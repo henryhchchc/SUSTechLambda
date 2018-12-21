@@ -237,7 +237,7 @@ const EditorDisplay = ({mode, scripts, syntax, handleChange}) => {
 
 /** Result Display **/
 const ResultDisplay = ({mode, result}) => {
-    if (mode == "Viewing"|| mode=="Running") {
+    if (mode == "Viewing"|| mode =="Running") {
         return (
             <div  style={result_style}>
                 <h2>Result></h2>
@@ -324,18 +324,18 @@ class ParamEditor extends Component {
     SingleParamEdit = () => {
         const var_type_list = [
             {
-                value: 'String',
+                value: 'STRING',
                 label: 'String'
             },
             {
-                value: 'Number',
+                value: 'NUMBER',
                 label: 'Number'
             },
         ]
         let new_param = {
             param_name: "",
             param_value: "",
-            param_type: "String"
+            param_type: "STRING"
         };
         return (
             <div >
@@ -534,22 +534,29 @@ class CreateScripts extends Component {
     // Constructor 
     constructor(props) {
         super(props);
+        let {token} = props;
         this.state = {
-            title: "Untitled Script ",
+            title: "Untitled Script",
             description: null,
             scripts: "# Input your codes here :>",
             syntax: 'bash',
             param_list: param_list,
-            result: "No Result Found",
-            mode: "Editing"
+            result: "NULL",
+            mode: "Editing",
+            id:"NULL",
+            token: token,
         }
     }
+
     // Query Scripts 
     getScripts = () => {
         let url = `${apiHost}/api/scripts`
         const message = {}
         const myRequest = new Request(url, {
-            method: 'GET', body: JSON.stringify(message), headers: {
+            method: 'GET', 
+            body: JSON.stringify(message), 
+            headers:{
+                'Authorization': `Bearer ${this.state.token}`,
                 'Content-Type': 'application/json',
                 'accept': 'application/json'
             }
@@ -564,14 +571,18 @@ class CreateScripts extends Component {
                 }
             })
     }
+
         
     // Create Scripts & Update
     setScripts = (props, id) => {
         let url = `${apiHost}/api/scripts`
-        // if scripts > 0: Update, else: create
-        if  (parseInt(id) > 0){
-            url = `${apiHost}/api/scripts/{id}` 
+        let mode = "create"
+        if  ( id == "NULL" ) {  url = `${apiHost}/api/scripts`; }
+        else { 
+            url = `${apiHost}/api/scripts/${id}`; 
+            mode = "update";
         }
+  
         const {title,description, scripts, syntax, param_list} = props;
         let param_msg = []
         param_list.map(param=>(
@@ -591,56 +602,39 @@ class CreateScripts extends Component {
             "description": description,
             "name": title
         };
+
         const myRequest = new Request(url, {
-            method: 'POST', body: JSON.stringify(message), headers: {
+            method: 'POST', 
+            body: JSON.stringify(message), 
+            headers:{
+                'Authorization': `Bearer ${this.state.token}`,
                 'Content-Type': 'application/json',
                 'accept': 'application/json'
             }
         });
+
+
         fetch(myRequest)
             .then(response => {
                 console.log(response.status)
+                alert(response.status) 
+                alert(url)
                 if (response.status === 401) {
                     alert("Script ID Not Found")
-                } else if (response.status == 200) {
-                    // TODO 
+                } else if (response.status == 201) {
+                    // handling 
+                    const {id, name, description, content, author}=response.body; 
+                    if (mode == "create") {
+                        this.setState({id:{id}})
+                    }
                 }
             })
     }
 
-
-    // Delete a script 
-    delScript(id){
-        let url = `${apiHost}/api/scripts`
-        // if scripts > 0: Update, else: create
-        if  (parseInt(id) > 0){
-            url = `${apiHost}/api/scripts/{id}` 
-        }
-        const message = {};
-        const myRequest = new Request(url, {
-            method: 'DELETE', body: JSON.stringify(message), headers: {
-                'Content-Type': 'application/json',
-                'accept': 'application/json'
-            }
-        });
-        fetch(myRequest)
-            .then(response => {
-                console.log(response.status)
-                if (response.status === 401) {
-                    alert("Script ID Not Found")
-                } else if (response.status == 200) {
-                    // TODO 
-                }
-            })
-    }
 
     // Run a script 
     runScript=(param_list, id)=>{
-        let url = `${apiHost}/api/scripts/{id}/run`
-        // if scripts > 0: Update, else: create
-        if  (parseInt(id) < 0){
-            alert("Error, id should be greater than 0");
-        }
+        let url = `${apiHost}/api/scripts/${id}/run`
         let param_msg = []
         param_list.map(param=>(
             param_msg.push({
@@ -652,7 +646,10 @@ class CreateScripts extends Component {
         );
         const message = {param_msg}
         const myRequest = new Request(url, {
-            method: 'POST', body: JSON.stringify(message), headers: {
+            method: 'POST', 
+            body: JSON.stringify(message), 
+            headers:{
+                'Authorization': `Bearer ${this.state.token}`,
                 'Content-Type': 'application/json',
                 'accept': 'application/json'
             }
@@ -663,7 +660,8 @@ class CreateScripts extends Component {
                 if (response.status === 401) {
                     alert("Script ID Not Found")
                 } else if (response.status == 200) {
-                    // TODO 
+                    // FIXME: Unfinished code for running 
+                    let result = response.body;
                 }
             })
     }
@@ -675,20 +673,19 @@ class CreateScripts extends Component {
     }
 
     buttonShift = () => {
-        // alert(this.state.mode)
         if (this.state.mode == "Editing") {
-            this.modeShift("Viewing")
+            this.modeShift("Viewing");
+            this.setScripts(this.state, this.state.id);
         }
         ;
         if (this.state.mode == "Viewing") {
             this.modeShift("Editing")
         }
-        // if (this.state.mode == "Running") {
-        //     this.modeShift("Editing")
-        // }
-        ;
     }
 
+    executeCurrentScripts = () => {
+        this.runScript(this.state.param_list, this.state.id)
+    }
 
     /** Button Display **/
     ButtonDisplay = () => {
@@ -723,7 +720,7 @@ class CreateScripts extends Component {
                     Publish
                     <CloudUploadIcon  />
                 </Button>
-                <Button variant="contained" color="default">
+                <Button variant="contained" color="default" onClick={()=>this.executeCurrentScripts()}>
                 Execute
                 </Button>
                 </div>
@@ -732,7 +729,7 @@ class CreateScripts extends Component {
         if (this.state.mode == "Running") {
             return(
                 <div>
-                <Button variant="contained" color="default">
+                <Button variant="contained" color="default" onClick={()=>this.executeCurrentScripts()}>
                     Execute
                 </Button>
                 </div>
