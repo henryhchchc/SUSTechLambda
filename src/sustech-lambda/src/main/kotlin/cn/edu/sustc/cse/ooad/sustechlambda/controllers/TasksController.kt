@@ -36,3 +36,4 @@ class TasksController
     fun getTaskDetail(@PathVariable id: UUID) = getById(id, this.repo) { it.toDto() }
 
 }
+

@@ -114,7 +114,13 @@ class ScriptsController
                 )) {
             return ResponseEntity.badRequest().body("Invalid parameters")
         }
-        val task = Task(UUID.randomUUID(), script, Date())
+        val task = Task(
+                UUID.randomUUID(),
+                script,
+                Date(),
+                null,
+                this.identityService.getCurrentUser()!!
+        )
         this.taskService.runTask(task)
         this.tasksRepository.save(task)
         return ResponseEntity.created(URI.create("/api/tasks/${task.id}")).body(task)
