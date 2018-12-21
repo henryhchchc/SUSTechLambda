@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service
 import java.io.File
 import java.nio.file.Files
 import java.nio.file.Path
+import java.util.*
 
 private val infoToStatusMap = mapOf(
         "created" to TaskStatus.QUEUEING,
@@ -31,6 +32,11 @@ private val languageExtensions = mapOf(
 @Service
 class TaskServicesImpl : TaskServices {
 
+    override fun getEndTime(task: Task): Date? = if (getStatus(task) == TaskStatus.FINISHED) {
+        dockerClient.inspectContainer(task.containerId).state().finishedAt()
+    } else null
+
+
     private val dockerClient: DockerClient = DefaultDockerClient.fromEnv().build()
 
 
@@ -43,12 +49,14 @@ class TaskServicesImpl : TaskServices {
     override fun getStatus(task: Task) = dockerClient.inspectContainer(task.containerId).state().status().let { infoToStatusMap[it]!! }
 
 
-    override fun getOutput(task: Task): String =
-            dockerClient.logs(
-                    task.containerId,
-                    DockerClient.LogsParam.stdout(),
-                    DockerClient.LogsParam.stderr()
-            ).use { it.readFully() }
+    override fun getOutput(task: Task): String? = if (getStatus(task) == TaskStatus.FINISHED) {
+        dockerClient.logs(
+                task.containerId,
+                DockerClient.LogsParam.stdout(),
+                DockerClient.LogsParam.stderr()
+        ).use { it.readFully() }
+    } else null
+
 
 
     private fun createContainer(task: Task): ContainerCreation {
