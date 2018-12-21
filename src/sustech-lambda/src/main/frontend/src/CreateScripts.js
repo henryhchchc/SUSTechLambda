@@ -11,6 +11,9 @@ import green from '@material-ui/core/colors/green';
 import SaveIcon from '@material-ui/icons/Save';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import DeleteIcon from '@material-ui/icons/Delete';
+import GridList from '@material-ui/core/GridList';
+import Grid from '@material-ui/core/Grid';
+
 
 const isDebug = true; 
 const apiHost = isDebug?"http://localhost:8080":"";
@@ -40,8 +43,10 @@ const script_editor= {
 }
 
 const button = {
-    bottom:'50px',
-    float:'left',
+    float:'right'
+    // position:'absolute',
+    // bottom:0,
+    // right:300,
 }
 const execute_button={
     float:'right',
@@ -54,7 +59,7 @@ const result_style = {
 }
 
 const page = {
-    padding: '0%',
+    padding: '5%'
 }
 
 const param_editor_edit= {
@@ -62,7 +67,6 @@ const param_editor_edit= {
     height:'150px',
     float:'left'
 }
-
 
 const param_list = []
 
@@ -88,7 +92,6 @@ const styles = theme => ({
 /**  Title Description and Editor **/ 
 const EditTitle = ({title, handleChange}) =>
 <div className="short-editor">
-<form>
     <TextField
         id="title"
         // label="Title"
@@ -98,8 +101,8 @@ const EditTitle = ({title, handleChange}) =>
         helperText="Please Input your title"
         margin="normal"
         fullWidth
+        item
     />
-</form>
 </div>
 
 
@@ -124,7 +127,6 @@ const ScriptTitle = ({mode, title, handleChange}) =>
 
 /** Description Display and Editor  **/
 const DescriptionEditor = ({description, handleChange}) =>
-<form>
     <TextField
         id="description"
         // label="Description"
@@ -138,7 +140,6 @@ const DescriptionEditor = ({description, handleChange}) =>
         rowsMax="20"
         multiline
     />
-</form>
 
 
 const DescriptionDisplay = ({mode, description, handleChange}) => {
@@ -182,7 +183,6 @@ const EditorDisplay = ({mode, scripts, syntax, handleChange}) => {
     if (mode == "Editing") {
         return (
             <div style={script_editor}>
-                <form>
                     <TextField
                         id="code"
                         helperText="Please input your scripts here"
@@ -194,6 +194,7 @@ const EditorDisplay = ({mode, scripts, syntax, handleChange}) => {
                         rows="6"
                         rowsMax="25"
                         multiline
+                        style={{marginLeft:2}}
                     />
                     <TextField
                         select
@@ -211,7 +212,6 @@ const EditorDisplay = ({mode, scripts, syntax, handleChange}) => {
                         ))
                     }
                 </TextField>
-                </form>
             </div>
         );
     }
@@ -263,10 +263,12 @@ const ResultDisplay = ({mode, result}) => {
 class ParamEditor extends Component {
     constructor(props){
         super(props);
-        const {mode, param_list, setChange} = props;
+        const {mode, param_list, setChange, button} = props;
         this.state = {
             mode:mode,
             param_list:param_list,
+            pt_temp:"STTRING",
+            pn_temp:"param_DEFAULT"
         }
         this.setChange = setChange;
     }
@@ -343,16 +345,16 @@ class ParamEditor extends Component {
                     id="param-edit-name"
                     placeholder="Param Name"
                     onChange={(event) => {
-                        new_param.param_name = event.target.value;
+                        this.setState({pn_temp:event.target.value})
                     }}
                     margin="normal"
                 />
                 <TextField
                 select
-                onChange={(event) => {
-                    new_param.param_type = event.target.value;
+                value={this.state.pt_temp}
+                onChange={(event)=>{
+                    this.setState({pt_temp:event.target.value})
                 }}
-                value="Param_Type"
                 helperText="Please select the parameter type"
                 margin="normal"
                 >
@@ -367,7 +369,14 @@ class ParamEditor extends Component {
                     variant="fab"
                     color="default"
                     aria-label="Add-param"
-                    onClick={() => this.handleAddParam(new_param)}
+                    onClick={() =>{
+                        new_param.param_name=this.state.pn_temp
+                        new_param.param_type=this.state.pt_temp
+                        this.setState({pn_temp:"DEFAULT"})
+                        this.setState({pt_temp:"STRING"})
+                        this.handleAddParam(new_param)
+                    }
+                    }
                 >
                     <AddIcon/>
                 </Button>
@@ -425,11 +434,9 @@ class ParamEditor extends Component {
         return (
             <div className="editParam" style={param_editor_edit}>
                 <h4>Parameter</h4>
-                <form>
                     <this.DisplayParamEdit/>
                     <this.SingleParamEdit/>
                     <br/>
-                </form>
             </div>
         );
     }
@@ -478,7 +485,6 @@ class ParamEditor extends Component {
         return (
             <div style={param_editor_edit}>
             <span>
-            <form>
                 <TextField
                     value={param.param_name}
                     margin="normal"
@@ -496,7 +502,6 @@ class ParamEditor extends Component {
                     }}
                     margin="normal"
                 />
-            </form>
             </span>
             </div>
         );
@@ -521,10 +526,19 @@ class ParamEditor extends Component {
         this.state.mode = mode
         this.state.param_list = param_list
         if (this.state.mode == "Editing") {
-            return < this.EditParam/>
+            return(
+                <div className="param">
+                < this.EditParam/> 
+                </div>
+            )
         }
         if (this.state.mode == "Viewing" || this.state.mode == "Running") {
-            return < this.InputParam />
+            return (
+                <div>
+                <this.InputParam />
+                </div>
+            )
+
         }
     }
 }
@@ -692,14 +706,9 @@ class CreateScripts extends Component {
         if (this.state.mode == "Editing") {
             return (
                 <div style={button}>
-                    <Button
-                        variant="fab"
-                        color="primary"
-                        aria-label="Add"
-                        style={button}
-                        onClick={() => this.buttonShift()}
-                    >
-                        <AddIcon/>
+                    <Button variant="contained" color="secondary" onClick={()=>this.buttonShift()}>
+                    <SaveIcon />
+                        Edit Mode
                     </Button>
                 </div>
             );
@@ -707,18 +716,14 @@ class CreateScripts extends Component {
 
         if (this.state.mode == "Viewing") {
             return (
-                <div>
-                <Button variant="contained" onClick={()=>this.buttonShift()}>
+                <div style={button}>
+                <Button variant="contained" color="secondary" onClick={()=>this.buttonShift()}>
                 <SaveIcon />
                     Edit Mode
                 </Button>
-                    <Button variant="contained" color="secondary" >
-                    Delete
-                <DeleteIcon />
-                </Button>
                 <Button variant="contained" color="primary" >
                     Publish
-                    <CloudUploadIcon  />
+                    <CloudUploadIcon />
                 </Button>
                 <Button variant="contained" color="default" onClick={()=>this.executeCurrentScripts()}>
                 Execute
@@ -774,12 +779,19 @@ class CreateScripts extends Component {
                 result={this.state.result}
                 button={this.ButtonDisplay}
             />
+            <Grid container spacing={24}>
+             <Grid item xs={7}>
             <ParamEditor 
                 mode = {this.state.mode}
                 param_list = {this.state.param_list} 
                 setChange = {this.setChange}
+                button={this.ButtonDisplay}
                 />
-            <this.ButtonDisplay />
+            </Grid>
+            <Grid item xs={6}>
+                <this.ButtonDisplay />
+            </Grid>
+            </Grid>
             </div>
         )
     }

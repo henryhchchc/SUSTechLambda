@@ -42,7 +42,7 @@ class App extends Component {
             return (
                 <div>
                     <ButtonAppBar login={true} setToken={this.setToken} token={this.state.token}/>
-                    <CreateScripts token={this.state.token}/>
+                    <PersonalPage />
                 </div>
             )
         } else {
