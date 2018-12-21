@@ -40,9 +40,9 @@ class App extends Component {
         if (isdebug) {
             return (
                 <div>
-                    <ButtonAppBar login={true} setToken={this.setToken} token={this.state.token}/>
+                    <ButtonAppBar login={true} setToken={this.setToken} token={this.state.token} displayName={this.state.displayName}/>
                     {/*<HomePage />*/}
-                    <PersonalPage user='user' token={this.state.token}/>
+                    <PersonalPage user='user' token={this.state.token} />
                     {/*<CreateScript/>*/}
                 </div>
             )

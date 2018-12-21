@@ -11,12 +11,13 @@ import Typography from "@material-ui/core/Typography/Typography";
 
 const isDebug = true;
 
-const apiHost = isDebug?"http://localhost:8080":"";
+const apiHost = isDebug ? "http://localhost:8080" : "";
+
 class Login extends Component {
     constructor(props) {
         super(props);
         let t = ['Username', 'Id', 'Password']
-        let q = "Sing up for SUSTech Lambda"
+        let q = "Sign up for SUSTech Lambda"
         if (this.props.type === "in") {
             t = ['Id', 'Password']
             q = "Sign in for SUSTech Lambda"
@@ -30,23 +31,24 @@ class Login extends Component {
             snakebarContent: '',
         }
     }
-    signIn = (type) =>{
+
+    signIn = (type) => {
 
         let url = ''
         let message = {}
-        if(type=='in'){
+        if (type == 'in') {
             url = `${apiHost}/api/identity/login`
             message = {
                 'password': this.state.parameterValues['Password'],
                 'userName': this.state.parameterValues['Id']
             }
-        }else{
+        } else {
             url = `${apiHost}/api/users/register`
             message = {
                 'password': this.state.parameterValues['Password'],
                 'displayName': this.state.parameterValues['Username'],
-                'userName':this.state.parameterValues['Id'],
-                'roles':['USER','DESIGNER']
+                'userName': this.state.parameterValues['Id'],
+                'roles': ['USER', 'DESIGNER']
             }
         }
         const myRequest = new Request(url, {
@@ -60,7 +62,7 @@ class Login extends Component {
             .then(response => {
                 if (response.status === 401) {
                     this.setState({
-                        snakebarContent:'Wrong username or password',
+                        snakebarContent: 'Wrong username or password',
                         alertAllFieled: true,
 
                     })
@@ -71,33 +73,32 @@ class Login extends Component {
                         let myHeaders = new Headers();
                         myHeaders.append('Authorization', `Bearer ${data['access_token']}`)
                         let displayName = ''
-                        fetch(url,{method:'GET',headers:myHeaders})
+                        fetch(url, {method: 'GET', headers: myHeaders})
                             .then(response => response.json().then(data2 => {
                                 displayName = data2['displayName']
-                                this.props.setToken(data['access_token'],data['roles'].indexOf('ADMIN')!==-1?'admin' : 'user',displayName)
+                                this.props.setToken(data['access_token'], data['roles'].indexOf('ADMIN') !== -1 ? 'admin' : 'user', displayName)
                                 this.props.handleModal()
                             }))
 
 
                     })
                     //this.props.setToken(token)
-                } else if (response.status == 201){
+                } else if (response.status == 201) {
                     this.signIn('in')
-                } else if (response.status == 409){
+                } else if (response.status == 409) {
                     this.setState({
-                        snakebarContent:'This id has been occupied',
+                        snakebarContent: 'This id has been occupied',
                         alertAllFieled: true,
                     })
                 }
             })
 
 
-
     }
 
 
     /****************************Handlers****************************/
-    //Save the input of the input fields
+        //Save the input of the input fields
     handleParameterIn = (name) => event => {
         let t = this.state.parameterValues
         t[name.item] = event.target.value
@@ -114,19 +115,18 @@ class Login extends Component {
                 if (parameter[[item]] === undefined || parameter[[item]] === "") {
                     verified = false
                     this.setState({
-                        snakebarContent:'Please fill all fields',
+                        snakebarContent: 'Please fill all fields',
                         alertAllFieled: true,
                     })
                 }
-                //TODO verify
             }
         )
 
 
         if (verified) {
-            if(this.state.showType=='in'){
+            if (this.state.showType == 'in') {
                 this.signIn('in')
-            }else if(this.state.showType=='up'){
+            } else if (this.state.showType == 'up') {
                 this.signIn('up')
             }
         }
@@ -135,16 +135,40 @@ class Login extends Component {
     handleClose = () => {
         this.setState({alertAllFieled: false})
     }
+    showWords = () => {
+        if (this.state.showType == 'up') {
+            return (
+                <Grid container>
+                    <Typography style={{fontSize: 12, marginLeft: 20}}>
+                        Make sure it's more than 15 characters OR at least 8 characters including a number and a
+                        lowercase letter.
+                    </Typography>
+                </Grid>
+            )
+        } else {
+            return (
+                <Grid container>
+                    <Typography style={{fontSize: 12, marginLeft: 25}} onClick={() => {
+                        this.setState({showType: 'up',fields:['Username', 'Id', 'Password'],showText:"Sign up for SUSTech Lambda"})
+                    }}>
+                        New to SUSTech Lambda? Click here to sign up!
+                    </Typography>
+                </Grid>
+            )
+        }
+    }
+
     /****************************Rendor****************************/
     render() {
+
         return (
             <Paper style={{height: 400, width: 300, marginLeft: 550, marginTop: 200}}>
-                <form noValidate autoComplete="off" >
+                <form noValidate autoComplete="off">
                     {this.state.fields.map(
                         item => {
                             if (item == 'Password') {
                                 return (
-                                    <Grid container style={{marginTop:20, marginLeft:'auto'}}>
+                                    <Grid container style={{marginTop: 15, marginLeft: 'auto'}}>
                                         <TextField
                                             required
                                             id="standard-name"
@@ -156,7 +180,7 @@ class Login extends Component {
                                     </Grid>)
                             } else {
                                 return (
-                                    <Grid container style={{marginTop:20, marginLeft:'auto'}}>
+                                    <Grid container style={{marginTop: 15, marginLeft: 'auto'}}>
                                         <TextField
                                             required
                                             id="standard-name"
@@ -169,12 +193,12 @@ class Login extends Component {
                         }
                     )}
                 </form>
+                {this.showWords()}
                 <Snackbar
                     anchorOrigin={{vertical: 'top', horizontal: 'right'}}
                     open={this.state.alertAllFieled}
                     onClose={this.handleClose}
                     autoHideDuration={1000}
-
                 >
                     <SnackbarContent
                         style={{backgroundColor: "#ff1a24"}}
@@ -185,8 +209,9 @@ class Login extends Component {
                     >
                     </SnackbarContent>
                 </Snackbar>
-                < Button onClick={this.handleSubmit} style={{backgroundColor:"#5eb85d",marginTop:30, marginRight:"20%",marginLeft:"20%"}}>
-                    <Typography style={{color:"#ffffff"}}>
+                < Button onClick={this.handleSubmit}
+                         style={{backgroundColor: "#5eb85d", marginTop: 30, marginRight: "20%", marginLeft: "20%"}}>
+                    <Typography style={{color: "#ffffff"}}>
                         {this.state.showText}
                     </Typography>
                 </Button>
