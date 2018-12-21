@@ -63,10 +63,12 @@ class ScriptList extends Component {
     }
 
     componentDidMount() {
+        //TODO open it when the create script api is usable
+        /*
         let url = ''
-        if(this.props.type=='run') {
+        if(this.props.type=='run' || this.props.type=='admin edit') {
             url = `${apiHost}/api/scripts?page_idx=0&page_size=100`
-        }else{
+        }else if(this.props.type=='user edit'){
             url = `${apiHost}/api/scripts/mine`
         }
 
@@ -79,8 +81,11 @@ class ScriptList extends Component {
         fetch(myRequest)
             .then(res => res.json())
             .then(prs => {
-                this.setState({scripts: prs.content})
+
+                    this.setState({scripts: prs.content})
+
             });
+            */
     }
 
     selectPr = (pr, index) => {
@@ -106,7 +111,6 @@ class ScriptList extends Component {
         this.state.content['content']['parameters'].map(
             item => {
                 if (parameter[item['name']] === undefined || parameter[item['name']] === "") {
-                    // console.log(parameter[[item]])
                     verified = false
                     this.setState({
                         snakebarContent: 'Please fill all required parameter',
@@ -132,6 +136,7 @@ class ScriptList extends Component {
         return false
     }
     showScriptList = () => {
+        console.log(this.state.scripts)
         return (
             <List >
                 {

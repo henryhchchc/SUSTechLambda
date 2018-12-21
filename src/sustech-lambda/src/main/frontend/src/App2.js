@@ -6,7 +6,6 @@ import ScriptList from './ScriptList'
 import ButtonAppBar from "./Navigation Bar";
 import CreateScripts from './CreateScripts';
 
-const isdebug = true
 
 class App extends Component {
     render(){
