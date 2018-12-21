@@ -1,5 +1,6 @@
 package cn.edu.sustc.cse.ooad.sustechlambda.controllers
 
+import cn.edu.sustc.cse.ooad.sustechlambda.dtos.toDto
 import cn.edu.sustc.cse.ooad.sustechlambda.persistence.TasksRepository
 import cn.edu.sustc.cse.ooad.sustechlambda.utilities.getById
 import cn.edu.sustc.cse.ooad.sustechlambda.utilities.pagingQuery
@@ -27,11 +28,12 @@ class TasksController
             @RequestParam("page_idx", defaultValue = "0") pageIndex: Int,
             @ApiParam("Page size")
             @RequestParam("page_size", defaultValue = "10") pageSize: Int
-    ) = pagingQuery(pageIndex, pageSize, this.repo)
+    ) = pagingQuery(pageIndex, pageSize, this.repo) { it.toDto() }
 
     @RolesAllowed("USER", "DESIGNER", "ADMIN")
     @ApiOperation("Get task", authorizations = [Authorization("Bearer")])
     @GetMapping("{id}")
-    fun getTaskDetail(@PathVariable id: UUID) = getById(id, this.repo)
+    fun getTaskDetail(@PathVariable id: UUID) = getById(id, this.repo) { it.toDto() }
 
 }
+

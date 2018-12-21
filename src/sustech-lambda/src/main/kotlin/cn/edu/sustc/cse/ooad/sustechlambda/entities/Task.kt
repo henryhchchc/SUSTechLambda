@@ -8,6 +8,7 @@ data class Task(
         @DBRef val script: Script,
         val startedTime: Date,
         var endTime: Date? = null,
+        @DBRef val owner: User,
         var containerId: String? = null
 )
 
