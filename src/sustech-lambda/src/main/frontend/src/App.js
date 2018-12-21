@@ -3,8 +3,9 @@ import './App.css';
 import HomePage from './HomePage'
 import PersonalPage from './PersonalPage'
 import ButtonAppBar from "./Navigation Bar";
+import CreateScripts from './CreateScripts';
 
-const isdebug = true
+const isdebug = false
 
 
 class App extends Component {
@@ -41,9 +42,7 @@ class App extends Component {
             return (
                 <div>
                     <ButtonAppBar login={true} setToken={this.setToken} token={this.state.token}/>
-                    {/*<HomePage />*/}
-                    <PersonalPage user='user' token={this.state.token}/>
-                    {/*<CreateScript/>*/}
+                    <CreateScripts token={this.state.token}/>
                 </div>
             )
         } else {

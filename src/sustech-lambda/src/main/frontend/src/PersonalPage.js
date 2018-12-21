@@ -186,7 +186,7 @@ class PersonalPage extends Component {
                     style={{paddingLeft: 210, paddingTop: 40}}
                 >
                     <Paper style={{width: 1000, height: 800}}>
-                        <CreateScripts script={{}}/>
+                        <CreateScripts script={{}} token={this.props.token}/>
                     </Paper>
                 </Modal>
             </div>
