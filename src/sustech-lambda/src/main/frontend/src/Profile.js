@@ -1,12 +1,6 @@
 import React, {Component} from 'react';
-import {withStyles} from '@material-ui/core/styles';
-import PropTypes from 'prop-types';
 import ContactMail from '@material-ui/icons/ContactMail'
-import App1 from './profileComponents/App1'
-import './profileComponents/scss/main.scss'
 import Grid from "@material-ui/core/Grid/Grid";
-import ProfilePhoto from "./profileComponents/ProfilePhoto";
-import Form from "./profileComponents/Form";
 import Folder from "@material-ui/icons/Folder"
 import Paper from "@material-ui/core/Paper/Paper";
 import Avatar from "@material-ui/core/Avatar/Avatar";
@@ -22,7 +16,10 @@ import Modal from "@material-ui/core/Modal/Modal";
 import Message from "@material-ui/icons/Message"
 import Event from "@material-ui/icons/Event"
 import Language from "@material-ui/icons/Language"
-
+import Input from '@material-ui/core/Input';
+import PhotoCamera from '@material-ui/icons/PhotoCamera';
+import IconButton from "@material-ui/core/IconButton/IconButton";
+import Dialog from "@material-ui/core/Dialog/Dialog";
 const information = {
     'Display Name': 'ZhanaZhaoxu',
     'Id': '123431',
@@ -30,7 +27,9 @@ const information = {
     'Bio': 'Happy days.',
     'Email': '111@111.com'
 }
+const containerStyle = {
 
+}
 class Profile extends Component {
 
     constructor(props) {
@@ -54,20 +53,110 @@ class Profile extends Component {
             showModal: true
         })
     }
+
     showContent = () => {
         if (this.state.showContent == 'My Information') {
             return (
                 <Grid container>
                     <Grid item>
-                        <Grid container>
-                            <Typography>
-                                {information.Id}
+                        <Grid container style={{marginTop:50,marginLeft:100}}>
+                            <Typography style={{fontSize:25}}>
+                             Personal Information
                             </Typography>
+                            <IconButton color="primary"  component="span" style={{marginLeft:450}} >
+                                <PhotoCamera />
+                            </IconButton>
                         </Grid>
-                        <Grid container>
-                            <Typography>
-                                {information.Id}
-                            </Typography>
+                        <Grid container style={{paddingTop:70}}>
+                            <Grid item style={{width:250}}>
+                                <Typography style={{paddingLeft:120}}>
+                                    Id
+                                </Typography>
+                            </Grid>
+                            <Grid item>
+                                <Input
+                                    id="bootstrap-input"
+                                    disableUnderline={true}
+                                    defaultValue={information.Id}
+                                    style={{ borderRadius: 4,
+                                        backgroundColor: '#ffffff',
+                                        border: '1px solid #ced4da',
+                                        fontSize: 16,width:450}}
+                                />
+                            </Grid>
+                        </Grid>
+                        <Grid container style={{paddingTop:40}}>
+                            <Grid item style={{width:250}}>
+                                <Typography style={{paddingLeft:120}}>
+                                    Display Name
+                                </Typography>
+                            </Grid>
+                            <Grid item>
+                                <Input
+                                    id="bootstrap-input"
+                                    disableUnderline={true}
+                                    defaultValue={information['Display Name']}
+                                    style={{ borderRadius: 4,
+                                        backgroundColor: '#ffffff',
+                                        border: '1px solid #ced4da',
+                                        fontSize: 16,
+                                        width:450}}
+                                />
+                            </Grid>
+                        </Grid>
+                        <Grid container style={{paddingTop:40}}>
+                            <Grid item style={{width:250}}>
+                                <Typography style={{paddingLeft:120}}>
+                                    Roles
+                                </Typography>
+                            </Grid>
+                            <Grid item>
+                                <Input
+                                    id="bootstrap-input"
+                                    disableUnderline={true}
+                                    defaultValue={information['Roles']}
+                                    style={{ borderRadius: 4,
+                                        backgroundColor: '#ffffff',
+                                        border: '1px solid #ced4da',
+                                        fontSize: 16,width:450}}
+                                />
+                            </Grid>
+                            <Grid container style={{paddingTop:40}}>
+                                <Grid item style={{width:250}}>
+                                    <Typography style={{paddingLeft:120}}>
+                                        Bio
+                                    </Typography>
+                                </Grid>
+                                <Grid item>
+                                    <Input
+                                        id="bootstrap-input"
+                                        disableUnderline={true}
+                                        defaultValue={information['Bio']}
+                                        style={{ borderRadius: 4,
+                                            backgroundColor: '#ffffff',
+                                            border: '1px solid #ced4da',
+                                            fontSize: 16,width:450}}
+                                    />
+                                </Grid>
+                                <Grid container style={{paddingTop:40}}>
+                                    <Grid item style={{width:250}}>
+                                        <Typography style={{paddingLeft:120}}>
+                                            Email
+                                        </Typography>
+                                    </Grid>
+                                    <Grid item>
+                                        <Input
+                                            id="bootstrap-input"
+                                            disableUnderline={true}
+                                            defaultValue={information['Email']}
+                                            style={{ borderRadius: 4,
+                                                backgroundColor: '#ffffff',
+                                                border: '1px solid #ced4da',
+                                                fontSize: 16,width:450}}
+                                        />
+                                    </Grid>
+                                </Grid>
+                            </Grid>
                         </Grid>
                     </Grid>
                 </Grid>
@@ -139,21 +228,22 @@ class Profile extends Component {
                     </Paper>
                 </Grid>
                 <Grid item>
-                    <Paper style={{width: 900, marginTop: 50}}>
+                    <Paper style={{width: 900, marginTop: 50,height:800}}>
                         {this.showContent()}
                     </Paper>
                 </Grid>
-                <Modal
+                <Dialog
                     open={this.state.showModal}
                     onClose={() => {
                         this.setState({showModal: false})
                     }}
-                    style={{paddingLeft: 210, paddingTop: 40}}
+                    scroll={'paper'}
+                    maxWidth={'1000'}
                 >
                     <Paper style={{width: 1000, height: 800}}>
                         <CreateScripts script={this.state.selectedScript}/>
                     </Paper>
-                </Modal>
+                </Dialog>
             </Grid>
 
         )

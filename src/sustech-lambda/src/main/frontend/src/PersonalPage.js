@@ -11,6 +11,8 @@ import CreateScripts from "./CreateScripts";
 import EnhancedTable from './userManagement'
 import Modal from "@material-ui/core/Modal/Modal";
 import Paper from "@material-ui/core/Paper/Paper";
+import Dialog from "@material-ui/core/Dialog/Dialog";
+import DialogContent from "@material-ui/core/DialogContent/DialogContent";
 
 
 const styles = theme => ({
@@ -19,7 +21,7 @@ const styles = theme => ({
         backgroundColor: theme.palette.background.paper,
     },
     tabsRoot: {
-        marginTop: 80,
+
         borderBottom: '1px solid #e8e8e8',
     },
     tabsIndicator: {
@@ -184,17 +186,20 @@ class PersonalPage extends Component {
                 </Tabs>
                 {this.showContent(this.state.tabValue)}
                 {this.showButton()}
-                <Modal
+                <Dialog
                     open={this.state.showModal}
                     onClose={() => {
                         this.setState({showModal: false})
                     }}
-                    style={{paddingLeft: 210, paddingTop: 40}}
+                    scroll={'paper'}
+                    maxWidth={'1000'}
                 >
-                    <Paper style={{width: 1000, height: 800}}>
+                    {/*<Paper style={{width: 1000, height: 1500}}>*/}
+                    <DialogContent style={{width:1000}}>
                         <CreateScripts script={this.state.selectedScript} token={this.props.token}/>
-                    </Paper>
-                </Modal>
+                    {/*</Paper>*/}
+                    </DialogContent>
+                </Dialog>
             </div>
         )
     }
