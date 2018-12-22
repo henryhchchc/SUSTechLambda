@@ -125,7 +125,7 @@ class PersonalPage extends Component {
     showProfile = () => {
         return (
             <div>
-                <Profile displayName={this.props.displayName} token={this.props.token}/>
+                <Profile userInformation={this.props.userInformation} token={this.props.token}/>
             </div>
         )
     }

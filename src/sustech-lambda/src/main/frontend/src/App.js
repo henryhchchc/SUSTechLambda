@@ -13,15 +13,23 @@ class App extends Component {
         this.state = {
             token: null,
             status: 'admin',
-            displayName: 'XXX'
+            userInformation: {
+                "displayName": "ZZX",
+                "id": "ZZX",
+                "roles": [
+                    "USER"
+                ],
+                "userName": "ZZX"
+            }
         }
+
     }
 
-    setToken = (token, status, displayName) => {
+    setToken = (token, status, userInformation) => {
         this.setState({
             token: token,
             status: status,
-            displayName: displayName,
+            userInformation: userInformation,
         })
     }
     showMainPage = () => {
@@ -31,7 +39,7 @@ class App extends Component {
             )
         } else {
             return (
-                <PersonalPage user={this.state.status} token={this.state.token} displayName={this.state.displayName}/>
+                <PersonalPage user={this.state.status} token={this.state.token} userInformation={this.state.userInformation}/>
             )
         }
     }
@@ -40,9 +48,9 @@ class App extends Component {
         if (isdebug) {
             return (
                 <div>
-                    <ButtonAppBar login={true} setToken={this.setToken} token={this.state.token} displayName={this.state.displayName}/>
+                    <ButtonAppBar login={true} setToken={this.setToken} token={this.state.token} userInformation={this.state.userInformation}/>
                     {/*<HomePage />*/}
-                    <PersonalPage user='user' token={this.state.token} />
+                    <PersonalPage user='user' token={this.state.token} userInformation={this.state.userInformation} />
                     {/*<CreateScript/>*/}
                 </div>
             )
@@ -50,7 +58,7 @@ class App extends Component {
             return (
                 <React.Fragment>
                     <ButtonAppBar login={this.state.token !== null} setToken={this.setToken}
-                                  displayName={this.state.displayName}/>
+                                  userInformation={this.state.userInformation}/>
                     {this.showMainPage()}
                     {/*<ScriptList/>*/}
                     {/*<CreateScript/>*/}

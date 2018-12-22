@@ -40,7 +40,7 @@ class ButtonAppBar extends Component {
         super(props);
         this.state = {
             login: this.props.login,
-            userName: this.props.displayName,
+            userInformation: this.props.userInformation,
             menueListOpen: false,
             anchorEl:null,
             modalOpen: false,
@@ -79,9 +79,9 @@ class ButtonAppBar extends Component {
                                         aria-owns={this.state.anchorEl ? 'simple-menu' : undefined}
                                         aria-haspopup="true"
                                         onClick={this.handleToggle}>
-                                    <Avatar style={{width:25,height:25}}>{this.props.displayName.charAt(0)}</Avatar>
+                                    <Avatar style={{width:25,height:25}}>{this.props.userInformation.displayName.charAt(0)}</Avatar>
                                     <Typography style={{color: '#ffffff'}}>
-                                        {this.props.displayName}
+                                        {this.props.userInformation.displayName}
                                     </Typography>
                                     <ExpandMore fontSize="small" color='secondary' />
                                 </Button>

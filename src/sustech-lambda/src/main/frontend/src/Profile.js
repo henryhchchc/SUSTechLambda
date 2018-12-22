@@ -19,21 +19,36 @@ import ListItemText from "@material-ui/core/ListItemText/ListItemText";
 import ScriptList from "./ScriptList";
 import CreateScripts from "./CreateScripts";
 import Modal from "@material-ui/core/Modal/Modal";
+import Message from "@material-ui/icons/Message"
+import Event from "@material-ui/icons/Event"
+import Language from "@material-ui/icons/Language"
+
+const information = {
+    'Display Name': 'ZhanaZhaoxu',
+    'Id': '123431',
+    'Roles': ['fsdafs', 'fdsafds', 'safds'],
+    'Bio': 'Happy days.',
+    'Email': '111@111.com'
+}
 
 class Profile extends Component {
 
     constructor(props) {
         super(props)
-        console.log(this.props.displayName)
+        information['Display Name'] = this.props.userInformation['displayName']
+        information['Id'] = this.props.userInformation['userName']
+        information['Roles'] = this.props.userInformation['roles']
         this.state = {
             showContent: 'My Information',
-            displayName: this.props.displayName,
-            selectedScript:{},
-            showModal: false
+            userInformation: this.props.userInformation,
+            selectedScript: {},
+            showModal: false,
+            information: information
+
         }
     }
 
-    handleSelectScript = (script) =>{
+    handleSelectScript = (script) => {
         this.setState({
             selectedScript: script,
             showModal: true
@@ -41,7 +56,22 @@ class Profile extends Component {
     }
     showContent = () => {
         if (this.state.showContent == 'My Information') {
-            return('aaaa')
+            return (
+                <Grid container>
+                    <Grid item>
+                        <Grid container>
+                            <Typography>
+                                {information.Id}
+                            </Typography>
+                        </Grid>
+                        <Grid container>
+                            <Typography>
+                                {information.Id}
+                            </Typography>
+                        </Grid>
+                    </Grid>
+                </Grid>
+            )
         } else if (this.state.showContent == 'My Scripts') {
             return (
                 <ScriptList handleSelectScript={this.handleSelectScript} type='user edit' token={this.props.token}/>
@@ -56,11 +86,16 @@ class Profile extends Component {
                 <Grid item>
                     <Paper style={{width: 300, marginLeft: 50, marginTop: 50, marginRight: 50, height: 500}}>
                         <Grid container>
-                            <Avatar style={{width: 80, height: 80, marginLeft: 110, marginTop: 60}}>a</Avatar>
+                            <Avatar style={{
+                                width: 80,
+                                height: 80,
+                                marginLeft: 110,
+                                marginTop: 60
+                            }}>{this.props.userInformation['displayName'].charAt(0)}</Avatar>
                         </Grid>
                         <Grid container style={{marginTop: 30}}>
                             <Typography style={{fontSize: 20, margin: 'auto'}}>
-                                {this.props.displayName}
+                                {this.props.userInformation['displayName']}
                             </Typography>
                         </Grid>
                         <Divider variant="middle" style={{marginTop: 40}}/>
@@ -81,6 +116,25 @@ class Profile extends Component {
                                 </ListItemIcon>
                                 <ListItemText inset primary="My Scripts"/>
                             </MenuItem>
+                            <MenuItem>
+                                <ListItemIcon>
+                                    <Message/>
+                                </ListItemIcon>
+                                <ListItemText inset primary="Messages"/>
+                            </MenuItem>
+                            <MenuItem>
+                                <ListItemIcon>
+                                    <Event/>
+                                </ListItemIcon>
+                                <ListItemText inset primary="Events"/>
+                            </MenuItem>
+                            <MenuItem>
+                                <ListItemIcon>
+                                    <Language/>
+                                </ListItemIcon>
+                                <ListItemText inset primary="Supports"/>
+                            </MenuItem>
+
                         </MenuList>
                     </Paper>
                 </Grid>
@@ -91,10 +145,12 @@ class Profile extends Component {
                 </Grid>
                 <Modal
                     open={this.state.showModal}
-                    onClose={()=>{this.setState({showModal:false})}}
-                    style={{paddingLeft:210,paddingTop:40}}
+                    onClose={() => {
+                        this.setState({showModal: false})
+                    }}
+                    style={{paddingLeft: 210, paddingTop: 40}}
                 >
-                    <Paper style={{width:1000, height:800}}>
+                    <Paper style={{width: 1000, height: 800}}>
                         <CreateScripts script={this.state.selectedScript}/>
                     </Paper>
                 </Modal>
