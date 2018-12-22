@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import ButtonAppBar from './Navigation Bar'
 import Paper from "@material-ui/core/Paper/Paper";
 import Typography from "@material-ui/core/Typography/Typography";
 import Grid from "@material-ui/core/Grid/Grid";
@@ -11,8 +10,9 @@ import Modal from "@material-ui/core/Modal/Modal";
 import Login from "./login";
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
 import Avatar from "@material-ui/core/Avatar/Avatar";
+import Dialog from "@material-ui/core/Dialog/Dialog";
+import DialogContent from "@material-ui/core/DialogContent/DialogContent";
 
 const allmember = [
     {
@@ -99,7 +99,11 @@ class HomePage extends Component {
                     return (
                         <Grid item xs={2} style={{marginLeft: 'auto', marginTop: 10}}>
                             <Card style={{width: (window.screen.width / allmember.length) / 1.5, height: 300}}>
-                                <Avatar style={{marginLeft: (window.screen.width / allmember.length) /3 - 45, width:80,height:80}}>{pr.name.charAt(0)}</Avatar>
+                                <Avatar style={{
+                                    marginLeft: (window.screen.width / allmember.length) / 3 - 45,
+                                    width: 80,
+                                    height: 80
+                                }}>{pr.name.charAt(0)}</Avatar>
                                 <CardContent>
                                     <Typography gutterBottom variant="h5" component="h2">
                                         {pr.name}
@@ -154,14 +158,16 @@ class HomePage extends Component {
                             </Player>
                         </Grid>
                     </Grid>
-                    <Modal
+                    <Dialog
                         open={this.state.open}
                         onClose={() => {
                             this.setState({open: false})
                         }}
                     >
-                        <Login type={"in"} setToken={this.props.setToken} handleModal={this.handleModal}/>
-                    </Modal>
+                        <DialogContent>
+                            <Login type="in" setToken={this.props.setToken} handleModal={this.handleModal}/>
+                        </DialogContent>
+                    </Dialog>
                     <Grid container spacing={24} style={{marginTop: 500}}>
                         <Grid item>
                             <div style={{width: window.screen.width, height: 450, backgroundColor: '#101319'}}>
@@ -169,8 +175,8 @@ class HomePage extends Component {
                                     {this.showMembers()}
 
                                 </Grid>
-                                <Grid container >
-                                    <Typography style={{color: '#ffffff', marginTop: 50,marginLeft: 200}}>
+                                <Grid container>
+                                    <Typography style={{color: '#ffffff', marginTop: 50, marginLeft: 200}}>
                                         By clicking “Sign up for GitHub”, you agree to our terms of service and privacy
                                         statement. We’ll occasionally send you account related emails.
                                     </Typography>

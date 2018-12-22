@@ -10,8 +10,6 @@ import { types } from 'util';
 import green from '@material-ui/core/colors/green';
 import SaveIcon from '@material-ui/icons/Save';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
-import DeleteIcon from '@material-ui/icons/Delete';
-import GridList from '@material-ui/core/GridList';
 import Grid from '@material-ui/core/Grid';
 
 

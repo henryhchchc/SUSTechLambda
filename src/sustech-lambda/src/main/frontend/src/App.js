@@ -4,7 +4,7 @@ import HomePage from './HomePage'
 import PersonalPage from './PersonalPage'
 import ButtonAppBar from "./Navigation Bar";
 
-const isdebug = true
+const isdebug = false
 
 
 class App extends Component {
