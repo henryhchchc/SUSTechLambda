@@ -580,7 +580,7 @@ class CreateScripts extends Component {
                 open:false
             }
         }
-        if (mode != null) {
+        if (mode == "Running" || mode == "Viewing" || mode == "Editing") {
             this.setState({mode:mode})
         }
         if (id != null) {
