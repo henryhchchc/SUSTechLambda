@@ -6,7 +6,7 @@ import java.util.*
 
 data class TaskDto(
         val id: UUID,
-        val script: ScriptDto,
+        val scriptId: UUID,
         val startedTime: Date,
         var endTime: Date? = null,
         val owner: UserBriefDto,
@@ -17,7 +17,7 @@ data class TaskDto(
 
 fun Task.toDto(status: TaskStatus, output: String?) = TaskDto(
         this.id,
-        this.script.toDto(),
+        this.script.id,
         this.startedTime,
         this.endTime,
         this.owner.toBriefDto(),

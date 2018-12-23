@@ -2,6 +2,7 @@ package cn.edu.sustc.cse.ooad.sustechlambda.controllers
 
 import cn.edu.sustc.cse.ooad.sustechlambda.dtos.toDto
 import cn.edu.sustc.cse.ooad.sustechlambda.persistence.TasksRepository
+import cn.edu.sustc.cse.ooad.sustechlambda.services.IdentityService
 import cn.edu.sustc.cse.ooad.sustechlambda.services.TaskServices
 import cn.edu.sustc.cse.ooad.sustechlambda.utilities.pagingQuery
 import io.swagger.annotations.Api
@@ -20,7 +21,8 @@ import javax.annotation.security.RolesAllowed
 @RequestMapping("/api/tasks")
 class TasksController
 @Autowired constructor(private val repo: TasksRepository,
-                       private val taskServices: TaskServices) {
+                       private val taskServices: TaskServices,
+                       private val identityService: IdentityService) {
 
     @RolesAllowed("ADMIN")
     @ApiOperation("Query tasks", authorizations = [Authorization("Bearer")])
@@ -45,5 +47,15 @@ class TasksController
         } else ResponseEntity.notFound().build<String>()
     }
 
+
+    @RolesAllowed("USER")
+    @ApiOperation("Get tasks created by current user.", authorizations = [Authorization("Bearer")])
+    @GetMapping("mine")
+    fun getMyTasks(): ResponseEntity<*> {
+        val currentUser = this.identityService.getCurrentUser()!!
+        return this.repo.findAll().filter { it.owner.id == currentUser.id }
+                .map { it.toDto(this.taskServices.getStatus(it), this.taskServices.getOutput(it)) }
+                .let { ResponseEntity.ok(it) }
+    }
 }
 
