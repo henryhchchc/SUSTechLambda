@@ -11,6 +11,7 @@ import Button from "@material-ui/core/Button/Button";
 import SnackbarContent from "@material-ui/core/SnackbarContent/SnackbarContent";
 import Snackbar from "@material-ui/core/Snackbar/Snackbar";
 import ErrorIcon from "@material-ui/core/SvgIcon/SvgIcon";
+import CreateScripts from "./CreateScripts";
 
 const isDebug = true;
 
@@ -64,36 +65,48 @@ class ScriptList extends Component {
 
     componentDidMount() {
         //TODO open it when the create script api is usable
-        /*
+
         let url = ''
-        if(this.props.type=='run' || this.props.type=='admin edit') {
+        if (this.props.type == 'run' || this.props.type == 'admin edit') {
             url = `${apiHost}/api/scripts?page_idx=0&page_size=100`
-        }else if(this.props.type=='user edit'){
-            url = `${apiHost}/api/scripts/mine`
+            const myRequest = new Request(url, {
+                method: 'GET', headers: {
+                    'Authorization': `Bearer ${this.props.token}`
+                }
+            });
+            fetch(myRequest)
+                .then(response => response.json().then(prs => {
+                        this.setState({scripts: prs.content})
+                    }
+                ));
+        } else if (this.props.type == 'user edit' || this.props.type == 'user history') {
+            if (this.props.type == 'user edit') {
+                url = `${apiHost}/api/scripts/mine`
+            } else {
+                url = `${apiHost}/api/tasks/mine`
+            }
+            const myRequest = new Request(url, {
+                method: 'GET', headers: {
+                    'Authorization': `Bearer ${this.props.token}`
+                }
+            });
+            fetch(myRequest)
+                .then(response => response.json().then(prs => {
+                        this.setState({scripts: prs})
+                    }
+                ));
+
         }
 
-        const myRequest = new Request(url, {
-            method: 'GET', headers: {
-                'Authorization': `Bearer ${this.props.token}`
-            }
-        });
 
-        fetch(myRequest)
-            .then(res => res.json())
-            .then(prs => {
-
-                    this.setState({scripts: prs.content})
-
-            });
-            */
     }
 
     selectPr = (pr, index) => {
-        if(this.props.type == 'run') {
+        if (this.props.type == 'run') {
             this.setState({
                 content: pr,
             });
-        }else{
+        } else {
             this.props.handleSelectScript(pr)
         }
     }
@@ -136,9 +149,8 @@ class ScriptList extends Component {
         return false
     }
     showScriptList = () => {
-        console.log(this.state.scripts)
         return (
-            <List >
+            <List>
                 {
                     this.state.scripts.map((pr, index) =>
                         <ListItem button key={pr.name} onClick={() => this.selectPr(pr, index)}>
@@ -150,60 +162,8 @@ class ScriptList extends Component {
         )
     }
     showRunScript = () => {
-        let title = 'name'
-        let code = 'XXXXaaaa'
-        let parameter = []
-        let language = 'XXX'
-        if (this.state.content != null) {
-            title = this.state.content['name']
-            code = this.state.content['content']['code']
-            parameter = this.state.content['content']['parameters']
-            language = this.state.content['content']['language']
-        }
-
         return (
-            <div>
-                <Typography style={{fontSize: 25, fontFamily: 'courier', paddingLeft: 30, paddingTop: 30}}>
-                    {title}
-                </Typography>
-                <Paper style={{marginLeft: 20, marginRight: 20}}>
-                    <SyntaxHighlighter
-                        language={language}
-                    >
-                        {code}
-                    </SyntaxHighlighter>
-
-                </Paper>
-                <Paper style={{marginLeft: 20, marginRight: 20}}>
-                    <form noValidate autoComplete="off" style={{marginLeft: 0}}>
-                        {parameter.map(
-                            item =>
-                                <Grid container style={{marginTop: 1}}>
-                                    <TextField
-                                        id="standard-name"
-                                        label={item['name']}
-                                        placeholder={item['type']}
-                                        onChange={this.handleParameterIn(item['name'])}
-                                        style={{margin: 8}}
-                                        InputLabelProps={{
-                                            shrink: true,
-                                            style: {marginTop: 4}
-                                        }}
-                                    />
-                                </Grid>
-                        )}
-                    </form>
-                </Paper>
-                <Button variant="contained" style={{marginTop: 20, marginLeft: 20}}
-                        onClick={() => this.handleRunScript()}>
-                    Run
-                </Button>
-                <Paper style={{marginTop: 20, marginLeft: 20, marginRight: 20}}>
-                    <Typography>
-                        OutPut
-                    </Typography>
-                </Paper>
-            </div>
+            <CreateScripts mode={"Running"}/>
         )
     }
 
@@ -213,12 +173,12 @@ class ScriptList extends Component {
                 <div>
                     <Grid container style={{height: 600}}>
                         <Grid item>
-                            <Paper style={{height: 600, marginLeft: 25, marginTop: 20,width:550}}>
+                            <Paper style={{height: 1000, marginLeft: 25, marginTop: 20, width: 550}}>
                                 {this.showScriptList()}
                             </Paper>
                         </Grid>
                         <Grid item>
-                            <Paper style={{height: 600, marginLeft: 30, marginTop: 20, width: 800}}>
+                            <Paper style={{height:1000, marginLeft: 30, marginTop: 20, width: 800}}>
                                 {this.showRunScript()}
                             </Paper>
                         </Grid>

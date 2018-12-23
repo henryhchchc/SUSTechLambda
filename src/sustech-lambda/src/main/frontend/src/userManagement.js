@@ -250,6 +250,7 @@ class EnhancedTable extends React.Component {
     handleResetPassword = () => {
         let selected = this.state.selected
         let result = true
+        console.log(selected)
         selected.map(
             pr => {
                 let url = `${apiHost}/api/users/${pr.id}/reset-password`

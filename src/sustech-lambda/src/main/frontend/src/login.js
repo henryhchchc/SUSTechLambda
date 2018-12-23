@@ -26,11 +26,10 @@ class Login extends Component {
         }
         this.state = {
             parameterValues: {},
-            alertAllFieled: false,
             showType: this.props.type,
             fields: t,
             showText: q,
-            snakebarContent: '',
+
         }
     }
 
@@ -63,35 +62,24 @@ class Login extends Component {
         fetch(myRequest)
             .then(response => {
                 if (response.status === 401) {
-                    this.setState({
-                        snakebarContent: 'Wrong username or password',
-                        alertAllFieled: true,
-
-                    })
+                    console.log(123)
+                    this.props.setSnake(true,'Wrong username or password')
                 } else if (response.status == 200) {
                     response.json().then(data => {
-
                         let url = `${apiHost}/api/identity/profile`
                         let myHeaders = new Headers();
                         myHeaders.append('Authorization', `Bearer ${data['access_token']}`)
-                        let displayName = ''
                         fetch(url, {method: 'GET', headers: myHeaders})
                             .then(response => response.json().then(data2 => {
-                                displayName = data2['displayName']
-                                this.props.setToken(data['access_token'], data['roles'].indexOf('ADMIN') !== -1 ? 'admin' : 'user', displayName)
+                                this.props.setToken(data['access_token'], data['roles'].indexOf('ADMIN') !== -1 ? 'admin' : 'user', data2)
                                 this.props.handleModal()
                             }))
-
-
                     })
                     //this.props.setToken(token)
                 } else if (response.status == 201) {
                     this.signIn('in')
                 } else if (response.status == 409) {
-                    this.setState({
-                        snakebarContent: 'This id has been occupied',
-                        alertAllFieled: true,
-                    })
+                    this.props.setSnake(true,'This id has been occupied')
                 }
             })
 
@@ -116,10 +104,7 @@ class Login extends Component {
             item => {
                 if (parameter[[item]] === undefined || parameter[[item]] === "") {
                     verified = false
-                    this.setState({
-                        snakebarContent: 'Please fill all fields',
-                        alertAllFieled: true,
-                    })
+                    this.props.setSnake(true,'Please fill all fields')
                 }
             }
         )
@@ -236,21 +221,7 @@ class Login extends Component {
                     </form>
                 </Grid>
                 {this.showWords()}
-                <Snackbar
-                    anchorOrigin={{vertical: 'top', horizontal: 'right'}}
-                    open={this.state.alertAllFieled}
-                    onClose={this.handleClose}
-                    autoHideDuration={1000}
-                >
-                    <SnackbarContent
-                        style={{backgroundColor: "#ff1a24"}}
-                        message={<span style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                        }}>  <ErrorIcon/>{this.state.snakebarContent}</span>}
-                    >
-                    </SnackbarContent>
-                </Snackbar>
+
                 < Button onClick={this.handleSubmit}
                          style={{backgroundColor: "#5eb85d", marginTop: 15, marginRight: "auto", marginLeft: "auto"}}>
                     <Typography style={{color: "#ffffff"}}>

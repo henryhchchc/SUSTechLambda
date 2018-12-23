@@ -13,6 +13,9 @@ import CardContent from '@material-ui/core/CardContent';
 import Avatar from "@material-ui/core/Avatar/Avatar";
 import Dialog from "@material-ui/core/Dialog/Dialog";
 import DialogContent from "@material-ui/core/DialogContent/DialogContent";
+import SnackbarContent from "@material-ui/core/SnackbarContent/SnackbarContent";
+import ErrorIcon from "@material-ui/core/SvgIcon/SvgIcon";
+import Snackbar from "@material-ui/core/Snackbar/Snackbar";
 
 const allmember = [
     {
@@ -85,7 +88,10 @@ const style = {
 
 class HomePage extends Component {
     state = {
-        open: false
+        open: false,
+        alertAllFieled:false,
+        snakebarContent: ' ',
+
     }
     handleModal = a => {
         this.setState({open: false})
@@ -119,7 +125,13 @@ class HomePage extends Component {
             )
         )
     }
+    setSnake = (f,c) =>{
+        this.setState({
+            alertAllFieled:f,
+            snakebarContent:c,
 
+        })
+    }
     render() {
         console.log(window.screen.availWidth)
         return (
@@ -165,7 +177,7 @@ class HomePage extends Component {
                         }}
                     >
                         <DialogContent>
-                            <Login type="in" setToken={this.props.setToken} handleModal={this.handleModal}/>
+                            <Login type="in" setToken={this.props.setToken} handleModal={this.handleModal} setSnake={this.setSnake}/>
                         </DialogContent>
                     </Dialog>
                     <Grid container spacing={24} style={{marginTop: 500}}>
@@ -186,7 +198,22 @@ class HomePage extends Component {
                         </Grid>
                     </Grid>
                 </Paper>
+                <Snackbar
+                    anchorOrigin={{vertical: 'top', horizontal: 'right'}}
+                    open={this.state.alertAllFieled}
+                    onClose={()=>{this.setState({alertAllFieled:false})}}
+                    autoHideDuration={1000}
 
+                >
+                    <SnackbarContent
+                        style={{backgroundColor: "#ff1a24"}}
+                        message={<span style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                        }}>  <ErrorIcon/>{this.state.snakebarContent}</span>}
+                    >
+                    </SnackbarContent>
+                </Snackbar>
                 {/*<ButtonAppBar/>*/}
             </React.Fragment>
         );

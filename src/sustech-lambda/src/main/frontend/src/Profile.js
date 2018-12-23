@@ -20,6 +20,8 @@ import Input from '@material-ui/core/Input';
 import PhotoCamera from '@material-ui/icons/PhotoCamera';
 import IconButton from "@material-ui/core/IconButton/IconButton";
 import Dialog from "@material-ui/core/Dialog/Dialog";
+import DialogContent from "@material-ui/core/DialogContent/DialogContent";
+import History from "@material-ui/icons/History"
 const information = {
     'Display Name': 'ZhanaZhaoxu',
     'Id': '123431',
@@ -163,24 +165,28 @@ class Profile extends Component {
             )
         } else if (this.state.showContent == 'My Scripts') {
             return (
-                <ScriptList handleSelectScript={this.handleSelectScript} type='user edit' token={this.props.token}/>
+                <ScriptList handleSelectScript={this.handleSelectScript} type={'user edit'} token={this.props.token}/>
+            )
+        }else if(this.state.showContent=='Running History'){
+            return(
+                <ScriptList handleSelectScript={this.handleSelectScript} type={'user history'} token={this.props.token}/>
             )
         }
-
     }
 
     render() {
         return (
             <Grid container style={{height: 400}}>
                 <Grid item>
-                    <Paper style={{width: 300, marginLeft: 50, marginTop: 50, marginRight: 50, height: 500}}>
+                    <Paper style={{width: 300, marginLeft: 50, marginTop: 50, marginRight: 50, height: 700}}>
                         <Grid container>
                             <Avatar style={{
                                 width: 80,
                                 height: 80,
                                 marginLeft: 110,
                                 marginTop: 60
-                            }}>{this.props.userInformation['displayName'].charAt(0)}</Avatar>
+                            }} src={require("./image/avatar.png")}
+                            />
                         </Grid>
                         <Grid container style={{marginTop: 30}}>
                             <Typography style={{fontSize: 20, margin: 'auto'}}>
@@ -204,6 +210,20 @@ class Profile extends Component {
                                     <Folder/>
                                 </ListItemIcon>
                                 <ListItemText inset primary="My Scripts"/>
+                            </MenuItem>
+                            <MenuItem onClick={() => {
+                                this.setState({showContent: 'Running History'})
+                            }}>
+                                <ListItemIcon>
+                                    <History/>
+                                </ListItemIcon>
+                                <ListItemText inset primary="Running History"/>
+                            </MenuItem>
+                            <MenuItem>
+                                <ListItemIcon>
+                                    <Message/>
+                                </ListItemIcon>
+                                <ListItemText inset primary="Messages"/>
                             </MenuItem>
                             <MenuItem>
                                 <ListItemIcon>
@@ -240,9 +260,9 @@ class Profile extends Component {
                     scroll={'paper'}
                     maxWidth={'1000'}
                 >
-                    <Paper style={{width: 1000, height: 800}}>
+                    <DialogContent style={{width:1000}}>
                         <CreateScripts script={this.state.selectedScript}/>
-                    </Paper>
+                    </DialogContent>
                 </Dialog>
             </Grid>
 

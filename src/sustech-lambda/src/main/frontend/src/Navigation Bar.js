@@ -13,6 +13,10 @@ import Avatar from "@material-ui/core/Avatar/Avatar";
 import Dialog from "@material-ui/core/Dialog/Dialog";
 import DialogContent from "@material-ui/core/DialogContent/DialogContent";
 import Grid from "@material-ui/core/Grid/Grid";
+import SvgIcon from "@material-ui/core/SvgIcon/SvgIcon";
+import SnackbarContent from "@material-ui/core/SnackbarContent/SnackbarContent";
+import Snackbar from "@material-ui/core/Snackbar/Snackbar";
+import ErrorIcon from "@material-ui/core/SvgIcon/SvgIcon";
 
 const theme = createMuiTheme({
     palette: {
@@ -40,14 +44,19 @@ const styles = {
 
 class ButtonAppBar extends Component {
     constructor(props) {
+
         super(props);
+        console.log(this.props.userInformation['displayName'])
         this.state = {
             login: this.props.login,
             userInformation: this.props.userInformation,
+            displayName: this.props.userInformation['displayName'],
             menueListOpen: false,
             anchorEl: null,
             modalOpen: false,
             modalType: null,
+            alertAllFieled:false,
+            snakebarContent: ' ',
         };
     }
 
@@ -60,7 +69,7 @@ class ButtonAppBar extends Component {
     handleClose = value => {
         this.setState({anchorEl: null});
         if (value == 'Signout') {
-            this.props.setToken(null)
+            this.props.setToken(null,'',{})
         }
 
     }
@@ -72,20 +81,30 @@ class ButtonAppBar extends Component {
         })
 
     }
-    showContent = () =>{
-        if(this.props.login){
-            return(
-                <Grid style={{marginLeft:window.screen.width-380,marginTop:14}}>
+    setSnake = (f,c) =>{
+        this.setState({
+            alertAllFieled:f,
+            snakebarContent:c,
+
+        })
+    }
+    showContent = () => {
+        if (this.props.login) {
+            return (
+                <Grid item style={{width:window.screen.width-400,marginTop:15}}>
                     <Button
-                            aria-owns={this.state.anchorEl ? 'simple-menu' : undefined}
-                            aria-haspopup="true"
-                            onClick={this.handleToggle}>
+                        aria-owns={this.state.anchorEl ? 'simple-menu' : undefined}
+                        aria-haspopup="true"
+                        onClick={this.handleToggle}
+                        style={{marginLeft:window.screen.width-460}}
+                    >
                         <Avatar style={{
                             width: 25,
-                            height: 25
-                        }}>{this.props.userInformation.displayName.charAt(0)}</Avatar>
-                        <Typography style={{color: '#ffffff',marginLeft:5}}>
-                            {this.props.userInformation.displayName}
+                            height: 25,
+                        }} src={require("./image/avatar.png")}
+                        />
+                        <Typography style={{color: '#ffffff', marginLeft: 6}}>
+                            {this.props.userInformation['displayName']}
                         </Typography>
                         <ExpandMore fontSize="small" color='secondary'/>
                     </Button>
@@ -100,22 +119,22 @@ class ButtonAppBar extends Component {
                     </Menu>
                 </Grid>
             )
-        }else{
-            return(
-                    <Grid style={{marginLeft:window.screen.width-450,marginTop:14}}>
-                        <Button variant={"outlined"} style={{borderColor: '#ffffff'}}
-                                onClick={() => this.handleModal("in")}>
-                            <Typography style={{color: '#ffffff'}}>
-                                Sign in
-                            </Typography>
-                        </Button>
-                        <Button variant={"outlined"} style={{borderColor: '#ffffff',marginLeft:10}}
-                                onClick={() => this.handleModal("up")} >
-                            <Typography style={{color: '#ffffff'}}>
-                                Sign up
-                            </Typography>
-                        </Button>
-                    </Grid>
+        } else {
+            return (
+                <Grid item style={{marginLeft: window.screen.width - 490, marginTop: 14}}>
+                    <Button variant={"outlined"} style={{borderColor: '#ffffff'}}
+                            onClick={() => this.handleModal("in")}>
+                        <Typography style={{color: '#ffffff'}}>
+                            Sign in
+                        </Typography>
+                    </Button>
+                    <Button variant={"outlined"} style={{borderColor: '#ffffff', marginLeft: 10}}
+                            onClick={() => this.handleModal("up")}>
+                        <Typography style={{color: '#ffffff'}}>
+                            Sign up
+                        </Typography>
+                    </Button>
+                </Grid>
 
             )
         }
@@ -127,15 +146,12 @@ class ButtonAppBar extends Component {
         return (
             <div>
                 <MuiThemeProvider theme={theme}>
-                    <AppBar position={(this.props.login)?'relative':'fixed'} style={{backgroundColor: '#101319', height: 70}}>
-                        <Toolbar >
-                            <Grid container style={{height: 70}}>
-                                <Grid item style={{width: 200 , marginTop:10}}>
-                                    <icon>
-                                        <Typography style={{fontSize: 35, color: '#ffffff'}}>
-                                            Lambda
-                                        </Typography>
-                                    </icon>
+                    <AppBar position={(this.props.login) ? 'relative' : 'fixed'}
+                            style={{backgroundColor: '#101319', height: 70}}>
+                        <Toolbar>
+                            <Grid container style={{width: window.screen.width ,height: 70}}>
+                                <Grid item style={{width: 200, marginTop:5}}>
+                                    <img src={require('./image/SUSTechLambda.png')} style={{width:60}}/>
                                 </Grid>
                                 {this.showContent()}
                             </Grid>
@@ -145,11 +161,27 @@ class ButtonAppBar extends Component {
                             >
                                 <DialogContent>
                                     <Login type={this.state.modalType} setToken={this.props.setToken}
-                                           handleModal={this.handleModal}/>
+                                           handleModal={this.handleModal} setSnake={this.setSnake}/>
                                 </DialogContent>
                             </Dialog>
                         </Toolbar>
                     </AppBar>
+                    <Snackbar
+                        anchorOrigin={{vertical: 'top', horizontal: 'right'}}
+                        open={this.state.alertAllFieled}
+                        onClose={()=>{this.setState({alertAllFieled:false})}}
+                        autoHideDuration={1000}
+
+                    >
+                        <SnackbarContent
+                            style={{backgroundColor: "#ff1a24"}}
+                            message={<span style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                            }}>  <ErrorIcon/>{this.state.snakebarContent}</span>}
+                        >
+                        </SnackbarContent>
+                    </Snackbar>
                 </MuiThemeProvider>
 
             </div>
