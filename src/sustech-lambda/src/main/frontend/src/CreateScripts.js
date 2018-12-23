@@ -580,7 +580,11 @@ class CreateScripts extends Component {
                 open:false
             }
         }
+        if (mode != null) {
+            this.setState({mode:mode})
+        }
         if (id != null) {
+            this.setState({id:id})
             this.getScripts(id)
         }
     }
@@ -622,12 +626,13 @@ class CreateScripts extends Component {
                     // FIXME: Untested Code Below
                     // Set default values using obtained results
                     const {id, name, description, content, author}=response.body; 
+                    const {language, code, parameters} = content 
                     this.Setstate({
                         title: name,
                         description: description,
-                        scripts: content,
-                        syntax: 'bash',
-                        param_list: param_list,
+                        scripts: code,
+                        syntax: language,
+                        param_list: parameters,
                         result: "NULL",
                         mode: this.props.mode,
                         id: id,
