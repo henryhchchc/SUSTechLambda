@@ -11,6 +11,9 @@ import green from '@material-ui/core/colors/green';
 import SaveIcon from '@material-ui/icons/Save';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import Grid from '@material-ui/core/Grid';
+import SnackbarContent from "@material-ui/core/SnackbarContent/SnackbarContent";
+import Snackbar from "@material-ui/core/Snackbar/Snackbar";
+import ErrorIcon from "@material-ui/core/SvgIcon/SvgIcon";
 
 
 const isDebug = true; 
@@ -280,7 +283,7 @@ class ParamEditor extends Component {
     checkDuplicateName = (param_name) => {
         const filter_list = this.state.param_list.filter((item) => item.param_name == param_name)
         if (filter_list.length > 0) {
-            alert("You cannot add duplicate paramter");
+            this.props.setSnackBar("Error", "You cannot have duplicate parameter", true)
             return false;
         }
         return true;
@@ -452,32 +455,17 @@ class ParamEditor extends Component {
             )}
         </div>
 
-    InputValidCheck = (value, type) => 
-    {
-        if (type.localeCompare("Number")) {
-            if (!isNaN(value)) {
-                return true;
-            }
-            else {
-                alert("Please input a number!");
-                return false;
-            }
-        }
-        else{
-            return true;
-        }
-    }
 
-    ParamUpdate=()=>
-    {
-        this.state.param_list.map(item => {
-            // if (item.param_name == param.param_name) {
-                if (! this.InputValidCheck(item.param_value, item.param_type)) {
-                   alert("Error")
-                }
-            // }
-        })
-    }
+    // Unused Codes here
+    // ParamUpdate=()=>
+    // {
+    //     this.state.param_list.map(item => {
+    //             if (! this.InputValidCheck(item.param_value, item.param_type)) {
+    //                alert("Error")
+    //             }
+    //     })
+    // }
+
     // Input paramter
     SingleParamInput = ({param}) => {
         return (
@@ -541,12 +529,41 @@ class ParamEditor extends Component {
     }
 }
 
+
+const SnackBarDisplay = (props, setHandle) =>{
+    let color = "#8A2BE2"
+    if (props.type == "Info"){
+        color = "#8A2BE2"
+    }else
+    if (props.type == "Error"){
+        color = "#ff1a24"
+    }else 
+    if (props.type == "Success") {
+        color = "#99FF66"
+    }
+    return (
+        <Snackbar
+        anchorOrigin={{vertical: 'top', horizontal: 'right'}}
+        open={props.open}
+        onClick={()=>{setHandle(props.type, props.info,false)}}
+        onClose={()=>{setHandle(props.type, props.info,false)}}
+        autoHideDuration={3700}
+        >
+        <SnackbarContent
+            style={{backgroundColor:color}}
+            message={props.info}
+        />
+        </Snackbar>
+    )
+}
+
 class CreateScripts extends Component {
 
     // Constructor 
     constructor(props) {
         super(props);
-        let {token} = props;
+        let {token, mode, id, scripts} = props;
+        // FIXME: whether to use mode from props all the time is underdetermined
         this.state = {
             title: "Untitled Script",
             description: null,
@@ -557,13 +574,36 @@ class CreateScripts extends Component {
             mode: "Editing",
             id:"NULL",
             token: token,
+            sb_info:{
+                type:"default",
+                info:"NULL",
+                open:false
+            }
+        }
+        if (id != null) {
+            this.getScripts(id)
         }
     }
 
+    // Trigger a snack bar
+    setSnackBar= (type, info, open) =>{
+        this.setState({
+            sb_info:{
+                type:type,
+                info:info,
+                open:open
+            }
+        })
+    }
+
     // Query Scripts 
-    getScripts = () => {
-        let url = `${apiHost}/api/scripts`
-        const message = {}
+    getScripts = (id) => {
+        let url = `${apiHost}/api/scripts/`
+        const message = {
+            "page_idx":{id},
+            "page_size":{id}
+        };
+
         const myRequest = new Request(url, {
             method: 'GET', 
             body: JSON.stringify(message), 
@@ -577,9 +617,24 @@ class CreateScripts extends Component {
             .then(response => {
                 console.log(response.status)
                 if (response.status === 401) {
-                    alert("Script ID Not Found")
+                    this.setSnackBar("Error","Script ID Not Found", true)
                 } else if (response.status == 200) {
-                    // TODO 
+                    // FIXME: Untested Code Below
+                    // Set default values using obtained results
+                    const {id, name, description, content, author}=response.body; 
+                    this.Setstate({
+                        title: name,
+                        description: description,
+                        scripts: content,
+                        syntax: 'bash',
+                        param_list: param_list,
+                        result: "NULL",
+                        mode: this.props.mode,
+                        id: id,
+                    });
+                }else {
+                    let error_msg = "Error Code:"+ response.status
+                    this.setSnackBar("Error",error_msg, true)
                 }
             })
     }
@@ -625,58 +680,93 @@ class CreateScripts extends Component {
             }
         });
 
-
         fetch(myRequest)
             .then(response => {
                 console.log(response.status)
-                alert(response.status) 
-                alert(url)
                 if (response.status === 401) {
-                    alert("Script ID Not Found")
+                    this.setSnackBar("Error","Error: Script ID Not Found", true)
                 } else if (response.status == 201) {
-                    // handling 
+                    // Created Success
                     const {id, name, description, content, author}=response.body; 
                     if (mode == "create") {
                         this.setState({id:{id}})
                     }
+                    this.setSnackBar("Success","Script save sucess", true)
+                }
+                else if (response.status == 200) {
+                    this.setSnackBar("Success","Code update sucess", true)
+                }else {
+                    let error_msg = "Error Code:"+ response.status
+                    this.setSnackBar("Error",error_msg, true)
                 }
             })
     }
 
 
     // Run a script 
+    InputValidCheck = (param) => 
+    {
+        let {value, param_type} = param
+        if (param_type == "NUMBER") {
+            if (!isNaN(value)) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        else{
+            return true;
+        }
+    }
+
     runScript=(param_list, id)=>{
         let url = `${apiHost}/api/scripts/${id}/run`
         let param_msg = []
-        param_list.map(param=>(
-            param_msg.push({
-                "name": param.param_name,
-                "type": param.param_type,
-                "value": param.param_value
-            })
-        )
-        );
-        const message = {param_msg}
-        const myRequest = new Request(url, {
-            method: 'POST', 
-            body: JSON.stringify(message), 
-            headers:{
-                'Authorization': `Bearer ${this.state.token}`,
-                'Content-Type': 'application/json',
-                'accept': 'application/json'
-            }
-        });
-        fetch(myRequest)
-            .then(response => {
-                console.log(response.status)
-                if (response.status === 401) {
-                    alert("Script ID Not Found")
-                } else if (response.status == 200) {
-                    // FIXME: Unfinished code for running 
-                    let result = response.body;
+        let param_valid = true
+        param_list.map(param=>{
+            if (this.InputValidCheck(param)){
+                param_msg.push({
+                    "name": param.param_name,
+                    "type": param.param_type,
+                    "value": param.param_value
+                })
+        }
+        else{
+            param_valid=false
+            let error_msg = "Input parameter:" + param.param_name + " is not a number"
+            this.setSnackBar("Error", error_msg, true)
+        }
+    });
+        if (param_valid){
+            this.setSnackBar("Success", "Parameter check success", true)
+            const message = {param_msg}
+            const myRequest = new Request(url, {
+                method: 'POST', 
+                body: JSON.stringify(message), 
+                headers:{
+                    'Authorization': `Bearer ${this.state.token}`,
+                    'Content-Type': 'application/json',
+                    'accept': 'application/json'
                 }
-            })
+            });
+            fetch(myRequest)
+                .then(response => {
+                    console.log(response.status)
+                    if (response.status === 401) {
+                        this.setSnackBar("Error","Script id not found", true)
+                    } else if (response.status == 200) {
+                        // FIXME: Unfinished code for running 
+                        this.setSnackBar("Success","Script start runing", true)
+                        let result = response.body;
+                    }else {
+                        let error_msg = "Error Code:"+ response.status
+                        this.setSnackBar("Error",error_msg, true)
+                    }
+                })
+            }
     }
+
 
 
 /** Buttons For Shift ***/
@@ -688,10 +778,11 @@ class CreateScripts extends Component {
         if (this.state.mode == "Editing") {
             this.modeShift("Viewing");
             this.setScripts(this.state, this.state.id);
+            this.setSnackBar("Info", "Switch to Viewing Mode",true)
         }
-        ;
         if (this.state.mode == "Viewing") {
             this.modeShift("Editing")
+            this.setSnackBar("Info", "Switch to Editing Mode",true)
         }
     }
 
@@ -756,6 +847,7 @@ class CreateScripts extends Component {
     render() {
         return (
             <div style={page}>
+            {SnackBarDisplay(this.state.sb_info, this.setSnackBar)}
             <ScriptTitle 
                 mode={this.state.mode} 
                 title={this.state.title}  
@@ -777,19 +869,14 @@ class CreateScripts extends Component {
                 result={this.state.result}
                 button={this.ButtonDisplay}
             />
-            <Grid container spacing={24}>
-             <Grid item xs={7}>
             <ParamEditor 
                 mode = {this.state.mode}
                 param_list = {this.state.param_list} 
                 setChange = {this.setChange}
                 button={this.ButtonDisplay}
+                setSnackBar={this.setSnackBar}
                 />
-            </Grid>
-            <Grid item xs={6}>
                 <this.ButtonDisplay />
-            </Grid>
-            </Grid>
             </div>
         )
     }
