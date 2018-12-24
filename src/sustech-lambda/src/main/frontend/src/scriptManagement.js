@@ -21,16 +21,16 @@ import {lighten} from '@material-ui/core/styles/colorManipulator';
 import SnackbarContent from "@material-ui/core/SnackbarContent/SnackbarContent";
 import ErrorIcon from "@material-ui/core/SvgIcon/SvgIcon";
 import Snackbar from "@material-ui/core/Snackbar/Snackbar";
-
+import Clear from "@material-ui/icons/Clear";
+import Delete from "@material-ui/icons/Delete";
+import DialogContent from "@material-ui/core/DialogContent/DialogContent";
+import CreateScripts from "./CreateScripts";
+import Dialog from "@material-ui/core/Dialog/Dialog";
 let counter = 0;
 const isDebug = true;
 
 const apiHost = isDebug ? "http://localhost:8080" : "";
 
-function createData(name, calories, fat, carbs, protein) {
-    counter += 1;
-    return {id: counter, name, calories, fat, carbs, protein};
-}
 
 function desc(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
@@ -56,14 +56,14 @@ function getSorting(order, orderBy) {
     return order === 'desc' ? (a, b) => desc(a, b, orderBy) : (a, b) => -desc(a, b, orderBy);
 }
 
-const rows =  [
+const rows = [
     {id: 'id', numeric: false, disablePadding: false, label: 'id'},
-    {id: 'userName', numeric: false, disablePadding: true, label: 'userName'},
-    {id: 'displayName', numeric: false, disablePadding: false, label: 'displayName'},
-    {id: 'roles', numeric: false, disablePadding: false, label: 'roles'},
-]
+    {id: 'name', numeric: false, disablePadding: false, label: 'name'},
+    {id: 'description', numeric: false, disablePadding: false, label: 'description'},
+];
+class EnhancedTable2Head extends React.Component {
 
-class EnhancedTableHead extends React.Component {
+
     createSortHandler = property => event => {
         this.props.onRequestSort(event, property);
     };
@@ -79,7 +79,7 @@ class EnhancedTableHead extends React.Component {
                             indeterminate={numSelected > 0 && numSelected < rowCount}
                             checked={numSelected === rowCount}
                             onChange={onSelectAllClick}
-                            checkedIcon={<RefreshIcon/>}
+                            checkedIcon={<Clear/>}
                         />
                     </TableCell>
                     {rows.map(row => {
@@ -112,7 +112,7 @@ class EnhancedTableHead extends React.Component {
     }
 }
 
-EnhancedTableHead.propTypes = {
+EnhancedTable2Head.propTypes = {
     numSelected: PropTypes.number.isRequired,
     onRequestSort: PropTypes.func.isRequired,
     onSelectAllClick: PropTypes.func.isRequired,
@@ -146,7 +146,8 @@ const toolbarStyles = theme => ({
     },
 });
 
-let EnhancedTableToolbar = props => {
+let EnhancedTable2Toolbar = props => {
+
     const {numSelected, classes} = props;
 
     return (
@@ -158,20 +159,20 @@ let EnhancedTableToolbar = props => {
             <div className={classes.title}>
                 {numSelected > 0 ? (
                     <Typography color="inherit" variant="subtitle1">
-                        {numSelected} selected to be reset password
+                        {numSelected} selected to be deleted
                     </Typography>
                 ) : (
                     <Typography variant="h6" id="tableTitle">
-                        All users
+                        All Scripts
                     </Typography>
                 )}
             </div>
             <div className={classes.spacer}/>
             <div className={classes.actions}>
                 {numSelected > 0 ? (
-                    <Tooltip title="Reset">
-                        <IconButton arial-label='reset' onClick={() => props.handleResetPassword()}>
-                            <RefreshIcon/>
+                    <Tooltip title="Delete">
+                        <IconButton arial-label='Delete' onClick={() => props.handleResetPassword()}>
+                            <Delete />
                         </IconButton>
                     </Tooltip>
                 ) : (
@@ -186,12 +187,12 @@ let EnhancedTableToolbar = props => {
     );
 };
 
-EnhancedTableToolbar.propTypes = {
+EnhancedTable2Toolbar.propTypes = {
     classes: PropTypes.object.isRequired,
     numSelected: PropTypes.number.isRequired,
 };
 
-EnhancedTableToolbar = withStyles(toolbarStyles)(EnhancedTableToolbar);
+EnhancedTable2Toolbar = withStyles(toolbarStyles)(EnhancedTable2Toolbar);
 
 const styles = theme => ({
     root: {
@@ -206,24 +207,30 @@ const styles = theme => ({
     },
 });
 
-class EnhancedTable extends React.Component {
+class EnhancedTable2 extends React.Component {
     constructor(props) {
-        let data = []
-        data = [
-            {id: 1, userName: 'bbbb', displayName: 'cccc', roles: ['USER']},
-            {id: 2, userName: 'babb', displayName: 'cccc', roles: ['USER']},
-            {id: 3, userName: 'babb', displayName: 'cccc', roles: ['USER']},
-            {id: 4, userName: 'babb', displayName: 'cccc', roles: ['USER']},
-            {id: 5, userName: 'babb', displayName: 'cccc', roles: ['USER']},
-            {id: 6, userName: 'babb', displayName: 'cccc', roles: ['USER']},
-            {id: 7, userName: 'babb', displayName: 'cccc', roles: ['USER']},
-            {id: 8, userName: 'babb', displayName: 'cccc', roles: ['USER']},
-            {id: 9, userName: 'babb', displayName: 'cccc', roles: ['USER']},
-            {id: 10, userName: 'babb', displayName: 'cccc', roles: ['USER']},
-            {id: 11, userName: 'babb', displayName: 'cccc', roles: ['USER']},
-            {id: 12, userName: 'babb', displayName: 'cccc', roles: ['USER']},
-        ]
         super(props)
+        let data = []
+        data = [{
+            "id": "df85f024-14a6-4dd8-9560-63b2586dc084",
+            "name": "Script1",
+            "description": "here is the first one",
+            "content": {
+                "language": "python",
+                "code": "import numpy as np\nprint('haha')",
+                "parameters": []
+            },
+            "author": {
+                "id": "f03754e5-d977-4d32-a167-591ff09625f5",
+                "userName": "zzx",
+                "passwordHash": "$2a$10$Nnsd2i2B038B1bsU/emksOIUVwblfAdbMnFWKI07FV6yR2aQUXd7G",
+                "displayName": "zzx",
+                "roles": [
+                    "USER",
+                    "DESIGNER"
+                ]
+            }
+        }]
         this.state = {
             order: 'asc',
             orderBy: 'calories',
@@ -233,14 +240,16 @@ class EnhancedTable extends React.Component {
             rowsPerPage: 5,
             snakebarContent: '',
             alertAllFieled: false,
+            type: props.type,
+            showModal: false,
+            selectedId: null,
         };
     }
 
 
     componentDidMount() {
         let url = ''
-        url = `${apiHost}/api/users/?page_idx=0&page_size=100`
-
+        url = `${apiHost}/api/scripts/?page_idx=0&page_size=100`
         let myHeaders = new Headers();
         myHeaders.append('Authorization', `Bearer ${this.props.token}`)
         let myinit = {
@@ -255,11 +264,9 @@ class EnhancedTable extends React.Component {
     handleResetPassword = () => {
         let selected = this.state.selected
         let result = true
-
         selected.map(
             pr => {
-                console.log(pr)
-                let url = `${apiHost}/api/users/${pr}/reset-password`
+                let url = `${apiHost}/api/users/${pr.id}/reset-password`
                 const myRequest = new Request(url, {
                     method: 'POST', headers: {
                         'Authorization': `Bearer ${this.props.token}`
@@ -267,30 +274,23 @@ class EnhancedTable extends React.Component {
                 });
                 fetch(myRequest)
                     .then(
-                        response => response.json().then(prs=>{
-
-                            if (response.status == 200) {
-                                this.setState(
-                                    {
-                                        snakebarContent: `Reset Successfully, new password is ${prs['newPassword']}`,
-                                        alertAllFieled: true,
-                                        selected: []
-                                    }
-                                )
+                        response => {
+                            if (response.status != 200) {
+                                result = false
                             }
-                        })
+                        }
                     )
             }
         )
-        // if (result) {
-        //     this.setState(
-        //         {
-        //             snakebarContent: 'Reset Successfully',
-        //             alertAllFieled: true,
-        //             selected: []
-        //         }
-        //     )
-        // }
+        if (result) {
+            this.setState(
+                {
+                    snakebarContent: 'Reset Successfully',
+                    alertAllFieled: true,
+                    selected: []
+                }
+            )
+        }
 
 
     }
@@ -332,6 +332,12 @@ class EnhancedTable extends React.Component {
         }
         this.setState({selected: newSelected});
     };
+    handleClick2 = (id) => {
+        this.setState({
+            selectedId:id,
+            showModal: true,
+        })
+    }
 
     handleChangePage = (event, page) => {
         this.setState({page});
@@ -347,20 +353,21 @@ class EnhancedTable extends React.Component {
         const {classes} = this.props;
         const {data, order, orderBy, selected, rowsPerPage, page} = this.state;
         const emptyRows = rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
-
         return (
             <div>
                 <Paper className={classes.root}>
-                    <EnhancedTableToolbar numSelected={selected.length} handleResetPassword={this.handleResetPassword}/>
+                    <EnhancedTable2Toolbar numSelected={selected.length}
+                                           handleResetPassword={this.handleResetPassword}/>
                     <div className={classes.tableWrapper}>
                         <Table className={classes.table} aria-labelledby="tableTitle">
-                            <EnhancedTableHead
+                            <EnhancedTable2Head
                                 numSelected={selected.length}
                                 order={order}
                                 orderBy={orderBy}
                                 onSelectAllClick={this.handleSelectAllClick}
                                 onRequestSort={this.handleRequestSort}
                                 rowCount={data.length}
+                                type={this.state.type}
                             />
                             <TableBody>
                                 {stableSort(data, getSorting(order, orderBy))
@@ -370,7 +377,6 @@ class EnhancedTable extends React.Component {
                                         return (
                                             <TableRow
                                                 hover
-                                                onClick={event => this.handleClick(event, n.id)}
                                                 role="checkbox"
                                                 aria-checked={isSelected}
                                                 tabIndex={-1}
@@ -378,24 +384,20 @@ class EnhancedTable extends React.Component {
                                                 selected={isSelected}
                                             >
                                                 <TableCell padding="checkbox">
-                                                    <Checkbox checked={isSelected} checkedIcon={<RefreshIcon/>}/>
+                                                    <Checkbox checked={isSelected} onClick={event => this.handleClick(event, n.id)} checkedIcon={<Clear/>}/>
                                                 </TableCell>
-                                                <TableCell component="th" scope="row" padding="none">
+                                                <TableCell component="th" scope="row" padding="none" onClick={() => this.handleClick2(n.id)}>
                                                     {n.id}
                                                 </TableCell>
-                                                <TableCell component="th" scope="row" padding="none">
-                                                    {n.userName}
+                                                <TableCell component="th" scope="row" padding="none" onClick={() => this.handleClick2(n.id)}>
+                                                    {n.name}
                                                 </TableCell>
-                                                <TableCell component="th" scope="row" padding="none">
-                                                    {n.displayName}
-                                                </TableCell>
-                                                <TableCell component="th" scope="row" padding="none">
-                                                    {n.roles}
+                                                <TableCell component="th" scope="row" padding="none" onClick={() => this.handleClick2(n.id)}>
+                                                    {n.description}
                                                 </TableCell>
 
                                             </TableRow>
-                                        );
-
+                                        )
                                     })}
                                 {emptyRows > 0 && (
                                     <TableRow style={{height: 49 * emptyRows}}>
@@ -427,7 +429,7 @@ class EnhancedTable extends React.Component {
                     onClose={() => {
                         this.setState({alertAllFieled: false})
                     }}
-                    autoHideDuration={3000}
+                    autoHideDuration={1000}
                 >
                     <SnackbarContent
                         style={{backgroundColor: "#ff1a24"}}
@@ -438,13 +440,27 @@ class EnhancedTable extends React.Component {
                     >
                     </SnackbarContent>
                 </Snackbar>
+                <Dialog
+                    open={this.state.showModal}
+                    onClose={() => {
+                        this.setState({showModal: false})
+                    }}
+                    scroll={'paper'}
+                    maxWidth={'1000'}
+                >
+                    {/*<Paper style={{width: 1000, height: 1500}}>*/}
+                    <DialogContent style={{width: 1000}}>
+                        <CreateScripts id={this.state.selectedId} token={this.props.token} mode="Editing"/>
+                        {/*</Paper>*/}
+                    </DialogContent>
+                </Dialog>
             </div>
         );
     }
 }
 
-EnhancedTable.propTypes = {
+EnhancedTable2.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(EnhancedTable);
+export default withStyles(styles)(EnhancedTable2);

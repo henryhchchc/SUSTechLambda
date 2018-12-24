@@ -10,6 +10,7 @@ import Button from "@material-ui/core/Button/Button";
 import Typography from "@material-ui/core/Typography/Typography";
 import Input from "@material-ui/core/Input/Input";
 import InputLabel from "@material-ui/core/InputLabel/InputLabel";
+import Avatar from "@material-ui/core/Avatar/Avatar";
 
 const isDebug = true;
 
@@ -63,7 +64,7 @@ class Login extends Component {
             .then(response => {
                 if (response.status === 401) {
                     console.log(123)
-                    this.props.setSnake(true,'Wrong username or password')
+                    this.props.setSnake(true, 'Wrong username or password')
                 } else if (response.status == 200) {
                     response.json().then(data => {
                         let url = `${apiHost}/api/identity/profile`
@@ -79,7 +80,7 @@ class Login extends Component {
                 } else if (response.status == 201) {
                     this.signIn('in')
                 } else if (response.status == 409) {
-                    this.props.setSnake(true,'This id has been occupied')
+                    this.props.setSnake(true, 'This id has been occupied')
                 }
             })
 
@@ -104,7 +105,7 @@ class Login extends Component {
             item => {
                 if (parameter[[item]] === undefined || parameter[[item]] === "") {
                     verified = false
-                    this.props.setSnake(true,'Please fill all fields')
+                    this.props.setSnake(true, 'Please fill all fields')
                 }
             }
         )
@@ -125,7 +126,7 @@ class Login extends Component {
     showWords = () => {
         if (this.state.showType == 'up') {
             return (
-                <Grid item style={{marginLeft: 'auto',marginRight:'auto',marginTop:5}}>
+                <Grid item style={{marginLeft: 'auto', marginRight: 'auto', marginTop: 5}}>
                     <Typography style={{fontSize: 12, marginLeft: 20}}>
                         Make sure it's more than 15 characters OR at least 8 characters including a number and a
                         lowercase letter.
@@ -134,23 +135,23 @@ class Login extends Component {
             )
         } else {
             return (
-               <Grid item style={{marginLeft: 'auto',marginRight:'auto',marginTop:30}}>
-                    <Grid container >
-                    <Typography style={{fontSize: 12}}>
-                        New to SUSTech Lambda?
-                    </Typography>
+                <Grid item style={{marginLeft: 'auto', marginRight: 'auto', marginTop: 30}}>
+                    <Grid container>
+                        <Typography style={{fontSize: 12}}>
+                            New to SUSTech Lambda?
+                        </Typography>
                     </Grid>
-                    <Grid container >
-                    <Typography style={{color: '#5eb85d', }}
-                                onClick={() => {
-                                    this.setState({
-                                        showType: 'up',
-                                        fields: ['Username', 'Id', 'Password'],
-                                        showText: "Sign up for SUSTech Lambda"
-                                    })
-                                }}>
-                        Click here
-                    </Typography>
+                    <Grid container>
+                        <Typography style={{color: '#5eb85d',}}
+                                    onClick={() => {
+                                        this.setState({
+                                            showType: 'up',
+                                            fields: ['Username', 'Id', 'Password'],
+                                            showText: "Sign up for SUSTech Lambda"
+                                        })
+                                    }}>
+                            Click here
+                        </Typography>
                     </Grid>
 
 
@@ -164,6 +165,15 @@ class Login extends Component {
 
         return (
             <Grid container style={{width: 300}}>
+                <Grid container>
+                    <Avatar style={{
+                        marginLeft: 'auto',
+                        marginRight: 'auto',
+                        width: 80,
+                        height: 80,
+                        marginTop: 3
+                    }} src={require(`./image/SUSTechLambda.png`)}/>
+                </Grid>
                 <Grid item style={{marginLeft: 'auto', marginRight: 'auto'}}>
                     <form noValidate autoComplete="off">
                         {this.state.fields.map(

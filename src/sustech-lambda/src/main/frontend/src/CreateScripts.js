@@ -563,6 +563,12 @@ class CreateScripts extends Component {
     constructor(props) {
         super(props);
         let {token, mode, id, scripts} = props;
+        if (!(mode == "Running" || mode == "Viewing" || mode == "Editing")) {
+            mode = 'Editing'
+        }
+        if(id == null){
+            id = "NULL"
+        }
         // FIXME: whether to use mode from props all the time is underdetermined
         this.state = {
             title: "Untitled Script",
@@ -571,8 +577,8 @@ class CreateScripts extends Component {
             syntax: 'bash',
             param_list: param_list,
             result: "NULL",
-            mode: "Editing",
-            id:"NULL",
+            mode: mode,
+            id:id,
             token: token,
             sb_info:{
                 type:"default",
@@ -580,13 +586,8 @@ class CreateScripts extends Component {
                 open:false
             }
         }
-        if (mode == "Running" || mode == "Viewing" || mode == "Editing") {
-            this.setState({mode:mode})
-        }
-        if (id != null) {
-            this.setState({id:id})
-            this.getScripts(id)
-        }
+
+
     }
 
     // Trigger a snack bar

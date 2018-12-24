@@ -9,6 +9,7 @@ import Profile from "./Profile";
 import Button from "@material-ui/core/Button/Button";
 import CreateScripts from "./CreateScripts";
 import EnhancedTable from './userManagement'
+import EnhancedTable2 from './scriptManagement'
 import Modal from "@material-ui/core/Modal/Modal";
 import Paper from "@material-ui/core/Paper/Paper";
 import Dialog from "@material-ui/core/Dialog/Dialog";
@@ -33,7 +34,7 @@ const styles = theme => ({
         textTransform: 'initial',
         minWidth: 72,
         fontWeight: theme.typography.fontWeightMedium,
-        fontSize: 15,
+        fontSize: 20,
         marginRight: theme.spacing.unit * 4,
         fontFamily: [
             'Arial',
@@ -72,9 +73,10 @@ class PersonalPage extends Component {
             tabValue: 0,
             label: label,
             showModal: false,
-            selectedScript:{},
+            selectedScript: {},
         };
     }
+
     /****************************Handlers****************************/
     handleTabChange = (event, value) => {
         this.setState({tabValue: value});
@@ -84,7 +86,7 @@ class PersonalPage extends Component {
             tabValue: 100,
         });
     };
-    handleSelectScript = (script) =>{
+    handleSelectScript = (script) => {
         this.setState({
             selectedScript: script,
             showModal: true
@@ -137,8 +139,7 @@ class PersonalPage extends Component {
             return (
                 <Button
                     variant="fab"
-
-                    style={{bottom: 30, right: 20, position: 'fixed', backgroundColor: "#2b2b2b"}}
+                    style={{bottom: 30, right: 20, position: 'fixed', backgroundColor: "#a3a3a3",width:45,height:45}}
                     onClick={() => {
                         this.setState({showModal: true})
                     }}
@@ -151,17 +152,16 @@ class PersonalPage extends Component {
     //UserManagement
     showUserManagement = () => {
         return (
-            <EnhancedTable token={this.props.token}/>
+            <EnhancedTable token={this.props.token} type='user'/>
         )
     }
 
     //ScriptManagement
     showScriptManagement = () => {
         return (
-            <div>
-                <ScriptList token={this.state.token} type='admin edit' handleSelectScript={this.handleSelectScript}/>
-            </div>
-        )
+            <EnhancedTable2 token={this.props.token} type='user'/>
+
+    )
     }
 
     /****************************Rendor****************************/
@@ -181,6 +181,7 @@ class PersonalPage extends Component {
                                 disableRipple
                                 classes={{root: classes.tabRoot, selected: classes.tabSelected}}
                                 label={label}
+
                             />
                     )}
                 </Tabs>
@@ -195,9 +196,9 @@ class PersonalPage extends Component {
                     maxWidth={'1000'}
                 >
                     {/*<Paper style={{width: 1000, height: 1500}}>*/}
-                    <DialogContent style={{width:1000}}>
-                        <CreateScripts script={this.state.selectedScript} token={this.props.token}/>
-                    {/*</Paper>*/}
+                    <DialogContent style={{width: 1000}}>
+                        <CreateScripts id={null} token={this.props.token} mode="Editing"/>
+                        {/*</Paper>*/}
                     </DialogContent>
                 </Dialog>
             </div>

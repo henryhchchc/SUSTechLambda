@@ -19,7 +19,7 @@ import Snackbar from "@material-ui/core/Snackbar/Snackbar";
 
 const allmember = [
     {
-        name: 'Zhang Zhaoxu',
+        name: 'Zhu Hengcheng',
         Phonenumber: 133333333,
         Introduction: 'hahahahahah'
     },
@@ -29,17 +29,17 @@ const allmember = [
         Introduction: 'hahahahahah'
     },
     {
-        name: 'Zhang Zhaoxu',
+        name: 'Wang Yutong',
         Phonenumber: 133333333,
         Introduction: 'hahahahahah'
     },
     {
-        name: 'Zhang Zhaoxu',
+        name: 'Zhang Siyu',
         Phonenumber: 133333333,
         Introduction: 'hahahahahah'
     },
     {
-        name: 'Zhang Zhaoxu',
+        name: 'He Haibin',
         Phonenumber: 133333333,
         Introduction: 'hahahahahah'
     }
@@ -108,8 +108,9 @@ class HomePage extends Component {
                                 <Avatar style={{
                                     marginLeft: (window.screen.width / allmember.length) / 3 - 45,
                                     width: 80,
-                                    height: 80
-                                }}>{pr.name.charAt(0)}</Avatar>
+                                    height: 80,
+                                    marginTop:10
+                                }} src={require(`./image/${pr.name}.jpeg`)}/>
                                 <CardContent>
                                     <Typography gutterBottom variant="h5" component="h2">
                                         {pr.name}

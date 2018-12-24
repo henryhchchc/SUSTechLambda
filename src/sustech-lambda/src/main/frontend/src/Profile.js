@@ -22,6 +22,8 @@ import IconButton from "@material-ui/core/IconButton/IconButton";
 import Dialog from "@material-ui/core/Dialog/Dialog";
 import DialogContent from "@material-ui/core/DialogContent/DialogContent";
 import History from "@material-ui/icons/History"
+import Badge from "@material-ui/core/Badge/Badge";
+
 const information = {
     'Display Name': 'ZhanaZhaoxu',
     'Id': '123431',
@@ -29,9 +31,8 @@ const information = {
     'Bio': 'Happy days.',
     'Email': '111@111.com'
 }
-const containerStyle = {
+const containerStyle = {}
 
-}
 class Profile extends Component {
 
     constructor(props) {
@@ -42,7 +43,7 @@ class Profile extends Component {
         this.state = {
             showContent: 'My Information',
             userInformation: this.props.userInformation,
-            selectedScript: {},
+            selectedScript: {id: null},
             showModal: false,
             information: information
 
@@ -61,17 +62,17 @@ class Profile extends Component {
             return (
                 <Grid container>
                     <Grid item>
-                        <Grid container style={{marginTop:50,marginLeft:100}}>
-                            <Typography style={{fontSize:25}}>
-                             Personal Information
+                        <Grid container style={{marginTop: 50, marginLeft: 100}}>
+                            <Typography style={{fontSize: 22, color: "#919191"}}>
+                                Personal Information
                             </Typography>
-                            <IconButton color="primary"  component="span" style={{marginLeft:450}} >
-                                <PhotoCamera />
+                            <IconButton component="span" style={{marginLeft: 450, color: "#38d01f"}}>
+                                <PhotoCamera/>
                             </IconButton>
                         </Grid>
-                        <Grid container style={{paddingTop:70}}>
-                            <Grid item style={{width:250}}>
-                                <Typography style={{paddingLeft:120}}>
+                        <Grid container style={{paddingTop: 70}}>
+                            <Grid item style={{width: 250}}>
+                                <Typography style={{paddingLeft: 120}}>
                                     Id
                                 </Typography>
                             </Grid>
@@ -80,16 +81,18 @@ class Profile extends Component {
                                     id="bootstrap-input"
                                     disableUnderline={true}
                                     defaultValue={information.Id}
-                                    style={{ borderRadius: 4,
+                                    style={{
+                                        borderRadius: 4,
                                         backgroundColor: '#ffffff',
                                         border: '1px solid #ced4da',
-                                        fontSize: 16,width:450}}
+                                        fontSize: 16, width: 450
+                                    }}
                                 />
                             </Grid>
                         </Grid>
-                        <Grid container style={{paddingTop:40}}>
-                            <Grid item style={{width:250}}>
-                                <Typography style={{paddingLeft:120}}>
+                        <Grid container style={{paddingTop: 40}}>
+                            <Grid item style={{width: 250}}>
+                                <Typography style={{paddingLeft: 120}}>
                                     Display Name
                                 </Typography>
                             </Grid>
@@ -98,17 +101,19 @@ class Profile extends Component {
                                     id="bootstrap-input"
                                     disableUnderline={true}
                                     defaultValue={information['Display Name']}
-                                    style={{ borderRadius: 4,
+                                    style={{
+                                        borderRadius: 4,
                                         backgroundColor: '#ffffff',
                                         border: '1px solid #ced4da',
                                         fontSize: 16,
-                                        width:450}}
+                                        width: 450
+                                    }}
                                 />
                             </Grid>
                         </Grid>
-                        <Grid container style={{paddingTop:40}}>
-                            <Grid item style={{width:250}}>
-                                <Typography style={{paddingLeft:120}}>
+                        <Grid container style={{paddingTop: 40}}>
+                            <Grid item style={{width: 250}}>
+                                <Typography style={{paddingLeft: 120}}>
                                     Roles
                                 </Typography>
                             </Grid>
@@ -117,15 +122,17 @@ class Profile extends Component {
                                     id="bootstrap-input"
                                     disableUnderline={true}
                                     defaultValue={information['Roles']}
-                                    style={{ borderRadius: 4,
+                                    style={{
+                                        borderRadius: 4,
                                         backgroundColor: '#ffffff',
                                         border: '1px solid #ced4da',
-                                        fontSize: 16,width:450}}
+                                        fontSize: 16, width: 450
+                                    }}
                                 />
                             </Grid>
-                            <Grid container style={{paddingTop:40}}>
-                                <Grid item style={{width:250}}>
-                                    <Typography style={{paddingLeft:120}}>
+                            <Grid container style={{paddingTop: 40}}>
+                                <Grid item style={{width: 250}}>
+                                    <Typography style={{paddingLeft: 120}}>
                                         Bio
                                     </Typography>
                                 </Grid>
@@ -134,15 +141,17 @@ class Profile extends Component {
                                         id="bootstrap-input"
                                         disableUnderline={true}
                                         defaultValue={information['Bio']}
-                                        style={{ borderRadius: 4,
+                                        style={{
+                                            borderRadius: 4,
                                             backgroundColor: '#ffffff',
                                             border: '1px solid #ced4da',
-                                            fontSize: 16,width:450}}
+                                            fontSize: 16, width: 450
+                                        }}
                                     />
                                 </Grid>
-                                <Grid container style={{paddingTop:40}}>
-                                    <Grid item style={{width:250}}>
-                                        <Typography style={{paddingLeft:120}}>
+                                <Grid container style={{paddingTop: 40}}>
+                                    <Grid item style={{width: 250}}>
+                                        <Typography style={{paddingLeft: 120}}>
                                             Email
                                         </Typography>
                                     </Grid>
@@ -151,10 +160,12 @@ class Profile extends Component {
                                             id="bootstrap-input"
                                             disableUnderline={true}
                                             defaultValue={information['Email']}
-                                            style={{ borderRadius: 4,
+                                            style={{
+                                                borderRadius: 4,
                                                 backgroundColor: '#ffffff',
                                                 border: '1px solid #ced4da',
-                                                fontSize: 16,width:450}}
+                                                fontSize: 16, width: 450
+                                            }}
                                         />
                                     </Grid>
                                 </Grid>
@@ -167,9 +178,10 @@ class Profile extends Component {
             return (
                 <ScriptList handleSelectScript={this.handleSelectScript} type={'user edit'} token={this.props.token}/>
             )
-        }else if(this.state.showContent=='Running History'){
-            return(
-                <ScriptList handleSelectScript={this.handleSelectScript} type={'user history'} token={this.props.token}/>
+        } else if (this.state.showContent == 'Running History') {
+            return (
+                <ScriptList handleSelectScript={this.handleSelectScript} type={'user history'}
+                            token={this.props.token}/>
             )
         }
     }
@@ -184,12 +196,13 @@ class Profile extends Component {
                                 width: 80,
                                 height: 80,
                                 marginLeft: 110,
-                                marginTop: 60
+                                marginTop: 60,
+                                borderStyle: 'solid', borderWidth: 3, borderColor: "#919191"
                             }} src={require("./image/avatar.png")}
                             />
                         </Grid>
                         <Grid container style={{marginTop: 30}}>
-                            <Typography style={{fontSize: 20, margin: 'auto'}}>
+                            <Typography style={{fontSize: 23, margin: 'auto', fontWeight: 'bold'}}>
                                 {this.props.userInformation['displayName']}
                             </Typography>
                         </Grid>
@@ -201,7 +214,9 @@ class Profile extends Component {
                                 <ListItemIcon>
                                     <ContactMail/>
                                 </ListItemIcon>
-                                <ListItemText inset primary="My Information"/>
+                                <Typography style={{fontSize: 14, color: "#919191"}}>
+                                    My Information
+                                </Typography>
                             </MenuItem>
                             <MenuItem onClick={() => {
                                 this.setState({showContent: 'My Scripts'})
@@ -209,7 +224,9 @@ class Profile extends Component {
                                 <ListItemIcon>
                                     <Folder/>
                                 </ListItemIcon>
-                                <ListItemText inset primary="My Scripts"/>
+                                <Typography style={{fontSize: 14, color: "#919191"}}>
+                                    My Scripts
+                                </Typography>
                             </MenuItem>
                             <MenuItem onClick={() => {
                                 this.setState({showContent: 'Running History'})
@@ -217,38 +234,43 @@ class Profile extends Component {
                                 <ListItemIcon>
                                     <History/>
                                 </ListItemIcon>
-                                <ListItemText inset primary="Running History"/>
+                                <Typography style={{fontSize: 14, color: "#919191"}}>
+                                    Running History
+                                </Typography>
                             </MenuItem>
                             <MenuItem>
                                 <ListItemIcon>
-                                    <Message/>
+                                    <Badge color="primary" badgeContent={4} invisible={false}>
+                                        <Message/>
+                                    </Badge>
                                 </ListItemIcon>
-                                <ListItemText inset primary="Messages"/>
+                                <Typography style={{fontSize: 14, color: "#919191"}}>
+                                    Messages
+                                </Typography>
                             </MenuItem>
-                            <MenuItem>
-                                <ListItemIcon>
-                                    <Message/>
-                                </ListItemIcon>
-                                <ListItemText inset primary="Messages"/>
-                            </MenuItem>
+
                             <MenuItem>
                                 <ListItemIcon>
                                     <Event/>
                                 </ListItemIcon>
-                                <ListItemText inset primary="Events"/>
+                                <Typography style={{fontSize: 14, color: "#919191"}}>
+                                    Events
+                                </Typography>
                             </MenuItem>
                             <MenuItem>
                                 <ListItemIcon>
                                     <Language/>
                                 </ListItemIcon>
-                                <ListItemText inset primary="Supports"/>
+                                <Typography style={{fontSize: 14, color: "#919191"}}>
+                                    Supports
+                                </Typography>
                             </MenuItem>
 
                         </MenuList>
                     </Paper>
                 </Grid>
                 <Grid item>
-                    <Paper style={{width: 900, marginTop: 50,height:800}}>
+                    <Paper style={{width: 900, marginTop: 50, height: 800}}>
                         {this.showContent()}
                     </Paper>
                 </Grid>
@@ -260,8 +282,8 @@ class Profile extends Component {
                     scroll={'paper'}
                     maxWidth={'1000'}
                 >
-                    <DialogContent style={{width:1000}}>
-                        <CreateScripts script={this.state.selectedScript}/>
+                    <DialogContent style={{width: 1000}}>
+                        <CreateScripts id={this.state.selectedScript['id']} mode="Editing"/>
                     </DialogContent>
                 </Dialog>
             </Grid>

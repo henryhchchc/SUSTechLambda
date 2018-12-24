@@ -7,7 +7,7 @@ import SnackbarContent from "@material-ui/core/SnackbarContent/SnackbarContent";
 import ErrorIcon from "@material-ui/core/SvgIcon/SvgIcon";
 import Snackbar from "@material-ui/core/Snackbar/Snackbar";
 
-const isdebug = true
+const isdebug = false
 
 
 class App extends Component {
@@ -37,7 +37,6 @@ class App extends Component {
         })
     }
     setToken = (token, status, userInformation) => {
-        console.log(userInformation['displayName'])
         this.setState({
             token: token,
             status: status,

@@ -22,29 +22,8 @@ class ScriptList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            scripts: [{
-                "content": {
-                    "code": "\n" +
-                        "import multiprocessing as mp\n" +
-                        "import time\n" +
-                        "import sys\n" +
-                        "import numpy as np",
-                    "language": "Python",
-                    "parameters": [
-                        {
-                            "name": "P1",
-                            "type": "STRING"
-                        },
-                        {
-                            "name": "P2",
-                            "type": "INT"
-                        }
-                    ]
-                },
-                "description": "This is a test example",
-                "name": "Hello World"
-            }],
-            content: null,
+            scripts: [],
+            content: {id:null},
             parameterValues: {},
             snakebarContent: '',
             alertAllFieled: false
@@ -65,7 +44,6 @@ class ScriptList extends Component {
 
     componentDidMount() {
         //TODO open it when the create script api is usable
-
         let url = ''
         if (this.props.type == 'run' || this.props.type == 'admin edit') {
             url = `${apiHost}/api/scripts?page_idx=0&page_size=100`
@@ -76,7 +54,7 @@ class ScriptList extends Component {
             });
             fetch(myRequest)
                 .then(response => response.json().then(prs => {
-                        this.setState({scripts: prs.content})
+                        this.setState({scripts: prs.content,content:prs.content[0]})
                     }
                 ));
         } else if (this.props.type == 'user edit' || this.props.type == 'user history') {
@@ -110,50 +88,13 @@ class ScriptList extends Component {
             this.props.handleSelectScript(pr)
         }
     }
-    handleParameterIn = name => event => {
-        let t = this.state.parameterValues
-        t[name] = event.target.value
-        this.setState({
-            parameterValues: t,
-        })
-    }
 
-    handleRunScript = () => {
-        let parameter = this.state.parameterValues
-        let verified = true
-        this.state.content['content']['parameters'].map(
-            item => {
-                if (parameter[item['name']] === undefined || parameter[item['name']] === "") {
-                    verified = false
-                    this.setState({
-                        snakebarContent: 'Please fill all required parameter',
-                        alertAllFieled: true,
-                    })
-                } else {
-                    if (!this.verifyType(typeof(parameter[item['name']]), item['type'])) {
-                        verified = false
-                    }
-                }
-
-            }
-        )
-        if (verified) {
-            //TODO post parameter to server to run
-        }
-    }
-
-    verifyType = (type1, type2) => {
-        if ((type2 == 'STRING' && type1 == 'string') || (type2 == 'NUMBER' && type1 == 'number')) {
-            return true
-        }
-        return false
-    }
     showScriptList = () => {
         return (
             <List>
                 {
                     this.state.scripts.map((pr, index) =>
-                        <ListItem button key={pr.name} onClick={() => this.selectPr(pr, index)}>
+                        <ListItem button key={pr.name} onClick={() =>this.selectPr(pr, index)}>
                             <ListItemText primary={pr.name} secondary={pr.description}/>
                         </ListItem>
                     )
@@ -162,8 +103,9 @@ class ScriptList extends Component {
         )
     }
     showRunScript = () => {
+        console.log(this.state.content)
         return (
-            <CreateScripts mode={"Running"}/>
+            <CreateScripts mode="Running" id = {this.state.content['id']}/>
         )
     }
 
