@@ -10,7 +10,7 @@ import CreateScripts from './CreateScripts';
 class App extends Component {
     render(){
         return (
-            <CreateScripts />
+            <CreateScripts id="test" mode="Editing"/>
             );
     }
 }

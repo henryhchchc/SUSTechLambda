@@ -237,7 +237,8 @@ const EditorDisplay = ({mode, scripts, syntax, handleChange}) => {
 }
 
 /** Result Display **/
-const ResultDisplay = ({mode, result}) => {
+const ResultDisplay = (props) => {
+    let {mode, result} = props
     if (mode == "Viewing"|| mode =="Running") {
         return (
             <div  style={result_style}>
@@ -562,31 +563,43 @@ class CreateScripts extends Component {
     // Constructor 
     constructor(props) {
         super(props);
-        let {token, mode, id, scripts} = props;
-        // FIXME: whether to use mode from props all the time is underdetermined
+        //FIXME: Unchecked codes for initialization
+        let name = "Untitled Script"
+        let description = "#TODO"
+        let parameters = []
+        let language = "bash"
+        let code = "# Input your code here :>"
+        let result = null 
+        let {token, mode, id, task_id} = props;
+        if (mode == null) { mode = "Editing"}
+        if (id == null)   { id = "NULL" }
+        else{
+            let inform = this.getScripts(id)
+            if (inform != null){
+                let {id, name, description, content, author} = inform
+                let {language, code, parameters} = content
+            }
+        }
+        if (task_id != null) { result = this.getResult(task_id)}
         this.state = {
-            title: "Untitled Script",
-            description: null,
-            scripts: "# Input your codes here :>",
-            syntax: 'bash',
-            param_list: param_list,
-            result: "NULL",
-            mode: "Editing",
-            id:"NULL",
+            title: name,
+            description: description,
+            scripts: code,
+            syntax: language, 
+            param_list: parameters,
+            result: result,
+            mode: mode,
+            id: id,
             token: token,
+            task_id : task_id,
             sb_info:{
                 type:"default",
                 info:"NULL",
                 open:false
             }
         }
-        if (mode == "Running" || mode == "Viewing" || mode == "Editing") {
-            this.setState({mode:mode})
-        }
-        if (id != null) {
-            this.setState({id:id})
-            this.getScripts(id)
-        }
+
+
     }
 
     // Trigger a snack bar
@@ -623,27 +636,47 @@ class CreateScripts extends Component {
                 if (response.status === 401) {
                     this.setSnackBar("Error","Script ID Not Found", true)
                 } else if (response.status == 200) {
-                    // FIXME: Untested Code Below
-                    // Set default values using obtained results
-                    const {id, name, description, content, author}=response.body; 
-                    const {language, code, parameters} = content 
-                    this.Setstate({
-                        title: name,
-                        description: description,
-                        scripts: code,
-                        syntax: language,
-                        param_list: parameters,
-                        result: "NULL",
-                        mode: this.props.mode,
-                        id: id,
-                    });
+                    return response.body
                 }else {
                     let error_msg = "Error Code:"+ response.status
                     this.setSnackBar("Error",error_msg, true)
+                    return null
                 }
             })
     }
 
+        // Query Result
+        // TODO: Unimplemented code here 
+        getResult = (id) => {
+            let url = `${apiHost}/api/scripts/`
+            const message = {
+                "page_idx":{id},
+                "page_size":{id}
+            };
+    
+            const myRequest = new Request(url, {
+                method: 'GET', 
+                body: JSON.stringify(message), 
+                headers:{
+                    'Authorization': `Bearer ${this.state.token}`,
+                    'Content-Type': 'application/json',
+                    'accept': 'application/json'
+                }
+            });
+            fetch(myRequest)
+                .then(response => {
+                    console.log(response.status)
+                    if (response.status === 401) {
+                        this.setSnackBar("Error","Script ID Not Found", true)
+                    } else if (response.status == 200) {
+                        return response.body
+                    }else {
+                        let error_msg = "Error Code:"+ response.status
+                        this.setSnackBar("Error",error_msg, true)
+                        return null
+                    }
+                })
+        }
         
     // Create Scripts & Update
     setScripts = (props, id) => {
@@ -869,11 +902,7 @@ class CreateScripts extends Component {
                 syntax={this.state.syntax}
                 handleChange={this.handleChange}
             />
-            <ResultDisplay
-                mode={this.state.mode}
-                result={this.state.result}
-                button={this.ButtonDisplay}
-            />
+            <ResultDisplay props={this.state}/>
             <ParamEditor 
                 mode = {this.state.mode}
                 param_list = {this.state.param_list} 
