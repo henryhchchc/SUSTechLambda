@@ -588,16 +588,9 @@ class CreateScripts extends Component {
         let code = "# Input your code here :>"
         let result = null
         let {token, mode, id, task_id} = props;
-        if (mode == null) { mode = "Editing"}
-        if (id == null)   { id = "NULL" }
-        else{
-            let inform = this.getScripts(id)
-            if (inform != null){
-                let {id, name, description, content, author} = inform
-                let {language, code, parameters} = content
-            }
-        }
-        if (task_id != null) { result = this.getResult(task_id)}
+
+        if (id == null) {id = "NULL"}
+
         this.state = {
             title: name,
             description: description,
@@ -616,6 +609,41 @@ class CreateScripts extends Component {
             }
         }
 
+        if (mode == null) { mode = "Editing"}
+        if (id == null)   { id = "NULL" }
+        else{
+            // let inform = this.getScripts(id)
+            // alert("Success")
+            // alert(inform)
+            // if (inform != null){
+            //     {id, name, description, content, author} = inform
+            //     let {language, code, parameters} = content
+            //     alert("Set")
+            //     alert(code)
+            // }
+            let {id, name, description, content, author} = props.inform
+            let {language, code, parameters} = content
+            this.state = {
+                title: name,
+                description: description,
+                scripts: code,
+                syntax: language,
+                param_list: parameters,
+                result: result,
+                mode: mode,
+                id: id,
+                token: token,
+                task_id : task_id,
+                sb_info:{
+                    type:"default",
+                    info:"NULL",
+                    open:false
+                }
+            }
+        }
+
+        alert("end")
+        alert(inform)
 
     }
 
@@ -636,8 +664,7 @@ class CreateScripts extends Component {
         const message = {}
 
         const myRequest = new Request(url, {
-            method: 'GET', 
-            body: JSON.stringify(message), 
+            method: 'GET',
             headers:{
                 'Authorization': `Bearer ${this.state.token}`,
                 'Content-Type': 'application/json',

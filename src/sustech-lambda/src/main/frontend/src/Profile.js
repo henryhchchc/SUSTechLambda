@@ -21,7 +21,7 @@ import Dialog from "@material-ui/core/Dialog/Dialog";
 import DialogContent from "@material-ui/core/DialogContent/DialogContent";
 import History from "@material-ui/icons/History"
 import Badge from "@material-ui/core/Badge/Badge";
-import {Button, Icon} from "semantic-ui-react";
+import {Button} from "semantic-ui-react";
 
 const information = {
     'Display Name': 'ZhanaZhaoxu',
@@ -56,15 +56,7 @@ class Profile extends Component {
         })
     }
 
-    setSnackBar= (type, info, open) =>{
-        this.setState({
-            sb_info:{
-                type:type,
-                info:info,
-                open:open
-            }
-        })
-    }
+
     showContent = () => {
         if (this.state.showContent == 'My Information') {
             return (
@@ -348,7 +340,7 @@ class Profile extends Component {
                     maxWidth={'1000'}
                 >
                     <DialogContent style={{width: 1000}}>
-                        <CreateScripts id={this.state.selectedScript['id']} mode="Editing" />
+                        <CreateScripts id={this.state.selectedScript['id']} mode="Editing" token={this.props.token}/>
                     </DialogContent>
                 </Dialog>
             </Grid>
