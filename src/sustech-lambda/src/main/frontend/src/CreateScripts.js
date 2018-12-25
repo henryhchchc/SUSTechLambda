@@ -256,7 +256,7 @@ const EditorDisplay = ({mode, scripts, syntax, handleChange}) => {
 /** Result Display **/
 const ResultDisplay = (props) => {
     let {mode, result} = props
-    if (mode == "Viewing"|| mode =="Running") {
+    if (mode == "Viewing") {
         return (
             <div  style={result_style}>
                 <h4>Result></h4>
@@ -671,30 +671,34 @@ class CreateScripts extends Component {
 
         // Query Result
         getResult = (id) => {
-            let url = `${apiHost}/api/task/${id}`
-            let message={};
+            alert("start")
+            let url = `${apiHost}/api/tasks/${id}`
             const myRequest = new Request(url, {
                 method: 'GET',
-                body: JSON.stringify(message),
                 headers:{
                     'Authorization': `Bearer ${this.state.token}`,
                     'Content-Type': 'application/json',
                     'accept': 'application/json'
                 }
             });
-            fetch(myRequest)
-                .then(response => {
-                    console.log(response.status)
-                    if (response.status === 401) {
-                        this.props.setSnackBar("Error","Script ID Not Found", true)
-                    } else if (response.status == 200) {
-                        return response.body
-                    }else {
-                        let error_msg = "Error Code:"+ response.status
-                        this.props.setSnackBar("Error",error_msg, true)
-                        return null
-                    }
-                })
+                fetch(myRequest)
+                    // alert("get")
+                    .then(response => response.json().then(prs => {
+                        console.log(response.status)
+                        if (response.status === 401) {
+                            this.props.setSnackBar("Error", "Script ID Not Found", true)
+                        } else if (response.status == 200) {
+                            // if (prs.satus=="FINISHED") {
+                                this.setState({result: prs.result})
+                            //     return true
+                            // }
+                            // else return false
+
+                        } else {
+                            let error_msg = "Error Code:" + response.status
+                            this.props.setSnackBar("Error", error_msg, true)
+                        }
+                    }))
         }
         
     // Create Scripts & Update
@@ -808,22 +812,22 @@ class CreateScripts extends Component {
                 }
             });
             fetch(myRequest)
-                .then(response => {
-                    alert(response.status)
+                .then(response => {response.json().then(prs => {
                     console.log(response.status)
                     if (response.status === 401) {
-                        this.props.setSnackBar("Error","Script id not found", true)
-                    } else if (response.status == 200) {
+                        this.props.setSnackBar("Error", "Script id not found", true)
+                    } else if (response.status == 201) {
                         // FIXME: Unfinished code for running 
-                        this.props.setSnackBar("Success","Script start runing", true)
-                        let result = this.getResult(response.body.id)
-                        this.setState({result:result})
-                    }else {
-                        let error_msg = "Error Code:"+ response.status
-                        this.props.setSnackBar("Error",error_msg, true)
+                        this.props.setSnackBar("Success", "Script start running", true)
+
+                        let result = this.getResult(prs.id)
+                        // while (!result) {this.getResult(prs.id)}
+                    } else {
+                        let error_msg = "Error Code:" + response.status
+                        this.props.setSnackBar("Error", error_msg, true)
                     }
-                })
-            }
+                })})
+        }
     }
 
 
@@ -910,6 +914,7 @@ class CreateScripts extends Component {
     }
 
     render() {
+        // alert(this.state.result)
         return (
             <div style={page}>
           
