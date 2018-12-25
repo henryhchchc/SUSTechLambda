@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import Button from '@material-ui/core/Button';
+import { Button } from 'semantic-ui-react'
 import {MuiThemeProvider, createMuiTheme} from '@material-ui/core/styles';
 import Typography from "@material-ui/core/Typography/Typography";
 import ExpandMore from "@material-ui/icons/es/ExpandMore";
@@ -122,17 +122,15 @@ class ButtonAppBar extends Component {
         } else {
             return (
                 <Grid item style={{marginLeft: window.screen.width - 490, marginTop: 14}}>
-                    <Button variant={"outlined"} style={{borderColor: '#ffffff'}}
+                    <Button inverted color='black'
                             onClick={() => this.handleModal("in")}>
-                        <Typography style={{color: '#ffffff'}}>
                             Sign in
-                        </Typography>
                     </Button>
-                    <Button variant={"outlined"} style={{borderColor: '#ffffff', marginLeft: 10}}
+                    <Button inverted color='black'
                             onClick={() => this.handleModal("up")}>
-                        <Typography style={{color: '#ffffff'}}>
+                        {/*<Typography style={{color: '#ffffff',fontWeight:"bold"}}>*/}
                             Sign up
-                        </Typography>
+                        {/*</Typography>*/}
                     </Button>
                 </Grid>
 

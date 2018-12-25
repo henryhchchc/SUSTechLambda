@@ -5,8 +5,7 @@ import Grid from "@material-ui/core/Grid/Grid";
 import Fade from "@material-ui/core/Fade/Fade";
 import {ControlBar, Player} from 'video-react';
 import "video-react/dist/video-react.css";
-import Button from "@material-ui/core/Button/Button";
-import Modal from "@material-ui/core/Modal/Modal";
+import { Button } from 'semantic-ui-react'
 import Login from "./login";
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -150,7 +149,7 @@ class HomePage extends Component {
                     <Grid container spacing={24}>
                         <Grid item>
                             <Fade in={true} timeout={1000}>
-                                <Button variant="contained" style={style.bootstrapRoot} onClick={() => {
+                                <Button inverted style={style.bootstrapRoot} onClick={() => {
                                     this.setState({open: true})
                                 }}>
                                     <Typography style={{color: '#FFFFFF', fontFamily: 'Arial', fontSize: 20}}>
