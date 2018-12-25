@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import {Button,Icon} from 'semantic-ui-react'
+import {Button,Icon,Input} from 'semantic-ui-react'
 import {MuiThemeProvider, createMuiTheme} from '@material-ui/core/styles';
 import Typography from "@material-ui/core/Typography/Typography";
 import ExpandMore from "@material-ui/icons/es/ExpandMore";
@@ -132,17 +132,26 @@ class ButtonAppBar extends Component {
             )
         } else {
             return (
-                <Grid item style={{marginLeft: window.screen.width - 450, marginTop: 14}}>
+                <Grid item style={{marginLeft: window.screen.width -930, marginTop: 14}}>
+                    <Grid container 
+                    >
+                    <Grid style={{width:300}}>
+                    <Input fluid icon={{ name: 'search', circular: true, link: true }} placeholder='Search...' />
+                    </Grid>
                     <Button inverted color='black'
-                            onClick={() => this.handleModal("in")}>
+                            onClick={() => this.handleModal("in")}
+                            style={{marginLeft:20}}
+                        >
                         Sign in
                     </Button>
                     <Button inverted color='black'
-                            onClick={() => this.handleModal("up")}>
+                            onClick={() => this.handleModal("up")}
+                            style={{marginLeft:5}}>
                         {/*<Typography style={{color: '#ffffff',fontWeight:"bold"}}>*/}
                         Sign up
                         {/*</Typography>*/}
                     </Button>
+                    </Grid>
                 </Grid>
 
             )

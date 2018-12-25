@@ -59,10 +59,9 @@ class App extends Component {
         if (isdebug) {
             return (
                 <div>
-                    <ButtonAppBar login={true} setToken={this.setToken} token={this.state.token} userInformation={this.state.userInformation} setSnake={this.setSnake}/>
-                    {/*<HomePage />*/}
-                    <PersonalPage user='user' token={this.state.token} userInformation={this.state.userInformation} />
-                    {/*<CreateScript/>*/}
+                    <ButtonAppBar login={false} setToken={this.setToken} token={this.state.token} userInformation={this.state.userInformation} setSnake={this.setSnake}/>
+                    <HomePage />
+                    
                     <Snackbar
                         anchorOrigin={{vertical: 'top', horizontal: 'right'}}
                         open={this.state.alertAllFieled}
