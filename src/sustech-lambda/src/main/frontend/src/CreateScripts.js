@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import TextField from '@material-ui/core/TextField';
 import SyntaxHighlighter from 'react-syntax-highlighter';
-import Button from '@material-ui/core/Button';
+// import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import MenuItem from '@material-ui/core/MenuItem';
 import {List, withStyles} from '@material-ui/core';
@@ -9,11 +9,16 @@ import Typography from '@material-ui/core/Typography';
 import { types } from 'util';
 import green from '@material-ui/core/colors/green';
 import SaveIcon from '@material-ui/icons/Save';
+import PublishIcon from '@material-ui/icons/Publish';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+import { Icon } from 'semantic-ui-react'
 import Grid from '@material-ui/core/Grid';
+// import { Grid, Image } from 'semantic-ui-react'
 import SnackbarContent from "@material-ui/core/SnackbarContent/SnackbarContent";
 import Snackbar from "@material-ui/core/Snackbar/Snackbar";
 import ErrorIcon from "@material-ui/core/SvgIcon/SvgIcon";
+import { Button, Segment } from 'semantic-ui-react'
+import InputLabel from '@material-ui/core/InputLabel';
 
 
 const isDebug = true; 
@@ -23,6 +28,7 @@ const short_editor_edit= {
     width: '100%',
     // maxWidth: 700,
     height:'150px',
+    fontFamily:['Comic Sans MS','cursive','sans-serif']
     // float:'left',
 }
 
@@ -30,10 +36,12 @@ const short_editor_display= {
     width: '100%',
     // maxWidth: 700,
     height:'50px',
+    fontFamily:['Comic Sans MS','cursive','sans-serif']
 }
 
 const long_editor= {
     width: '100%',
+    fontFamily:['Comic Sans MS','cursive','sans-serif']
     // maxWidth: 700,
 }
 
@@ -41,6 +49,7 @@ const script_editor= {
     width: '100%',
     // maxWidth: 700,
     height:'200px',
+    fontFamily:['Comic Sans MS','cursive','sans-serif']
 }
 
 const button = {
@@ -57,16 +66,19 @@ const result_style = {
     width: '100%',
     // maxWidth: 700,
     height:'200px',
+    fontFamily:['Comic Sans MS','cursive','sans-serif']
 }
 
 const page = {
-    padding: '5%'
+    padding: '5%',
+    fontFamily:['Comic Sans MS','cursive','sans-serif']
 }
 
 const param_editor_edit= {
     width: '100%',
     height:'150px',
-    float:'left'
+    float:'left',
+    fontFamily:['Comic Sans MS','cursive','sans-serif']
 }
 
 const param_list = []
@@ -95,11 +107,11 @@ const EditTitle = ({title, handleChange}) =>
 <div className="short-editor">
     <TextField
         id="title"
-        // label="Title"
+        label="Script Title"
+        variant="outlined"
         value={title}
         onChange={handleChange('title')}
         placeholder="Input your title here"
-        helperText="Please Input your title"
         margin="normal"
         fullWidth
         item
@@ -112,7 +124,7 @@ const ScriptTitle = ({mode, title, handleChange}) =>
     if (mode == "Editing") {
         return (
             <div style={short_editor_edit}>
-                <Typography component="h1" variant="h1" gutterBottom>{mode} Mode</Typography>
+                <Typography style={{fontFamily:['Comic Sans MS','cursive','sans-serif']}} component="h1" variant="h1" gutterBottom>{mode} Mode</Typography>
                 <EditTitle
                     title={title}
                     handleChange={handleChange}
@@ -121,18 +133,21 @@ const ScriptTitle = ({mode, title, handleChange}) =>
         );
     }
     if (mode == "Viewing" || mode == "Running") {
-        return (<div style={short_editor_display}><Typography component="h1" variant="h1" gutterBottom>{title}</Typography></div>);
+        return (<div style={{fontFamily:['Comic Sans MS','cursive','sans-serif']}} ><Typography component="h1" variant="h1" gutterBottom>{title}</Typography></div>);
     }
 }
 
 
 /** Description Display and Editor  **/
 const DescriptionEditor = ({description, handleChange}) =>
+    <div>
+    <h4 style={{fontFamily:['Comic Sans MS','cursive','sans-serif']}}> Description </h4>
     <TextField
         id="description"
         // label="Description"
         placeholder="Input your description here"
         helperText="Please Input your description"
+        variant="filled"
         value={description}
         onChange={handleChange('description')}
         margin="normal"
@@ -141,12 +156,13 @@ const DescriptionEditor = ({description, handleChange}) =>
         rowsMax="20"
         multiline
     />
+    </div>
 
 
 const DescriptionDisplay = ({mode, description, handleChange}) => {
 if (mode == "Editing") {
     return (
-        <div style={long_editor}>
+        <div style={{fontFamily:['Comic Sans MS','cursive','sans-serif']}} >
             <DescriptionEditor
                 description={description}
                 handleChange={handleChange}
@@ -158,8 +174,8 @@ if (mode == "Editing") {
 if (mode == "Viewing"|| mode == "Running") {
     return (
         <div style={long_editor}>
-            <Typography component="h2" variant="h2"> Decriptioin ></Typography>
-            <Typography component="h4" variant="h4">{description}</Typography>
+            <Typography style={{fontFamily:['Comic Sans MS','cursive','sans-serif']}}  component="h4" variant="h4"> Decriptioin ></Typography>
+            <Typography style={{fontFamily:['Comic Sans MS','cursive','sans-serif']}}  component="h4" variant="h4">{description}</Typography>
         </div>
     );
 }
@@ -184,6 +200,7 @@ const EditorDisplay = ({mode, scripts, syntax, handleChange}) => {
     if (mode == "Editing") {
         return (
             <div style={script_editor}>
+                    <h4 style={{fontFamily:['Comic Sans MS','cursive','sans-serif']}}> Script </h4>
                     <TextField
                         id="code"
                         helperText="Please input your scripts here"
@@ -219,7 +236,7 @@ const EditorDisplay = ({mode, scripts, syntax, handleChange}) => {
     if (mode == "Viewing") {
         return (
             <div style={script_editor}>
-                <h2> Script > </h2>
+                <h4 style={{fontFamily:['Comic Sans MS','cursive','sans-serif']}} > Script > </h4>
                 <SyntaxHighlighter
                     language={syntax}
                 >{scripts}
@@ -242,7 +259,7 @@ const ResultDisplay = (props) => {
     if (mode == "Viewing"|| mode =="Running") {
         return (
             <div  style={result_style}>
-                <h2>Result></h2>
+                <h4>Result></h4>
                 <TextField
                     id="result"
                     // label="result"
@@ -252,6 +269,7 @@ const ResultDisplay = (props) => {
                     rows="3"
                     rowsMax="20"
                     multiline
+                    variant="filled"
                 />
             </div>);
     }
@@ -357,7 +375,7 @@ class ParamEditor extends Component {
                 onChange={(event)=>{
                     this.setState({pt_temp:event.target.value})
                 }}
-                helperText="Please select the parameter type"
+                helperText="Please select the type of pram"
                 margin="normal"
                 >
                     {var_type_list.map(option=>(
@@ -368,9 +386,7 @@ class ParamEditor extends Component {
                     }
                 </TextField>
                 <Button
-                    variant="fab"
-                    color="default"
-                    aria-label="Add-param"
+                    inverted color="violet"
                     onClick={() =>{
                         new_param.param_name=this.state.pn_temp
                         new_param.param_type=this.state.pt_temp
@@ -380,7 +396,8 @@ class ParamEditor extends Component {
                     }
                     }
                 >
-                    <AddIcon/>
+                <Icon disabled name='add' />
+                    Add
                 </Button>
             </div>
         );
@@ -418,11 +435,11 @@ class ParamEditor extends Component {
                     margin="normal"
                 />
                 <Button
-                    variant="fab"
-                    color="default"
-                    aria-label="Add-param"
+                    inverted
+                    color="red"
                     onClick={() => this.handleDelParam(item.param_name)}
                 >
+                <Icon disabled name='close' />
                   Del
             </Button>
              </span>
@@ -435,7 +452,7 @@ class ParamEditor extends Component {
     EditParam = () => {
         return (
             <div className="editParam" style={param_editor_edit}>
-                <h4>Parameter</h4>
+                <h4 style={{fontFamily:['Comic Sans MS','cursive','sans-serif']}} >Parameter</h4>
                     <this.DisplayParamEdit/>
                     <this.SingleParamEdit/>
                     <br/>
@@ -540,7 +557,7 @@ const SnackBarDisplay = (props, setHandle) =>{
         color = "#ff1a24"
     }else 
     if (props.type == "Success") {
-        color = "#99FF66"
+        color = "#02C874"
     }
     return (
         <Snackbar
@@ -551,7 +568,7 @@ const SnackBarDisplay = (props, setHandle) =>{
         autoHideDuration={3700}
         >
         <SnackbarContent
-            style={{backgroundColor:color}}
+            style={{backgroundColor:color, fontSize: 15}}
             message={props.info}
         />
         </Snackbar>
@@ -613,13 +630,10 @@ class CreateScripts extends Component {
         })
     }
 
-    // Query Scripts 
+    // Get Scripts 
     getScripts = (id) => {
-        let url = `${apiHost}/api/scripts/`
-        const message = {
-            "page_idx":{id},
-            "page_size":{id}
-        };
+        let url = `${apiHost}/api/scripts/${id}`
+        const message = {}
 
         const myRequest = new Request(url, {
             method: 'GET', 
@@ -646,14 +660,9 @@ class CreateScripts extends Component {
     }
 
         // Query Result
-        // TODO: Unimplemented code here
         getResult = (id) => {
-            let url = `${apiHost}/api/scripts/`
-            const message = {
-                "page_idx":{id},
-                "page_size":{id}
-            };
-
+            let url = `${apiHost}/api/task/${id}`
+            let message={};
             const myRequest = new Request(url, {
                 method: 'GET',
                 body: JSON.stringify(message),
@@ -796,7 +805,8 @@ class CreateScripts extends Component {
                     } else if (response.status == 200) {
                         // FIXME: Unfinished code for running 
                         this.setSnackBar("Success","Script start runing", true)
-                        let result = response.body;
+                        let result = this.getResult(response.body.id)
+                        this.setState({result:result})
                     }else {
                         let error_msg = "Error Code:"+ response.status
                         this.setSnackBar("Error",error_msg, true)
@@ -827,14 +837,18 @@ class CreateScripts extends Component {
     executeCurrentScripts = () => {
         this.runScript(this.state.param_list, this.state.id)
     }
+    publishCurrentScripts = () => {
+        this.setScripts(this.state, this.state.id)
+        this.setSnackBar("Success","Script publish success", true)
+    }
 
     /** Button Display **/
     ButtonDisplay = () => {
         if (this.state.mode == "Editing") {
             return (
                 <div style={button}>
-                    <Button variant="contained" color="secondary" onClick={()=>this.buttonShift()}>
-                    <SaveIcon />
+                    <Button  color="blue" size='large' onClick={()=>this.buttonShift()}>
+                    <Icon disabled name='save' />
                         Edit Mode
                     </Button>
                 </div>
@@ -844,15 +858,16 @@ class CreateScripts extends Component {
         if (this.state.mode == "Viewing") {
             return (
                 <div style={button}>
-                <Button variant="contained" color="secondary" onClick={()=>this.buttonShift()}>
-                <SaveIcon />
+                <Button  color="blue" size='large' onClick={()=>this.buttonShift()}>
+                    <Icon disabled name='edit' />
                     Edit Mode
                 </Button>
-                <Button variant="contained" color="primary" >
-                    Publish
-                    <CloudUploadIcon />
+                <Button  color='green'  size='large' onClick={()=>this.publishCurrentScripts()} >
+                    <Icon disabled name='cloud upload' />
+                    Publish  
                 </Button>
-                <Button variant="contained" color="default" onClick={()=>this.executeCurrentScripts()}>
+                <Button  color='orange' size='large' onClick={()=>this.executeCurrentScripts()}>
+                <Icon disabled name='play' />
                 Execute
                 </Button>
                 </div>
@@ -861,8 +876,9 @@ class CreateScripts extends Component {
         if (this.state.mode == "Running") {
             return(
                 <div>
-                <Button variant="contained" color="default" onClick={()=>this.executeCurrentScripts()}>
-                    Execute
+                <Button  color='orange' size='large' onClick={()=>this.executeCurrentScripts()}>
+                <Icon disabled name='play' />
+                Execute
                 </Button>
                 </div>
             )
@@ -891,17 +907,20 @@ class CreateScripts extends Component {
                 title={this.state.title}  
                 handleChange={this.handleChange}  
             />
+            <br/>
             <DescriptionDisplay
                 mode={this.state.mode}
                 description={this.state.description}
                 handleChange={this.handleChange}
             />
+            <br/>
             <EditorDisplay
                 mode={this.state.mode}
                 scripts={this.state.scripts}
                 syntax={this.state.syntax}
                 handleChange={this.handleChange}
             />
+            <br/>
             <ResultDisplay props={this.state}/>
             <ParamEditor 
                 mode = {this.state.mode}
