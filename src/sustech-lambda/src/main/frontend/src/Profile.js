@@ -56,6 +56,15 @@ class Profile extends Component {
         })
     }
 
+    setSnackBar= (type, info, open) =>{
+        this.setState({
+            sb_info:{
+                type:type,
+                info:info,
+                open:open
+            }
+        })
+    }
     showContent = () => {
         if (this.state.showContent == 'My Information') {
             return (
@@ -339,7 +348,7 @@ class Profile extends Component {
                     maxWidth={'1000'}
                 >
                     <DialogContent style={{width: 1000}}>
-                        <CreateScripts id={this.state.selectedScript['id']} mode="Editing"/>
+                        <CreateScripts id={this.state.selectedScript['id']} mode="Editing" />
                     </DialogContent>
                 </Dialog>
             </Grid>
