@@ -340,7 +340,7 @@ class Profile extends Component {
                     maxWidth={'1000'}
                 >
                     <DialogContent style={{width: 1000}}>
-                        <CreateScripts id={this.state.selectedScript['id']} mode="Editing" token={this.props.token}/>
+                        <CreateScripts id={this.state.selectedScript['id']} mode="Editing" token={this.props.token} setSnackBar={this.props.setSnackBar} />
                     </DialogContent>
                 </Dialog>
             </Grid>

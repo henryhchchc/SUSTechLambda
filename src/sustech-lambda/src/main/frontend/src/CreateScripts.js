@@ -455,7 +455,6 @@ class ParamEditor extends Component {
                 <h4 style={{fontFamily:['Comic Sans MS','cursive','sans-serif']}} >Parameter</h4>
                     <this.DisplayParamEdit/>
                     <this.SingleParamEdit/>
-                    <br/>
             </div>
         );
     }
@@ -468,7 +467,6 @@ class ParamEditor extends Component {
                 {item.param_name}
                 {item.param_value}  
             </span>
-                        <br/>
                     </div>
             )}
         </div>
@@ -563,7 +561,6 @@ class CreateScripts extends Component {
         let code = "# Input your code here :>"
         let result = null
         let {token, mode, id, task_id} = props;
-
         if (id == null) {id = "NULL"}
 
         this.state = {
@@ -585,9 +582,8 @@ class CreateScripts extends Component {
         }
 
         if (mode == null) { mode = "Editing"}
-        if (id == null)   { id = "NULL" }
-        else{
-            // let inform = this.getScripts(id)
+        if (id != "NULL"){
+            let inform = this.getScripts(id)
             // alert("Success")
             // alert(inform)
             // if (inform != null){
@@ -596,29 +592,29 @@ class CreateScripts extends Component {
             //     alert("Set")
             //     alert(code)
             // }
-            let {id, name, description, content, author} = props.inform
-            let {language, code, parameters} = content
-            this.state = {
-                title: name,
-                description: description,
-                scripts: code,
-                syntax: language,
-                param_list: parameters,
-                result: result,
-                mode: mode,
-                id: id,
-                token: token,
-                task_id : task_id,
-                sb_info:{
-                    type:"default",
-                    info:"NULL",
-                    open:false
-                }
-            }
+            // let {id, name, description, content, author} = props.inform
+            // let {language, code, parameters} = content
+            // this.state = {
+            //     title: name,
+            //     description: description,
+            //     scripts: code,
+            //     syntax: language,
+            //     param_list: parameters,
+            //     result: result,
+            //     mode: mode,
+            //     id: id,
+            //     token: token,
+            //     task_id : task_id,
+            //     sb_info:{
+            //         type:"default",
+            //         info:"NULL",
+            //         open:false
+            //     }
+            // }
         }
 
-        alert("end")
-        alert(inform)
+        // alert("end")
+        // alert(inform)
 
     }
 
@@ -647,18 +643,30 @@ class CreateScripts extends Component {
             }
         });
         fetch(myRequest)
-            .then(response => {
-                console.log(response.status)
-                if (response.status === 401) {
-                    this.props.setSnackBar("Error","Script ID Not Found", true)
-                } else if (response.status == 200) {
-                    return response.body
-                }else {
-                    let error_msg = "Error Code:"+ response.status
-                    this.props.setSnackBar("Error",error_msg, true)
-                    return null
-                }
-            })
+            .then(response => response.json().then(prs => {
+                        let {id, name, description, content, author} = prs
+                        let {language, code, parameters} = content;
+
+
+                        let param_list = []
+                        parameters.map(param=>(
+                            param_list.push({
+                                param_name: param.name,
+                                param_type: param.type,
+                            })
+                        ))
+
+                        this.setState({
+                            title: name,
+                            description: description,
+                            scripts: code,
+                            syntax: language,
+                            param_list: param_list,
+                            id: id,
+                        })
+                        }
+                    )
+            )
     }
 
         // Query Result
@@ -771,14 +779,14 @@ class CreateScripts extends Component {
 
     runScript=(param_list, id)=>{
         let url = `${apiHost}/api/scripts/${id}/run`
-        let param_msg = []
+        let parameters = []
         let param_valid = true
         param_list.map(param=>{
             if (this.InputValidCheck(param)){
-                param_msg.push({
+                parameters.push({
                     "name": param.param_name,
                     "type": param.param_type,
-                    "value": param.param_value
+                    "value": param.value
                 })
         }
         else{
@@ -789,7 +797,7 @@ class CreateScripts extends Component {
     });
         if (param_valid){
             this.props.setSnackBar("Success", "Parameter check success", true)
-            const message = {param_msg}
+            const message =  parameters
             const myRequest = new Request(url, {
                 method: 'POST', 
                 body: JSON.stringify(message), 
@@ -801,6 +809,7 @@ class CreateScripts extends Component {
             });
             fetch(myRequest)
                 .then(response => {
+                    alert(response.status)
                     console.log(response.status)
                     if (response.status === 401) {
                         this.props.setSnackBar("Error","Script id not found", true)

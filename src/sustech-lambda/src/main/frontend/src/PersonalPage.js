@@ -171,7 +171,7 @@ class PersonalPage extends Component {
     showProfile = () => {
         return (
             <div>
-                <Profile userInformation={this.props.userInformation} token={this.props.token}/>
+                <Profile userInformation={this.props.userInformation} token={this.props.token} setSnackBar={this.setSnackBar} />
             </div>
         )
     }
