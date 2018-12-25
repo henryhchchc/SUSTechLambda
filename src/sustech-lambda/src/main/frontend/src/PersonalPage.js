@@ -246,7 +246,7 @@ class PersonalPage extends Component {
                         {/*</Paper>*/}
                     </DialogContent>
                 </Dialog>
-                <Segment inverted vertical style={{ marginTop:500 , padding: '5em 0em' }}>
+                <Segment inverted vertical style={{ marginTop:this.props.user=='admin'?100:500 , padding: '5em 0em' }}>
                     <Container textAlign='center'>
                         <Grid divided inverted stackable>
                             <Grid.Column width={3}>
