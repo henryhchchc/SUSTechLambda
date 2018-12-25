@@ -14,7 +14,9 @@ import Paper from "@material-ui/core/Paper/Paper";
 import Dialog from "@material-ui/core/Dialog/Dialog";
 import DialogContent from "@material-ui/core/DialogContent/DialogContent";
 import {Container, Divider,Button, Header, Grid,Image, List, Segment} from "semantic-ui-react";
-
+import SnackbarContent from "@material-ui/core/SnackbarContent/SnackbarContent";
+import Snackbar from "@material-ui/core/Snackbar/Snackbar";
+import ErrorIcon from "@material-ui/core/SvgIcon/SvgIcon";
 
 const styles = theme => ({
     root: {
@@ -59,7 +61,32 @@ const styles = theme => ({
         padding: theme.spacing.unit * 3,
     },
 });
-
+const SnackBarDisplay = (props, setHandle) =>{
+    let color = "#8A2BE2"
+    if (props.type == "Info"){
+        color = "#8A2BE2"
+    }else
+    if (props.type == "Error"){
+        color = "#ff1a24"
+    }else 
+    if (props.type == "Success") {
+        color = "#02C874"
+    }
+    return (
+        <Snackbar
+        anchorOrigin={{vertical: 'top', horizontal: 'right'}}
+        open={props.open}
+        onClick={()=>{setHandle(props.type, props.info,false)}}
+        onClose={()=>{setHandle(props.type, props.info,false)}}
+        autoHideDuration={3700}
+        >
+        <SnackbarContent
+            style={{backgroundColor:color, fontSize: 15}}
+            message={props.info}
+        />
+        </Snackbar>
+    )
+}
 class PersonalPage extends Component {
     /****************************States****************************/
     constructor(props) {
@@ -74,6 +101,11 @@ class PersonalPage extends Component {
             label: label,
             showModal: false,
             selectedScript: {},
+            sb_info:{
+                type:'default',
+                info:'',
+                open:false
+            }
         };
     }
 
@@ -92,6 +124,16 @@ class PersonalPage extends Component {
             showModal: true
         })
     }
+    setSnackBar= (type, info, open) =>{
+        this.setState({
+            sb_info:{
+                type:type,
+                info:info,
+                open:open
+            }
+        })
+    }
+
     /****************************Show the Content****************************/
     showContent = (tabValue) => {
         if (this.props.user == 'admin') {
@@ -118,7 +160,7 @@ class PersonalPage extends Component {
     showScriptList = () => {
         return (
             <div>
-                <ScriptList token={this.props.token} type='run'/>
+                <ScriptList token={this.props.token} type='run' setSnackBar={this.setSnackBar} />
             </div>
         )
     }
@@ -172,6 +214,7 @@ class PersonalPage extends Component {
         const {tabValue} = this.state;
         return (
             <div>
+                {SnackBarDisplay(this.state.sb_info, this.setSnackBar)}
                 <Tabs
                     value={tabValue}
                     onChange={this.handleTabChange}
@@ -199,7 +242,7 @@ class PersonalPage extends Component {
                 >
                     {/*<Paper style={{width: 1000, height: 1500}}>*/}
                     <DialogContent style={{width: 1000}}>
-                        <CreateScripts id={null} token={this.props.token} mode="Editing"/>
+                        <CreateScripts id={null} token={this.props.token} mode="Editing" setSnackBar={this.setSnackBar}/>
                         {/*</Paper>*/}
                     </DialogContent>
                 </Dialog>
