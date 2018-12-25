@@ -7,11 +7,11 @@ import Typography from "@material-ui/core/Typography/Typography";
 import Paper from "@material-ui/core/Paper/Paper";
 import SyntaxHighlighter from "react-syntax-highlighter/dist/esm/default-highlight";
 import TextField from "@material-ui/core/TextField/TextField";
-import Button from "@material-ui/core/Button/Button";
 import SnackbarContent from "@material-ui/core/SnackbarContent/SnackbarContent";
 import Snackbar from "@material-ui/core/Snackbar/Snackbar";
 import ErrorIcon from "@material-ui/core/SvgIcon/SvgIcon";
 import CreateScripts from "./CreateScripts";
+import {Button,Icon,Label} from "semantic-ui-react";
 
 const isDebug = true;
 
@@ -94,8 +94,17 @@ class ScriptList extends Component {
             <List>
                 {
                     this.state.scripts.map((pr, index) =>
-                        <ListItem button key={pr.name} onClick={() =>this.selectPr(pr, index)}>
-                            <ListItemText primary={pr.name} secondary={pr.description}/>
+                        <ListItem button key={pr.name} onClick={() =>this.selectPr(pr, index)} style={{fontFamily:['Comic Sans MS','cursive','sans-serif']}}>
+                            <ListItemText primary={pr.name} secondary={pr.description} />
+                            <Button as='div' labelPosition='right' size='mini'>
+                                <Button color='red' size='tiny'>
+                                    <Icon name='heart' />
+                                    Like
+                                </Button>
+                                <Label as='a' basic color='red' pointing='mini'>
+                                    {Math.floor(Math.random()*(500-20)+20)}
+                                </Label>
+                            </Button>
                         </ListItem>
                     )
                 }
@@ -113,7 +122,7 @@ class ScriptList extends Component {
         if (this.props.type == 'run') {
             return (
                 <div>
-                    <Grid container style={{height: 600}}>
+                    <Grid container style={{height: 600,fontFamily:['Comic Sans MS','cursive','sans-serif']}}>
                         <Grid item>
                             <Paper style={{height: 1000, marginLeft: 25, marginTop: 20, width: 550}}>
                                 {this.showScriptList()}

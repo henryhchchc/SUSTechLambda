@@ -6,11 +6,11 @@ import Paper from "@material-ui/core/Paper/Paper";
 import SnackbarContent from "@material-ui/core/SnackbarContent/SnackbarContent";
 import Snackbar from "@material-ui/core/Snackbar/Snackbar";
 import ErrorIcon from '@material-ui/icons/Error';
-import Button from "@material-ui/core/Button/Button";
 import Typography from "@material-ui/core/Typography/Typography";
 import Input from "@material-ui/core/Input/Input";
 import InputLabel from "@material-ui/core/InputLabel/InputLabel";
 import Avatar from "@material-ui/core/Avatar/Avatar";
+import {Button} from "semantic-ui-react";
 
 const isDebug = true;
 
@@ -126,8 +126,8 @@ class Login extends Component {
     showWords = () => {
         if (this.state.showType == 'up') {
             return (
-                <Grid item style={{marginLeft: 'auto', marginRight: 'auto', marginTop: 5}}>
-                    <Typography style={{fontSize: 12, marginLeft: 20}}>
+                <Grid item style={{marginLeft: 'auto', marginRight: 'auto'}}>
+                    <Typography style={{fontSize: 12, marginLeft: 20,marginTop:5,marginBottom:5}}>
                         Make sure it's more than 15 characters OR at least 8 characters including a number and a
                         lowercase letter.
                     </Typography>
@@ -135,7 +135,7 @@ class Login extends Component {
             )
         } else {
             return (
-                <Grid item style={{marginLeft: 'auto', marginRight: 'auto', marginTop: 30}}>
+                <Grid item style={{marginLeft: 'auto', marginRight: 'auto', marginTop: 20,marginBottom:5}}>
                     <Grid container>
                         <Typography style={{fontSize: 12}}>
                             New to SUSTech Lambda?
@@ -150,7 +150,7 @@ class Login extends Component {
                                             showText: "Sign up for SUSTech Lambda"
                                         })
                                     }}>
-                            Click here
+                            <a href='#'>Click here</a>
                         </Typography>
                     </Grid>
 
@@ -190,15 +190,17 @@ class Login extends Component {
                                             <Grid container
                                                   style={{marginLeft: 'auto', marginRight: 'auto', marginTop: 5}}>
                                                 <Input
+                                                    placeholder={item}
                                                     disableUnderline={true}
-                                                    onChange={this.handleParameterIn({item})}
-                                                    type='password'
+
                                                     style={{
                                                         borderRadius: 4,
                                                         backgroundColor: '#ffffff',
                                                         border: '1px solid #ced4da',
                                                         fontSize: 16
                                                     }}
+                                                    onChange={this.handleParameterIn({item})}
+                                                    type='password'
                                                 />
                                             </Grid>
                                         </div>
@@ -232,11 +234,14 @@ class Login extends Component {
                 </Grid>
                 {this.showWords()}
 
-                < Button onClick={this.handleSubmit}
-                         style={{backgroundColor: "#5eb85d", marginTop: 15, marginRight: "auto", marginLeft: "auto"}}>
-                    <Typography style={{color: "#ffffff"}}>
-                        {this.state.showText}
-                    </Typography>
+                {/*< Button onClick={this.handleSubmit}*/}
+                         {/*style={{backgroundColor: "#5eb85d", marginTop: 15, marginRight: "auto", marginLeft: "auto"}}>*/}
+                    {/*<Typography style={{color: "#ffffff"}}>*/}
+                        {/*{this.state.showText}*/}
+                    {/*</Typography>*/}
+                {/*</Button>*/}
+                <Button color='teal' fluid size='large' onClick={this.handleSubmit}>
+                    {this.state.showText}
                 </Button>
             </Grid>
         )

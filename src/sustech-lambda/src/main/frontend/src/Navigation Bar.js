@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import { Button } from 'semantic-ui-react'
+import {Button,Icon} from 'semantic-ui-react'
 import {MuiThemeProvider, createMuiTheme} from '@material-ui/core/styles';
 import Typography from "@material-ui/core/Typography/Typography";
 import ExpandMore from "@material-ui/icons/es/ExpandMore";
@@ -55,7 +55,7 @@ class ButtonAppBar extends Component {
             anchorEl: null,
             modalOpen: false,
             modalType: null,
-            alertAllFieled:false,
+            alertAllFieled: false,
             snakebarContent: ' ',
         };
     }
@@ -69,7 +69,7 @@ class ButtonAppBar extends Component {
     handleClose = value => {
         this.setState({anchorEl: null});
         if (value == 'Signout') {
-            this.props.setToken(null,'',{})
+            this.props.setToken(null, '', {})
         }
 
     }
@@ -81,33 +81,44 @@ class ButtonAppBar extends Component {
         })
 
     }
-    setSnake = (f,c) =>{
+    setSnake = (f, c) => {
         this.setState({
-            alertAllFieled:f,
-            snakebarContent:c,
+            alertAllFieled: f,
+            snakebarContent: c,
 
         })
     }
     showContent = () => {
         if (this.props.login) {
             return (
-                <Grid item style={{width:window.screen.width-400,marginTop:15}}>
-                    <Button
-                        aria-owns={this.state.anchorEl ? 'simple-menu' : undefined}
-                        aria-haspopup="true"
-                        onClick={this.handleToggle}
-                        style={{marginLeft:window.screen.width-460}}
-                    >
+                <div>
+                    <Grid container style={{marginTop: 20,marginLeft:window.screen.width-550}}>
+                        <Button circular color='facebook' icon='facebook' />
+                        <Button circular color='twitter' icon='twitter'/>
+                        <Button circular color='linkedin' icon='linkedin' />
                         <Avatar style={{
-                            width: 25,
-                            height: 25,
+                            width: 30,
+                            height: 30,
+                            marginLeft:30
                         }} src={require("./image/avatar.png")}
                         />
-                        <Typography style={{color: '#ffffff', marginLeft: 6}}>
+                        <Typography style={{color: '#ffffff', marginLeft: 10,marginTop:5,fontSize:14}}>
                             {this.props.userInformation['displayName']}
                         </Typography>
-                        <ExpandMore fontSize="small" color='secondary'/>
-                    </Button>
+                        <Grid style={{marginLeft:10}}>
+                        <Button
+                            icon
+                            inverted
+                            color='black'
+                            size="mini"
+                            onClick={this.handleToggle}
+
+                        >
+                            <Icon name="angle down"/>
+                        </Button>
+                        </Grid>
+                    </Grid>
+
                     <Menu style={{marginTop: 50}}
                           id="simple-menu"
                           anchorEl={this.state.anchorEl}
@@ -115,21 +126,21 @@ class ButtonAppBar extends Component {
                           onClose={this.handleClose}>
                         {/*<MenuItem onClick={()=>this.handleClose('Profile')}>Profile</MenuItem>*/}
                         {/*<MenuItem onClick={()=>this.handleClose('Account')}>My account</MenuItem>*/}
-                        <MenuItem onClick={() => this.handleClose('Signout')}>Sign out</MenuItem>
+                        <MenuItem onClick={() => this.handleClose('Signout')} style={{fontFamily:['Comic Sans MS','cursive','sans-serif']}}>Sign out</MenuItem>
                     </Menu>
-                </Grid>
+                </div>
             )
         } else {
             return (
-                <Grid item style={{marginLeft: window.screen.width - 490, marginTop: 14}}>
+                <Grid item style={{marginLeft: window.screen.width - 450, marginTop: 14}}>
                     <Button inverted color='black'
                             onClick={() => this.handleModal("in")}>
-                            Sign in
+                        Sign in
                     </Button>
                     <Button inverted color='black'
                             onClick={() => this.handleModal("up")}>
                         {/*<Typography style={{color: '#ffffff',fontWeight:"bold"}}>*/}
-                            Sign up
+                        Sign up
                         {/*</Typography>*/}
                     </Button>
                 </Grid>
@@ -147,9 +158,9 @@ class ButtonAppBar extends Component {
                     <AppBar position={(this.props.login) ? 'relative' : 'fixed'}
                             style={{backgroundColor: '#101319', height: 70}}>
                         <Toolbar>
-                            <Grid container style={{width: window.screen.width ,height: 70}}>
-                                <Grid item style={{width: 200, marginTop:5}}>
-                                    <img src={require('./image/SUSTechLambda.png')} style={{width:60}}/>
+                            <Grid container style={{width: window.screen.width, height: 70}}>
+                                <Grid item style={{width: 200, marginTop: 5}}>
+                                    <img src={require('./image/SUSTechLambda.png')} style={{width: 60}}/>
                                 </Grid>
                                 {this.showContent()}
                             </Grid>
@@ -167,7 +178,9 @@ class ButtonAppBar extends Component {
                     <Snackbar
                         anchorOrigin={{vertical: 'top', horizontal: 'right'}}
                         open={this.state.alertAllFieled}
-                        onClose={()=>{this.setState({alertAllFieled:false})}}
+                        onClose={() => {
+                            this.setState({alertAllFieled: false})
+                        }}
                         autoHideDuration={1000}
 
                     >

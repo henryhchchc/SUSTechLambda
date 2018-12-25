@@ -149,7 +149,7 @@ class HomePage extends Component {
                     <Grid container spacing={24}>
                         <Grid item>
                             <Fade in={true} timeout={1000}>
-                                <Button inverted style={style.bootstrapRoot} onClick={() => {
+                                <Button inverted style={style.bootstrapRoot} color='black' onClick={() => {
                                     this.setState({open: true})
                                 }}>
                                     <Typography style={{color: '#FFFFFF', fontFamily: 'Arial', fontSize: 20}}>

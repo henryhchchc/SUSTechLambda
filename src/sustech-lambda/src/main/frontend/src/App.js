@@ -7,7 +7,7 @@ import SnackbarContent from "@material-ui/core/SnackbarContent/SnackbarContent";
 import ErrorIcon from "@material-ui/core/SvgIcon/SvgIcon";
 import Snackbar from "@material-ui/core/Snackbar/Snackbar";
 
-const isdebug = false
+const isdebug = true
 
 
 class App extends Component {

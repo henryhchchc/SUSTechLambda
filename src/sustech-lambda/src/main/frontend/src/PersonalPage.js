@@ -6,7 +6,6 @@ import {withStyles} from '@material-ui/core/styles';
 import ScriptList from "./ScriptList";
 import AddIcon from '@material-ui/icons/Add';
 import Profile from "./Profile";
-import Button from "@material-ui/core/Button/Button";
 import CreateScripts from "./CreateScripts";
 import EnhancedTable from './userManagement'
 import EnhancedTable2 from './scriptManagement'
@@ -14,6 +13,7 @@ import Modal from "@material-ui/core/Modal/Modal";
 import Paper from "@material-ui/core/Paper/Paper";
 import Dialog from "@material-ui/core/Dialog/Dialog";
 import DialogContent from "@material-ui/core/DialogContent/DialogContent";
+import {Container, Divider,Button, Header, Grid,Image, List, Segment} from "semantic-ui-react";
 
 
 const styles = theme => ({
@@ -138,13 +138,15 @@ class PersonalPage extends Component {
         if (this.props.user == 'user') {
             return (
                 <Button
-                    variant="fab"
-                    style={{bottom: 30, right: 20, position: 'fixed', backgroundColor: "#a3a3a3",width:45,height:45}}
+                    circular
+                    inverted
+                    style={{bottom: 30, right: 20, position: 'fixed',width:50,height:50}}
                     onClick={() => {
                         this.setState({showModal: true})
                     }}
+                    color='blue'
+                    icon='add'
                 >
-                    <AddIcon/>
                 </Button>
             )
         }
@@ -179,9 +181,9 @@ class PersonalPage extends Component {
                         label =>
                             <Tab
                                 disableRipple
-                                classes={{root: classes.tabRoot, selected: classes.tabSelected}}
+                                classes={{root: classes.tabRoot, selected: classes.tabSelected }}
                                 label={label}
-
+                                style={{fontFamily:['Comic Sans MS','cursive','sans-serif']}}
                             />
                     )}
                 </Tabs>
@@ -201,6 +203,59 @@ class PersonalPage extends Component {
                         {/*</Paper>*/}
                     </DialogContent>
                 </Dialog>
+                <Segment inverted vertical style={{ marginTop:500 , padding: '5em 0em' }}>
+                    <Container textAlign='center'>
+                        <Grid divided inverted stackable>
+                            <Grid.Column width={3}>
+                                <Header inverted as='h4' content='Product' />
+                                <List link inverted>
+                                    <List.Item as='a'>SUSTech Lamdba v1.0</List.Item>
+                                    <List.Item as='a'>SUSTech Lamdba v2.0</List.Item>
+
+                                </List>
+                            </Grid.Column>
+                            <Grid.Column width={3}>
+                                <Header inverted as='h4' content='Explore' />
+                                <List link inverted>
+                                    <List.Item as='a'>SUSTech</List.Item>
+                                    <List.Item as='a'>SQL Lab</List.Item>
+                                </List>
+                            </Grid.Column>
+                            <Grid.Column width={3}>
+                                <Header inverted as='h4' content='Company' />
+                                <List link inverted>
+                                    <List.Item as='a'>About</List.Item>
+                                    <List.Item as='a'>Customer</List.Item>
+                                    <List.Item as='a'>Blog</List.Item>
+                                    <List.Item as='a'>Career</List.Item>
+                                </List>
+                            </Grid.Column>
+                            <Grid.Column width={7}>
+                                <Header inverted as='h4' content='Thanks for visiting our website!' />
+                                <p>
+                                    Welcome to come back again!
+                                </p>
+                            </Grid.Column>
+                        </Grid>
+
+                        <Divider inverted section />
+                        <Image centered size='mini' src={require('./image/SUSTechLambda.png')} />
+                        <List horizontal inverted divided link size='small'>
+                            <List.Item as='a' href='#'>
+                                Site Map
+                            </List.Item>
+                            <List.Item as='a' href='#'>
+                                Contact Us
+                            </List.Item>
+                            <List.Item as='a' href='#'>
+                                Terms and Conditions
+                            </List.Item>
+                            <List.Item as='a' href='#'>
+                                Privacy Policy
+                            </List.Item>
+                        </List>
+                    </Container>
+                </Segment>
             </div>
         )
     }
