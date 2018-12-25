@@ -548,32 +548,7 @@ class ParamEditor extends Component {
 }
 
 
-const SnackBarDisplay = (props, setHandle) =>{
-    let color = "#8A2BE2"
-    if (props.type == "Info"){
-        color = "#8A2BE2"
-    }else
-    if (props.type == "Error"){
-        color = "#ff1a24"
-    }else 
-    if (props.type == "Success") {
-        color = "#02C874"
-    }
-    return (
-        <Snackbar
-        anchorOrigin={{vertical: 'top', horizontal: 'right'}}
-        open={props.open}
-        onClick={()=>{setHandle(props.type, props.info,false)}}
-        onClose={()=>{setHandle(props.type, props.info,false)}}
-        autoHideDuration={3700}
-        >
-        <SnackbarContent
-            style={{backgroundColor:color, fontSize: 15}}
-            message={props.info}
-        />
-        </Snackbar>
-    )
-}
+
 
 class CreateScripts extends Component {
 
@@ -647,16 +622,16 @@ class CreateScripts extends Component {
 
     }
 
-    // Trigger a snack bar
-    setSnackBar= (type, info, open) =>{
-        this.setState({
-            sb_info:{
-                type:type,
-                info:info,
-                open:open
-            }
-        })
-    }
+    // // Trigger a snack bar
+    // setSnackBar= (type, info, open) =>{
+    //     this.setState({
+    //         sb_info:{
+    //             type:type,
+    //             info:info,
+    //             open:open
+    //         }
+    //     })
+    // }
 
     // Get Scripts 
     getScripts = (id) => {
@@ -675,12 +650,12 @@ class CreateScripts extends Component {
             .then(response => {
                 console.log(response.status)
                 if (response.status === 401) {
-                    this.setSnackBar("Error","Script ID Not Found", true)
+                    this.props.setSnackBar("Error","Script ID Not Found", true)
                 } else if (response.status == 200) {
                     return response.body
                 }else {
                     let error_msg = "Error Code:"+ response.status
-                    this.setSnackBar("Error",error_msg, true)
+                    this.props.setSnackBar("Error",error_msg, true)
                     return null
                 }
             })
@@ -703,12 +678,12 @@ class CreateScripts extends Component {
                 .then(response => {
                     console.log(response.status)
                     if (response.status === 401) {
-                        this.setSnackBar("Error","Script ID Not Found", true)
+                        this.props.setSnackBar("Error","Script ID Not Found", true)
                     } else if (response.status == 200) {
                         return response.body
                     }else {
                         let error_msg = "Error Code:"+ response.status
-                        this.setSnackBar("Error",error_msg, true)
+                        this.props.setSnackBar("Error",error_msg, true)
                         return null
                     }
                 })
@@ -758,20 +733,20 @@ class CreateScripts extends Component {
             .then(response => {
                 console.log(response.status)
                 if (response.status === 401) {
-                    this.setSnackBar("Error","Error: Script ID Not Found", true)
+                    this.props.setSnackBar("Error","Error: Script ID Not Found", true)
                 } else if (response.status == 201) {
                     // Created Success
                     const {id, name, description, content, author}=response.body; 
                     if (mode == "create") {
                         this.setState({id:{id}})
                     }
-                    this.setSnackBar("Success","Script save sucess", true)
+                    this.props.setSnackBar("Success","Script save sucess", true)
                 }
                 else if (response.status == 200) {
-                    this.setSnackBar("Success","Code update sucess", true)
+                    this.props.setSnackBar("Success","Code update sucess", true)
                 }else {
                     let error_msg = "Error Code:"+ response.status
-                    this.setSnackBar("Error",error_msg, true)
+                    this.props.setSnackBar("Error",error_msg, true)
                 }
             })
     }
@@ -809,11 +784,11 @@ class CreateScripts extends Component {
         else{
             param_valid=false
             let error_msg = "Input parameter:" + param.param_name + " is not a number"
-            this.setSnackBar("Error", error_msg, true)
+            this.props.setSnackBar("Error", error_msg, true)
         }
     });
         if (param_valid){
-            this.setSnackBar("Success", "Parameter check success", true)
+            this.props.setSnackBar("Success", "Parameter check success", true)
             const message = {param_msg}
             const myRequest = new Request(url, {
                 method: 'POST', 
@@ -828,15 +803,15 @@ class CreateScripts extends Component {
                 .then(response => {
                     console.log(response.status)
                     if (response.status === 401) {
-                        this.setSnackBar("Error","Script id not found", true)
+                        this.props.setSnackBar("Error","Script id not found", true)
                     } else if (response.status == 200) {
                         // FIXME: Unfinished code for running 
-                        this.setSnackBar("Success","Script start runing", true)
+                        this.props.setSnackBar("Success","Script start runing", true)
                         let result = this.getResult(response.body.id)
                         this.setState({result:result})
                     }else {
                         let error_msg = "Error Code:"+ response.status
-                        this.setSnackBar("Error",error_msg, true)
+                        this.props.setSnackBar("Error",error_msg, true)
                     }
                 })
             }
@@ -853,11 +828,11 @@ class CreateScripts extends Component {
         if (this.state.mode == "Editing") {
             this.modeShift("Viewing");
             this.setScripts(this.state, this.state.id);
-            this.setSnackBar("Info", "Switch to Viewing Mode",true)
+            this.props.setSnackBar("Info", "Switch to Viewing Mode",true)
         }
         if (this.state.mode == "Viewing") {
             this.modeShift("Editing")
-            this.setSnackBar("Info", "Switch to Editing Mode",true)
+            this.props.setSnackBar("Info", "Switch to Editing Mode",true)
         }
     }
 
@@ -866,7 +841,7 @@ class CreateScripts extends Component {
     }
     publishCurrentScripts = () => {
         this.setScripts(this.state, this.state.id)
-        this.setSnackBar("Success","Script publish success", true)
+        this.props.setSnackBar("Success","Script publish success", true)
     }
 
     /** Button Display **/
@@ -928,7 +903,7 @@ class CreateScripts extends Component {
     render() {
         return (
             <div style={page}>
-            {SnackBarDisplay(this.state.sb_info, this.setSnackBar)}
+          
             <ScriptTitle 
                 mode={this.state.mode} 
                 title={this.state.title}  
@@ -954,7 +929,7 @@ class CreateScripts extends Component {
                 param_list = {this.state.param_list} 
                 setChange = {this.setChange}
                 button={this.ButtonDisplay}
-                setSnackBar={this.setSnackBar}
+                setSnackBar={this.props.setSnackBar}
                 />
                 <this.ButtonDisplay />
             </div>

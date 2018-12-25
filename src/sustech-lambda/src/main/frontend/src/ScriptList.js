@@ -114,7 +114,7 @@ class ScriptList extends Component {
     showRunScript = () => {
         console.log(this.state.content)
         return (
-            <CreateScripts mode="Running" id = {this.state.content['id']}/>
+            <CreateScripts mode="Running" id = {this.state.content['id']} setSnakeBar={this.props.setSnakeBar}/>
         )
     }
 
