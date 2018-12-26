@@ -1,13 +1,17 @@
-from ast import literal_eval as make_tuple
 import json
 from script import *;
 
 def main():
-    with open('./parameters.json', 'r') as f:
+    with open('./parameters2.json', 'r') as f:
         arg_json = json.loads(f.read())
-        arg = make_tuple(arg_json[0]['value'])
-        if arg:
-            run(arg)
+        parameters = dict()
+        for i in arg_json:
+            if i['type'] == 'NUMBER':
+                parameters[i['name']] = float(i['value'])
+            if i['type'] == 'STRING':
+               parameters[i['name']] = i['value']
+        if(len(parameters)>0):
+            run(parameters)            
         else:
             print('Parameter error.')
 

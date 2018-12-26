@@ -1,7 +1,8 @@
 ''' add your import '''
 
-def run(arg: tuple):
+def run(arg: dict):
     ''' write your script here'''
-    for i in arg:
-        # print(f'{type(i)}: {i}')
-        print('{}: {}'.format(type(i), i))
+#     for key,value in arg:
+#         # print(f'{type(i)}: {i}')
+#         print(key,value)
+    print(arg)

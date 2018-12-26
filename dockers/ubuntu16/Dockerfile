@@ -16,4 +16,4 @@ RUN chmod +x ./script_loader.sh
 #ENV NAME World
 # run script_loader
 ENTRYPOINT ["/bin/bash"]
-CMD ["./script_loader.sh"]
+CMD ["python3", "./script_loader.sh"]
