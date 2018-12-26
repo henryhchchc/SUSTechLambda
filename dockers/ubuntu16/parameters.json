@@ -1,7 +1,7 @@
 [
   {
     "name": "arg",
-    "type": "string",
+    "type": "STRING",
     "value": "-a b -c \"txt\""
   }
 ]

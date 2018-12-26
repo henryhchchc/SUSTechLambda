@@ -1,17 +1,18 @@
 import json
-from script import *
+import os
 
 def main():
     with open('./parameters.json', 'r') as f:
         arg_json = json.loads(f.read())
-        parameters = dict()
+        parameters = []
         for i in arg_json:
-            if i['type'] == 'NUMBER':
-                parameters[i['name']] = float(i['value'])
+            parameters.append(i['name'])
             if i['type'] == 'STRING':
-               parameters[i['name']] = i['value']
+                parameters.append("\"{}\"".format(i['value']))
+            else:
+                parameters.append(i['value'])
         if(len(parameters)>0):
-            run(parameters)
+            os.system("/bin/bash ./script.sh " + ' '.join(parameters))
         else:
             print('Parameter error.')
 

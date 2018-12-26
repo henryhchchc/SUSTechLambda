@@ -1,7 +1,12 @@
 [
-  {
-    "name": "arg",
-    "type": "tuple",
-    "value": "(1, 1.1, '123', [1,2], (1,2), {'a':1})"
-  }
+    {
+        "name" : "count",
+        "type" :"NUMBER",
+        "value" : "10"
+    },
+    {
+        "name" : "content",
+        "type" :"STRING",
+        "value" : "aaaaa"
+    }
 ]
