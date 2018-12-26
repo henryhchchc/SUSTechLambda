@@ -17,7 +17,7 @@ const isDebug = true;
 
 const apiHost = isDebug ? "http://localhost:8080" : "";
 
-class ScriptList extends Component {
+class ScriptList2 extends Component {
 
     constructor(props) {
         super(props);
@@ -182,4 +182,4 @@ class ScriptList extends Component {
 
 }
 
-export default ScriptList
+export default ScriptList2

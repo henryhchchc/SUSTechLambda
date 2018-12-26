@@ -1,5 +1,5 @@
 import json
-import os 
+import os
 
 def main():
     with open('./parameters.json', 'r') as f:
@@ -7,9 +7,12 @@ def main():
         parameters = []
         for i in arg_json:
             parameters.append(i['name'])
-            parameters.append(i['value'])
+            if i['type'] == 'STRING':
+                parameters.append("\"{}\"".format(i['value']))
+            else:
+                parameters.append(i['value'])
         if(len(parameters)>0):
-            os.system("./script.sh " + ' '.join(parameters))
+            os.system("/bin/bash ./script.sh " + ' '.join(parameters))
         else:
             print('Parameter error.')
 
