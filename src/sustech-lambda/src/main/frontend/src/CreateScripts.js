@@ -678,6 +678,7 @@ class CreateScripts extends Component {
         let mode = "create"
         if  ( id == "NULL" ) {  url = `${apiHost}/api/scripts`; }
         else {
+            // alert(id)
             url = `${apiHost}/api/scripts/${id}`;
             mode = "update";
         }
@@ -702,8 +703,10 @@ class CreateScripts extends Component {
                 "name": title
             };
 
+        let method = 'POST'
+        if (mode == "update") {method = "PUT"}
         const myRequest = new Request(url, {
-            method: 'POST',
+            method: method,
             body: JSON.stringify(message),
             headers:{
                 'Authorization': `Bearer ${this.state.token}`,
@@ -791,6 +794,7 @@ class CreateScripts extends Component {
             fetch(myRequest)
                 .then(response => {response.json().then(prs => {
                         console.log(response.status)
+                        // alert(response.status)
                         if (response.status === 401) {
                             this.props.setSnackBar("Error", "Script id not found", true)
                         } else if (response.status == 201) {
