@@ -5,6 +5,9 @@ WORKDIR /tmp/script
 # Copy the current directory contents into the container at /tmp/script
 # COPY . /tmp/script
 ADD script_loader.sh .
+ADD parameters.json .
+ADD script.sh .
+ADD jq .
 # add permission
 RUN chmod +x ./script_loader.sh
 # replace this with your application's default port

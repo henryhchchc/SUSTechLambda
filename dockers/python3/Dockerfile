@@ -5,7 +5,11 @@ FROM python:3
 WORKDIR /tmp/script
 
 # Copy the current directory contents into the container at /app
-COPY . /tmp/script
+# COPY . /tmp/script
+ADD script_loader.py .
+ADD requirements.txt .
+ADD parameters.json .
+ADD script.py .
 
 # Install any needed packages specified in requirements.txt
 RUN pip install --trusted-host pypi.python.org -r requirements.txt
