@@ -24,12 +24,13 @@ private val infoToStatusMap = mapOf(
 private val languageImages = mapOf(
         "python" to "sustech_lambda_python3",
         "javascript" to "sustech_lambda_node8",
-        "shell" to "sustech_lambda_ubuntu16"
+        "bash" to "sustech_lambda_ubuntu16"
 )
 
 private val languageExtensions = mapOf(
         "python" to "py",
-        "javascript" to "js"
+        "javascript" to "js",
+        "bash" to "sh"
 )
 
 @Service

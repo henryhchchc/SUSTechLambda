@@ -1,7 +1,6 @@
 package cn.edu.sustc.cse.ooad.sustechlambda.controllers
 
 import cn.edu.sustc.cse.ooad.sustechlambda.dtos.ScriptCreationDto
-import cn.edu.sustc.cse.ooad.sustechlambda.dtos.ScriptDto
 import cn.edu.sustc.cse.ooad.sustechlambda.dtos.toDto
 import cn.edu.sustc.cse.ooad.sustechlambda.entities.Script
 import cn.edu.sustc.cse.ooad.sustechlambda.entities.ScriptRunParameter
@@ -78,7 +77,7 @@ class ScriptsController
     @RolesAllowed("DESIGNER")
     @ApiOperation("Update a script", authorizations = [Authorization("Bearer")])
     @PutMapping("{id}")
-    fun updateScript(@PathVariable id: UUID, @RequestBody dto: ScriptDto): ResponseEntity<*> {
+    fun updateScript(@PathVariable id: UUID, @RequestBody dto: ScriptCreationDto): ResponseEntity<*> {
         val scriptOpt = this.scriptsRepository.findById(id)
         return when {
             scriptOpt.isPresent -> {
