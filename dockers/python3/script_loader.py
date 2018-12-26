@@ -1,8 +1,8 @@
 import json
-from script import *;
+from script import *
 
 def main():
-    with open('./parameters2.json', 'r') as f:
+    with open('./parameters.json', 'r') as f:
         arg_json = json.loads(f.read())
         parameters = dict()
         for i in arg_json:
@@ -11,7 +11,7 @@ def main():
             if i['type'] == 'STRING':
                parameters[i['name']] = i['value']
         if(len(parameters)>0):
-            run(parameters)            
+            run(parameters)
         else:
             print('Parameter error.')
 
