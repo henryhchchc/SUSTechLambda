@@ -6,7 +6,6 @@ def main():
         arg_json = json.loads(f.read())
         parameters = []
         for i in arg_json:
-            parameters.append(i['name'])
             if i['type'] == 'STRING':
                 parameters.append("\"{}\"".format(i['value']))
             else:

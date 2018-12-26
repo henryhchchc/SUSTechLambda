@@ -95,7 +95,7 @@ class ScriptList extends Component {
             return (
                 <List>
                     {
-                        this.state.scripts.map((pr, index) =>
+                        this.state.scripts.reverse().slice(0,10).map((pr, index) =>
                             <ListItem button key={pr.id} onClick={() =>this.selectPr(pr, index)} style={{fontFamily:['Comic Sans MS','cursive','sans-serif']}}>
 
                                 <ListItemText primary={'Task Id: '+pr.id+ '        Time:'+pr.startedTime} secondary={'Script Id: '+pr.scriptId} />

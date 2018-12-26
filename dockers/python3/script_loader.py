@@ -1,5 +1,5 @@
 import json
-from script import *
+from script import run
 
 def main():
     with open('./parameters.json', 'r') as f:
@@ -10,10 +10,8 @@ def main():
                 parameters[i['name']] = float(i['value'])
             if i['type'] == 'STRING':
                parameters[i['name']] = i['value']
-        if(len(parameters)>0):
-            run(parameters)
-        else:
-            print('Parameter error.')
+        run(parameters)
+        
 
 if __name__ == '__main__':
     main()

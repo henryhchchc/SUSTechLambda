@@ -442,20 +442,7 @@ class EnhancedTable2 extends React.Component {
                     >
                     </SnackbarContent>
                 </Snackbar>
-                <Dialog
-                    open={this.state.showModal}
-                    onClose={() => {
-                        this.setState({showModal: false})
-                    }}
-                    scroll={'paper'}
-                    maxWidth={'1000'}
-                >
-                    {/*<Paper style={{width: 1000, height: 1500}}>*/}
-                    <DialogContent style={{width: 1000}}>
-                        <CreateScripts id={this.state.selectedId} token={this.props.token} mode="Editing"/>
-                        {/*</Paper>*/}
-                    </DialogContent>
-                </Dialog>
+
             </div>
         );
     }

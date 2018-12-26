@@ -71,7 +71,7 @@ const result_style = {
 
 const page = {
     padding: '5%',
-    fontFamily:['Comic Sans MS','cursive','sans-serif']
+    fontFamily:['Comic Sans MS','cursive','sans-serif'],
 }
 
 const param_editor_edit= {
@@ -185,7 +185,7 @@ const DescriptionDisplay = ({mode, description, handleChange}) => {
         return (
             <div style={long_editor}>
                 <Typography style={{fontFamily:['Comic Sans MS','cursive','sans-serif']}}  component="h4" variant="h4"> Decriptioin ></Typography>
-                <Typography style={{fontFamily:['Comic Sans MS','cursive','sans-serif']}}  component="h4" variant="h4">{description}</Typography>
+                <body style={{fontFamily:['Comic Sans MS','cursive','sans-serif']}}>{description}</body>
             </div>
         );
     }
@@ -210,7 +210,7 @@ const EditorDisplay = ({mode, scripts, syntax, handleChange}) => {
     if (mode == "Editing") {
         return (
             <div style={script_editor}>
-                <h4 style={{fontFamily:['Comic Sans MS','cursive','sans-serif']}}> Script </h4>
+                <h4 style={{fontFamily:['Comic Sans MS','cursive','sans-serif'] }}> Script </h4>
                 <TextField
                     id="code"
                     helperText="Please input your scripts here"
@@ -243,7 +243,7 @@ const EditorDisplay = ({mode, scripts, syntax, handleChange}) => {
             </div>
         );
     }
-    if (mode == "Viewing" || mode=="ViewingR") {
+    if (mode == "Viewing" || mode=="ViewingR" || mode == "Running" || mode=="RunningR") {
         return (
             <div style={script_editor}>
                 <h4 style={{fontFamily:['Comic Sans MS','cursive','sans-serif']}} > Script > </h4>
@@ -251,15 +251,8 @@ const EditorDisplay = ({mode, scripts, syntax, handleChange}) => {
                     language={syntax}
                 >{scripts}
                 </SyntaxHighlighter>
-                <br/>
             </div>
         );
-    }
-    if (mode == "Running" || mode=="RunningR") {
-        return (
-            <div>
-            </div>
-        )
     }
 }
 
@@ -270,16 +263,18 @@ const ResultDisplay = (props) => {
     if (mode == "Viewing" | mode=="Running" || mode == "ViewingR" || mode == "RunningR" ) {
         if (result != null) {
             return (
-                <div style={result_style}>
+                <div>
                     <h4 style={{fontFamily:['Comic Sans MS','cursive','sans-serif']}}>Result></h4>
                     <body style={{fontFamily:['Comic Sans MS','cursive','sans-serif']}}>{result }</body>
+                    <br/>
                 </div>);
         }
         else{
             return (
-                <div style={result_style}>
+                <div>
                     <h4>Result></h4>
                     <body style={{fontFamily:['Comic Sans MS','cursive','sans-serif']}}>[No Result Given At Present]</body>
+                    <br/>
                 </div>);
         }
     }
@@ -453,7 +448,6 @@ class ParamEditor extends Component {
                   Del
             </Button>
              </span>
-                        <br/>
                     </div>
             )}
         </div>
@@ -486,8 +480,7 @@ class ParamEditor extends Component {
     // Input paramter
     SingleParamInput = ({param}) => {
         return (
-            <div style={param_editor_edit}>
-            <span>
+            <div>
                 <TextField
                     value={param.param_name}
                     margin="normal"
@@ -505,7 +498,6 @@ class ParamEditor extends Component {
                     }}
                     margin="normal"
                 />
-            </span>
             </div>
         );
     }
@@ -515,7 +507,7 @@ class ParamEditor extends Component {
         <div className="paramList">
             {this.state.param_list.map(item => {
                 return (
-                    <div key={item.param_name} style={param_editor_edit}>
+                    <div key={item.param_name}>
                         <this.SingleParamInput param={item}/>
                     </div>
                 )
@@ -559,7 +551,7 @@ class CreateScripts extends Component {
         let description = "#TODO"
         let parameters = []
         let language = "bash"
-        let code = "# Input your code here :>"
+        let code = "# This is a sample program for bash \np1=$1\nnum1=$2\necho ${p1}\necho ${num1}"
         let result = null
         let {token, mode, id, task_id} = props;
         if (id == null) {id = "NULL"}
@@ -662,8 +654,14 @@ class CreateScripts extends Component {
                 if (response.status === 401) {
                     this.props.setSnackBar("Error", "Script ID Not Found", true)
                 } else if (response.status == 200) {
-                    if (prs.status == "FINISHED") { this.setState({result:prs.output})}
-                    else { this.setState({result:"[Script Still Running, Please wait]"})}
+                    if (prs.status == "FINISHED") {
+                        this.setState({result:prs.output})
+                        this.props.setSnackBar("Success", "Script run finished", true)
+                    }
+                    else {
+                        this.setState({result:"[Script Still Running, Please wait]"})
+                        this.props.setSnackBar("Success", "Script start running, check the result in task list", true)
+                    }
 
                 } else {
                     let error_msg = "Error Code:" + response.status
@@ -726,10 +724,10 @@ class CreateScripts extends Component {
                     if (mode == "create") {
                         this.setState({id:{id}})
                     }
-                    this.props.setSnackBar("Success","Script save sucess", true)
+                    // this.props.setSnackBar("Success","Script save sucess", true)
                 }
-                else if (response.status == 200) {
-                    this.props.setSnackBar("Success","Code update sucess", true)
+                else if (response.status == 200 | response.status == 204 ) {
+                    // this.props.setSnackBar("Success","Code update sucess", true)
                 }else {
                     let error_msg = "Error Code:"+ response.status
                     this.props.setSnackBar("Error",error_msg, true)
@@ -769,7 +767,7 @@ class CreateScripts extends Component {
             }
             else{
                 param_valid=false
-                let error_msg = "Input parameter:" + param.param_name + " is not a number"
+                let error_msg = "Parameter:" + param.param_name + "should be a number"
                 this.props.setSnackBar("Error", error_msg, true)
             }
         });
@@ -800,8 +798,11 @@ class CreateScripts extends Component {
                         } else if (response.status == 201) {
                             // FIXME: Unfinished code for running
                             sleep(1000)
-                            this.props.setSnackBar("Success", "Script start running, check the result in task list", true)
-                        } else {
+                            this.getResult(prs.id)
+                        } else if (response.status == 500) {
+                            this.props.setSnackBar("Error", "Parameter input format error")
+                        }
+                        else {
                             let error_msg = "Error Code:" + response.status
                             this.props.setSnackBar("Error", error_msg, true)
                         }
@@ -810,7 +811,7 @@ class CreateScripts extends Component {
                             this.setState({mode:"Viewing"})
                         else if (this.state.mode == 'RunningR')
                             this.setState(({mode:"Running"}))
-                        this.setState({runSuccess: false})
+
                     }
 
 
@@ -921,6 +922,19 @@ class CreateScripts extends Component {
         this.setState({
             [name]: event.target.value,
         });
+        if (name == "syntax"){
+            if (!this.state.runSuccess){
+                if (event.target.value == "python"){
+                    this.setState({scripts:"def run(param):\n  ''' This is an example for code in python'''\n  # param here is a dictionary object\n  inform = param['text']\n  print(inform)\n"})
+                }
+                else if  (event.target.value == "bash"){
+                    this.setState({scripts:"# This is a sample program for bash \np1=$1\nnum1=$2\necho ${p1}\necho ${num1}"})
+                }
+                else if  (event.target.value == "javascript"){
+                    this.setState({scripts:"function run(param){\n  // This is an example program for JS.\n  // The most import thing here is that you must name your main function 'run' and take a    let para = param['para']\n   console.log(para);\n}\nmodule.exports = run"})
+                }
+            }
+        }
     };
 
     setChange = (name, new_value) =>{
@@ -937,25 +951,23 @@ class CreateScripts extends Component {
 
         return (
             <div style={page}>
-
                 <ScriptTitle
                     mode={this.state.mode}
                     title={this.state.title}
                     handleChange={this.handleChange}
                 />
-                <br/>
                 <DescriptionDisplay
                     mode={this.state.mode}
                     description={this.state.description}
                     handleChange={this.handleChange}
                 />
-                <br/>
                 <EditorDisplay
                     mode={this.state.mode}
                     scripts={this.state.scripts}
                     syntax={this.state.syntax}
                     handleChange={this.handleChange}
                 />
+                <br/>
                 <br/>
                 <ResultDisplay mode={this.state.mode} result={this.state.result} setChange={this.setChange}/>
                 <ParamEditor
