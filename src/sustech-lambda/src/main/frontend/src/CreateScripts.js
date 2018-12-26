@@ -21,7 +21,7 @@ import { Button, Segment } from 'semantic-ui-react'
 import InputLabel from '@material-ui/core/InputLabel';
 
 
-const isDebug = true; 
+const isDebug = true;
 const apiHost = isDebug?"http://localhost:8080":"";
 
 const short_editor_edit= {
@@ -84,21 +84,21 @@ const param_editor_edit= {
 const param_list = []
 
 const styles = theme => ({
-  root: {
-    backgroundColor: theme.palette.background.paper,
-    width: 500,
-    position: 'relative',
-    minHeight: 200,
-  },
-  fab: {
-    position: 'absolute',
-    bottom: theme.spacing.unit * 2,
-    right: theme.spacing.unit * 2,
-  },
-  fabGreen: {
-    color: theme.palette.common.white,
-    backgroundColor: green[500],
-  },
+    root: {
+        backgroundColor: theme.palette.background.paper,
+        width: 500,
+        position: 'relative',
+        minHeight: 200,
+    },
+    fab: {
+        position: 'absolute',
+        bottom: theme.spacing.unit * 2,
+        right: theme.spacing.unit * 2,
+    },
+    fabGreen: {
+        color: theme.palette.common.white,
+        backgroundColor: green[500],
+    },
 });
 
 const sleep=(numberMillis)=>
@@ -112,24 +112,24 @@ const sleep=(numberMillis)=>
     }
 }
 
-/**  Title Description and Editor **/ 
+/**  Title Description and Editor **/
 const EditTitle = ({title, handleChange}) =>
-<div className="short-editor">
-    <TextField
-        id="title"
-        label="Script Title"
-        variant="outlined"
-        value={title}
-        onChange={handleChange('title')}
-        placeholder="Input your title here"
-        margin="normal"
-        fullWidth
-        item
-    />
-</div>
+    <div className="short-editor">
+        <TextField
+            id="title"
+            label="Script Title"
+            variant="outlined"
+            value={title}
+            onChange={handleChange('title')}
+            placeholder="Input your title here"
+            margin="normal"
+            fullWidth
+            item
+        />
+    </div>
 
 
-const ScriptTitle = ({mode, title, handleChange}) => 
+const ScriptTitle = ({mode, title, handleChange}) =>
 {
     if (mode == "Editing") {
         return (
@@ -151,44 +151,44 @@ const ScriptTitle = ({mode, title, handleChange}) =>
 /** Description Display and Editor  **/
 const DescriptionEditor = ({description, handleChange}) =>
     <div>
-    <h4 style={{fontFamily:['Comic Sans MS','cursive','sans-serif']}}> Description </h4>
-    <TextField
-        id="description"
-        // label="Description"
-        placeholder="Input your description here"
-        helperText="Please Input your description"
-        variant="filled"
-        value={description}
-        onChange={handleChange('description')}
-        margin="normal"
-        fullWidth
-        rows="3"
-        rowsMax="20"
-        multiline
-    />
+        <h4 style={{fontFamily:['Comic Sans MS','cursive','sans-serif']}}> Description </h4>
+        <TextField
+            id="description"
+            // label="Description"
+            placeholder="Input your description here"
+            helperText="Please Input your description"
+            variant="filled"
+            value={description}
+            onChange={handleChange('description')}
+            margin="normal"
+            fullWidth
+            rows="3"
+            rowsMax="20"
+            multiline
+        />
     </div>
 
 
 const DescriptionDisplay = ({mode, description, handleChange}) => {
-if (mode == "Editing") {
-    return (
-        <div style={{fontFamily:['Comic Sans MS','cursive','sans-serif']}} >
-            <DescriptionEditor
-                description={description}
-                handleChange={handleChange}
-            />
-        </div>
-    );
-}
+    if (mode == "Editing") {
+        return (
+            <div style={{fontFamily:['Comic Sans MS','cursive','sans-serif']}} >
+                <DescriptionEditor
+                    description={description}
+                    handleChange={handleChange}
+                />
+            </div>
+        );
+    }
 
-if (mode == "Viewing"|| mode == "Running" || mode == "ViewingR" || mode == "RunningR" ) {
-    return (
-        <div style={long_editor}>
-            <Typography style={{fontFamily:['Comic Sans MS','cursive','sans-serif']}}  component="h4" variant="h4"> Decriptioin ></Typography>
-            <Typography style={{fontFamily:['Comic Sans MS','cursive','sans-serif']}}  component="h4" variant="h4">{description}</Typography>
-        </div>
-    );
-}
+    if (mode == "Viewing"|| mode == "Running" || mode == "ViewingR" || mode == "RunningR" ) {
+        return (
+            <div style={long_editor}>
+                <Typography style={{fontFamily:['Comic Sans MS','cursive','sans-serif']}}  component="h4" variant="h4"> Decriptioin ></Typography>
+                <Typography style={{fontFamily:['Comic Sans MS','cursive','sans-serif']}}  component="h4" variant="h4">{description}</Typography>
+            </div>
+        );
+    }
 }
 
 /** Script Editor  **/
@@ -210,34 +210,34 @@ const EditorDisplay = ({mode, scripts, syntax, handleChange}) => {
     if (mode == "Editing") {
         return (
             <div style={script_editor}>
-                    <h4 style={{fontFamily:['Comic Sans MS','cursive','sans-serif']}}> Script </h4>
-                    <TextField
-                        id="code"
-                        helperText="Please input your scripts here"
-                        placeholder="Input your scripts here"
-                        value={scripts}
-                        onChange={handleChange('scripts')}
-                        margin="none"
-                        fullWidth
-                        rows="6"
-                        rowsMax="25"
-                        multiline
-                        style={{marginLeft:2}}
-                    />
-                    <TextField
-                        select
-                        // label='Select'
-                        value={syntax}
-                        onChange={handleChange('syntax')}
-                        helperText="Please select the language"
-                        margin="normal"
-                        style={{float:'right'}}
-                     >
+                <h4 style={{fontFamily:['Comic Sans MS','cursive','sans-serif']}}> Script </h4>
+                <TextField
+                    id="code"
+                    helperText="Please input your scripts here"
+                    placeholder="Input your scripts here"
+                    value={scripts}
+                    onChange={handleChange('scripts')}
+                    margin="none"
+                    fullWidth
+                    rows="6"
+                    rowsMax="25"
+                    multiline
+                    style={{marginLeft:2}}
+                />
+                <TextField
+                    select
+                    // label='Select'
+                    value={syntax}
+                    onChange={handleChange('syntax')}
+                    helperText="Please select the language"
+                    margin="normal"
+                    style={{float:'right'}}
+                >
                     {lang_type.map(option=>(
                         <MenuItem key={option.value} value={option.value}>
-                        {option.label}
+                            {option.label}
                         </MenuItem>
-                        ))
+                    ))
                     }
                 </TextField>
             </div>
@@ -380,19 +380,19 @@ class ParamEditor extends Component {
                     margin="normal"
                 />
                 <TextField
-                select
-                value={this.state.pt_temp}
-                onChange={(event)=>{
-                    this.setState({pt_temp:event.target.value})
-                }}
-                helperText="Please select the type of pram"
-                margin="normal"
+                    select
+                    value={this.state.pt_temp}
+                    onChange={(event)=>{
+                        this.setState({pt_temp:event.target.value})
+                    }}
+                    helperText="Please select the type of pram"
+                    margin="normal"
                 >
                     {var_type_list.map(option=>(
                         <MenuItem key={option.value} value={option.value}>
-                        {option.label}
+                            {option.label}
                         </MenuItem>
-                        ))
+                    ))
                     }
                 </TextField>
                 <Button
@@ -406,7 +406,7 @@ class ParamEditor extends Component {
                     }
                     }
                 >
-                <Icon disabled name='add' />
+                    <Icon disabled name='add' />
                     Add
                 </Button>
             </div>
@@ -430,12 +430,12 @@ class ParamEditor extends Component {
         // return false;
     }
 
-    // Display all paramter Edit mode 
+    // Display all paramter Edit mode
     DisplayParamEdit = () =>
         <div className="textField">
             {this.state.param_list.map(item =>
                     <div key={item.param_name}>
-            <span> 
+            <span>
                 <TextField
                     value={item.param_name}
                     margin="normal"
@@ -463,8 +463,8 @@ class ParamEditor extends Component {
         return (
             <div className="editParam" style={param_editor_edit}>
                 <h4 style={{fontFamily:['Comic Sans MS','cursive','sans-serif']}} >Parameter</h4>
-                    <this.DisplayParamEdit/>
-                    <this.SingleParamEdit/>
+                <this.DisplayParamEdit/>
+                <this.SingleParamEdit/>
             </div>
         );
     }
@@ -473,9 +473,9 @@ class ParamEditor extends Component {
         <div className="textField">
             {this.state.param_list.map(item =>
                     <div key={item.param_name}>
-            <span> 
+            <span>
                 {item.param_name}
-                {item.param_value}  
+                {item.param_value}
             </span>
                     </div>
             )}
@@ -521,7 +521,7 @@ class ParamEditor extends Component {
                 )
             })}
         </div>
- 
+
 
     // main method of displaying parameter
     render(){
@@ -531,14 +531,14 @@ class ParamEditor extends Component {
         if (this.state.mode == "Editing") {
             return(
                 <div className="param">
-                < this.EditParam/> 
+                    < this.EditParam/>
                 </div>
             )
         }
         if (this.state.mode == "Viewing" || this.state.mode == "Running" || mode == "ViewingR" || mode == "RunningR" ) {
             return (
                 <div>
-                <this.InputParam />
+                    <this.InputParam />
                 </div>
             )
 
@@ -551,7 +551,7 @@ class ParamEditor extends Component {
 
 class CreateScripts extends Component {
 
-    // Constructor 
+    // Constructor
     constructor(props) {
         super(props);
         //FIXME: Unchecked codes for initialization
@@ -562,11 +562,10 @@ class CreateScripts extends Component {
         let code = "# Input your code here :>"
         let result = null
         let {token, mode, id, task_id} = props;
-        // alert(token)
-        // alert(mode)
-        // alert(id)
         if (id == null) {id = "NULL"}
-
+        if (task_id == null) {task_id = "NULL"}
+        // alert(props.id)
+        // alert(props.task_id)
         this.state = {
             title: name,
             description: description,
@@ -591,13 +590,16 @@ class CreateScripts extends Component {
         if (id != "NULL"){
             let inform = this.getScripts(id)
         }
+        if (task_id != "NULL") {
+            let infrom = this.getResult(task_id)
+        }
 
 
     }
 
 
 
-    // Get Scripts 
+    // Get Scripts
     getScripts = (id) => {
         let url = `${apiHost}/api/scripts/${id}`
         const message = {}
@@ -610,99 +612,99 @@ class CreateScripts extends Component {
                 'accept': 'application/json'
             }
         });
+
         fetch(myRequest)
             .then(response => response.json().then(prs => {
-                        let {id, name, description, content, author} = prs
-                        let {language, code, parameters} = content;
+                    let {id, name, description, content, author} = prs
+                    let {language, code, parameters} = content;
 
 
-                        let param_list = []
-                        parameters.map(param=>(
-                            param_list.push({
-                                param_name: param.name,
-                                param_type: param.type,
-                            })
-                        ))
-
-                        this.setState({
-                            title: name,
-                            description: description,
-                            scripts: code,
-                            syntax: language,
-                            param_list: param_list,
-                            id: id,
-                            result:null
+                    let param_list = []
+                    parameters.map(param=>(
+                        param_list.push({
+                            param_name: param.name,
+                            param_type: param.type,
                         })
-                        }
-                    )
+                    ))
+
+                    this.setState({
+                        title: name,
+                        description: description,
+                        scripts: code,
+                        syntax: language,
+                        param_list: param_list,
+                        id: id,
+                        result:null
+                    })
+                }
+                )
             )
     }
 
-        // Query Result
-        getResult = (id) => {
-            // alert("start")
-            let url = `${apiHost}/api/tasks/${id}`
-            const myRequest = new Request(url, {
-                method: 'GET',
-                headers:{
-                    'Authorization': `Bearer ${this.state.token}`,
-                    'Content-Type': 'application/json',
-                    'accept': 'application/json'
+    // Query Result
+    getResult = (id) => {
+        // alert("start")
+        let url = `${apiHost}/api/tasks/${id}`
+        const myRequest = new Request(url, {
+            method: 'GET',
+            headers:{
+                'Authorization': `Bearer ${this.state.token}`,
+                'Content-Type': 'application/json',
+                'accept': 'application/json'
+            }
+        });
+        fetch(myRequest)
+        // alert("get")
+            .then(response => response.json().then(prs => {
+                // alert("get")
+                console.log(response.status)
+                // alert(response.status)
+                if (response.status === 401) {
+                    this.props.setSnackBar("Error", "Script ID Not Found", true)
+                } else if (response.status == 200) {
+                    if (prs.status == "FINISHED") { this.setState({result:prs.output})}
+                    else { this.setState({result:"[Script Still Running, Please wait]"})}
+
+                } else {
+                    let error_msg = "Error Code:" + response.status
+                    this.props.setSnackBar("Error", error_msg, true)
                 }
-            });
-                fetch(myRequest)
-                    // alert("get")
-                    .then(response => response.json().then(prs => {
-                        // alert("get")
-                        console.log(response.status)
-                        // alert(response.status)
-                        if (response.status === 401) {
-                            this.props.setSnackBar("Error", "Script ID Not Found", true)
-                        } else if (response.status == 200) {
+            }))
+    }
 
-                                this.setState({result: prs.output})
-
-
-                        } else {
-                            let error_msg = "Error Code:" + response.status
-                            this.props.setSnackBar("Error", error_msg, true)
-                        }
-                    }))
-        }
-        
     // Create Scripts & Update
     setScripts = (props, id) => {
         let url = `${apiHost}/api/scripts`
         let mode = "create"
         if  ( id == "NULL" ) {  url = `${apiHost}/api/scripts`; }
-        else { 
-            url = `${apiHost}/api/scripts/${id}`; 
+        else {
+            url = `${apiHost}/api/scripts/${id}`;
             mode = "update";
         }
-  
+
         const {title,description, scripts, syntax, param_list} = props;
         let param_msg = []
         param_list.map(param=>(
-            param_msg.push({
-                "name": param.param_name,
-                "type": param.param_type,
-            })
-        )
+                param_msg.push({
+                    "name": param.param_name,
+                    "type": param.param_type,
+                })
+            )
         );
-        const message = 
-        {
-            "content": {
-              "code": scripts,
-              "language": syntax,
-              "parameters": param_msg,
-            },
-            "description": description,
-            "name": title
-        };
+        const message =
+            {
+                "content": {
+                    "code": scripts,
+                    "language": syntax,
+                    "parameters": param_msg,
+                },
+                "description": description,
+                "name": title
+            };
 
         const myRequest = new Request(url, {
-            method: 'POST', 
-            body: JSON.stringify(message), 
+            method: 'POST',
+            body: JSON.stringify(message),
             headers:{
                 'Authorization': `Bearer ${this.state.token}`,
                 'Content-Type': 'application/json',
@@ -717,7 +719,7 @@ class CreateScripts extends Component {
                     this.props.setSnackBar("Error","Error: Script ID Not Found", true)
                 } else if (response.status == 201) {
                     // Created Success
-                    const {id, name, description, content, author}=response.body; 
+                    const {id, name, description, content, author}=response.body;
                     if (mode == "create") {
                         this.setState({id:{id}})
                     }
@@ -733,8 +735,8 @@ class CreateScripts extends Component {
     }
 
 
-    // Run a script 
-    InputValidCheck = (param) => 
+    // Run a script
+    InputValidCheck = (param) =>
     {
         let {value, param_type} = param
         if (param_type == "NUMBER") {
@@ -754,10 +756,6 @@ class CreateScripts extends Component {
         let url = `${apiHost}/api/scripts/${id}/run`
         let parameters = []
         let param_valid = true
-        if (this.state.mode == "Viewing")
-            this.setState({mode:"ViewingR"})
-        else if (this.state.mode == 'Running')
-            this.setState(({mode:"RunningR"}))
         param_list.map(param=>{
             if (this.InputValidCheck(param)){
                 parameters.push({
@@ -765,20 +763,25 @@ class CreateScripts extends Component {
                     "type": param.param_type,
                     "value": param.value
                 })
-        }
-        else{
-            param_valid=false
-            let error_msg = "Input parameter:" + param.param_name + " is not a number"
-            this.props.setSnackBar("Error", error_msg, true)
-        }
-    });
+            }
+            else{
+                param_valid=false
+                let error_msg = "Input parameter:" + param.param_name + " is not a number"
+                this.props.setSnackBar("Error", error_msg, true)
+            }
+        });
         if (param_valid){
             // this.props.setSnackBar("Success", "Parameter check success", true)
-            this.props.setSnackBar("Success", "Script start running, please wait for the result", true)
+
+            if (this.state.mode == "Viewing")
+                this.setState({mode:"ViewingR"})
+            else if (this.state.mode == 'Running')
+                this.setState(({mode:"RunningR"}))
+
             const message =  parameters
             const myRequest = new Request(url, {
-                method: 'POST', 
-                body: JSON.stringify(message), 
+                method: 'POST',
+                body: JSON.stringify(message),
                 headers:{
                     'Authorization': `Bearer ${this.state.token}`,
                     'Content-Type': 'application/json',
@@ -787,25 +790,24 @@ class CreateScripts extends Component {
             });
             fetch(myRequest)
                 .then(response => {response.json().then(prs => {
-                    console.log(response.status)
-                    if (response.status === 401) {
-                        this.props.setSnackBar("Error", "Script id not found", true)
-                    } else if (response.status == 201) {
-                        // FIXME: Unfinished code for running
-                        sleep(3000)
-                        this.getResult(prs.id)
-
-                    } else {
-                        let error_msg = "Error Code:" + response.status
-                        this.props.setSnackBar("Error", error_msg, true)
-                    }
+                        console.log(response.status)
+                        if (response.status === 401) {
+                            this.props.setSnackBar("Error", "Script id not found", true)
+                        } else if (response.status == 201) {
+                            // FIXME: Unfinished code for running
+                            sleep(1000)
+                            this.props.setSnackBar("Success", "Script start running, check the result in task list", true)
+                        } else {
+                            let error_msg = "Error Code:" + response.status
+                            this.props.setSnackBar("Error", error_msg, true)
+                        }
 
                         if (this.state.mode == "ViewingR")
                             this.setState({mode:"Viewing"})
                         else if (this.state.mode == 'RunningR')
                             this.setState(({mode:"Running"}))
                         this.setState({runSuccess: false})
-                }
+                    }
 
 
                 )})
@@ -814,7 +816,7 @@ class CreateScripts extends Component {
 
 
 
-/** Buttons For Shift ***/
+    /** Buttons For Shift ***/
     modeShift = (new_mode) => {
         this.setState({mode: new_mode});
     }
@@ -845,8 +847,8 @@ class CreateScripts extends Component {
             return (
                 <div style={button}>
                     <Button  color="blue" size='large' onClick={()=>this.buttonShift()}>
-                    <Icon disabled name='save' />
-                        Edit Mode
+                        <Icon disabled name='save' />
+                        Viewing Mode
                     </Button>
                 </div>
             );
@@ -855,18 +857,18 @@ class CreateScripts extends Component {
         if (this.state.mode == "Viewing" ) {
             return (
                 <div style={button}>
-                <Button  color="blue" size='large' onClick={()=>this.buttonShift()}>
-                    <Icon disabled name='edit' />
-                    Edit Mode
-                </Button>
-                <Button  color='green'  size='large' onClick={()=>this.publishCurrentScripts()} >
-                    <Icon disabled name='cloud upload' />
-                    Publish  
-                </Button>
-                <Button  color='orange' size='large' onClick={()=>this.executeCurrentScripts()}>
-                <Icon disabled name='play' />
-                Execute
-                </Button>
+                    <Button  color="blue" size='large' onClick={()=>this.buttonShift()}>
+                        <Icon disabled name='edit' />
+                        Edit Mode
+                    </Button>
+                    <Button  color='green'  size='large' onClick={()=>this.publishCurrentScripts()} >
+                        <Icon disabled name='cloud upload' />
+                        Publish
+                    </Button>
+                    <Button  color='orange' size='large' onClick={()=>this.executeCurrentScripts()}>
+                        <Icon disabled name='play' />
+                        Execute
+                    </Button>
                 </div>
             );
         }
@@ -891,10 +893,10 @@ class CreateScripts extends Component {
         if (this.state.mode == "Running") {
             return(
                 <div>
-                <Button  color='orange' size='large' onClick={()=>this.executeCurrentScripts()}>
-                <Icon disabled name='play' />
-                Execute
-                </Button>
+                    <Button  color='orange' size='large' onClick={()=>this.executeCurrentScripts()}>
+                        <Icon disabled name='play' />
+                        Execute
+                    </Button>
                 </div>
             )
         }
@@ -919,7 +921,7 @@ class CreateScripts extends Component {
 
     setChange = (name, new_value) =>{
         this.setState({
-            [name]: new_value 
+            [name]: new_value
         })
     }
 
@@ -932,32 +934,32 @@ class CreateScripts extends Component {
         return (
             <div style={page}>
 
-            <ScriptTitle 
-                mode={this.state.mode} 
-                title={this.state.title}  
-                handleChange={this.handleChange}  
-            />
-            <br/>
-            <DescriptionDisplay
-                mode={this.state.mode}
-                description={this.state.description}
-                handleChange={this.handleChange}
-            />
-            <br/>
-            <EditorDisplay
-                mode={this.state.mode}
-                scripts={this.state.scripts}
-                syntax={this.state.syntax}
-                handleChange={this.handleChange}
-            />
-            <br/>
-            <ResultDisplay mode={this.state.mode} result={this.state.result} setChange={this.setChange}/>
-            <ParamEditor 
-                mode = {this.state.mode}
-                param_list = {this.state.param_list} 
-                setChange = {this.setChange}
-                button={this.ButtonDisplay}
-                setSnackBar={this.props.setSnackBar}
+                <ScriptTitle
+                    mode={this.state.mode}
+                    title={this.state.title}
+                    handleChange={this.handleChange}
+                />
+                <br/>
+                <DescriptionDisplay
+                    mode={this.state.mode}
+                    description={this.state.description}
+                    handleChange={this.handleChange}
+                />
+                <br/>
+                <EditorDisplay
+                    mode={this.state.mode}
+                    scripts={this.state.scripts}
+                    syntax={this.state.syntax}
+                    handleChange={this.handleChange}
+                />
+                <br/>
+                <ResultDisplay mode={this.state.mode} result={this.state.result} setChange={this.setChange}/>
+                <ParamEditor
+                    mode = {this.state.mode}
+                    param_list = {this.state.param_list}
+                    setChange = {this.setChange}
+                    button={this.ButtonDisplay}
+                    setSnackBar={this.props.setSnackBar}
                 />
                 <this.ButtonDisplay />
             </div>

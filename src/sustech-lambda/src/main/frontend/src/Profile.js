@@ -22,6 +22,7 @@ import DialogContent from "@material-ui/core/DialogContent/DialogContent";
 import History from "@material-ui/icons/History"
 import Badge from "@material-ui/core/Badge/Badge";
 import {Button} from "semantic-ui-react";
+import ScriptList2 from "./ScriptList2";
 
 const information = {
     'Display Name': 'ZhanaZhaoxu',
@@ -201,12 +202,12 @@ class Profile extends Component {
             )
         } else if (this.state.showContent == 'My Scripts') {
             return (
-                <ScriptList handleSelectScript={this.handleSelectScript} type={'user edit'} token={this.props.token}/>
+                <ScriptList2 handleSelectScript={this.handleSelectScript} type={'user edit'} token={this.props.token}/>
             )
         } else if (this.state.showContent == 'Running History') {
             return (
                 <ScriptList handleSelectScript={this.handleSelectScript} type={'user history'}
-                            token={this.props.token}/>
+                            token={this.props.token} id={this.state.selectedScript['id']}/>
             )
         }
     }
@@ -341,7 +342,7 @@ class Profile extends Component {
                     maxWidth={'1000'}
                 >
                     <DialogContent style={{width: 1000}}>
-                        <CreateScripts id={this.state.selectedScript['id']} mode="Editing" token={this.props.token} setSnackBar={this.props.setSnackBar} />
+                        <CreateScripts id={this.state.showContent ==='Running History'?this.state.selectedScript.scriptId:this.state.selectedScript.id} task_id={this.state.showContent ==='Running History'?this.state.selectedScript.id:undefined} mode={this.state.showContent === 'Running History'?"Running":"Editing"} token={this.props.token} setSnackBar={this.props.setSnackBar} />
                     </DialogContent>
                 </Dialog>
             </Grid>
