@@ -4,7 +4,6 @@ import cn.edu.sustc.cse.ooad.sustechlambda.dtos.ScriptCreationDto
 import cn.edu.sustc.cse.ooad.sustechlambda.dtos.ScriptDto
 import cn.edu.sustc.cse.ooad.sustechlambda.dtos.toDto
 import cn.edu.sustc.cse.ooad.sustechlambda.entities.Script
-import cn.edu.sustc.cse.ooad.sustechlambda.entities.ScriptParameterInfo
 import cn.edu.sustc.cse.ooad.sustechlambda.entities.ScriptRunParameter
 import cn.edu.sustc.cse.ooad.sustechlambda.entities.Task
 import cn.edu.sustc.cse.ooad.sustechlambda.persistence.ScriptsRepository
@@ -109,9 +108,7 @@ class ScriptsController
             return ResponseEntity.notFound().build<String>()
         }
         val script = scriptOpt.get()
-        if (!script.validateParameters(
-                        parameters.map { ScriptParameterInfo(it.name, it.type) }.toSet()
-                )) {
+        if (!script.validateParameters(parameters)) {
             return ResponseEntity.badRequest().body("Invalid parameters")
         }
         val task = Task(

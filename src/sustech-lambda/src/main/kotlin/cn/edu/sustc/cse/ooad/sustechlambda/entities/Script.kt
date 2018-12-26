@@ -11,6 +11,15 @@ class Script(
         var content: ScriptContent,
         @DBRef var author: User
 ) {
-    fun validateParameters(parameters: Set<ScriptParameterInfo>) = parameters.all { it in this.content.parameters }
+    fun validateParameters(parameters: Set<ScriptRunParameter>) = parameters.map { ScriptParameterInfo(it.name, it.type) }.toSet().all { it in this.content.parameters }
+            && parameters.filter { it.type == ParameterType.NUMBER }.all { it.value.isNumerical() }
 }
+
+private fun String.isNumerical() = try {
+    this.toDouble()
+    true
+} catch (ex: NumberFormatException) {
+    false
+}
+
 
