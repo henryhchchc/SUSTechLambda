@@ -24,15 +24,16 @@ class App extends Component {
                 ],
                 "userName": "ZZX"
             },
-            alertAllFieled:false,
+            alertAllFieled: false,
             snakebarContent: ' ',
         }
 
     }
-    setSnake = (f,c) =>{
+
+    setSnake = (f, c) => {
         this.setState({
-            alertAllFieled:f,
-            snakebarContent:c,
+            alertAllFieled: f,
+            snakebarContent: c,
 
         })
     }
@@ -50,7 +51,10 @@ class App extends Component {
             )
         } else {
             return (
-                <PersonalPage user={this.state.status} token={this.state.token} userInformation={this.state.userInformation}/>
+                <div style={{backgroundImage: `url(${require("./image/he.jpg")})`}}>
+                    <PersonalPage user={this.state.status} token={this.state.token}
+                                  userInformation={this.state.userInformation}/>
+                </div>
             )
         }
     }
@@ -59,9 +63,10 @@ class App extends Component {
         if (isdebug) {
             return (
                 <div>
-                    <ButtonAppBar login={false} setToken={this.setToken} token={this.state.token} userInformation={this.state.userInformation} setSnake={this.setSnake}/>
-                    <HomePage />
-                    
+                    <ButtonAppBar login={true} setToken={this.setToken} token={this.state.token}
+                                  userInformation={this.state.userInformation} setSnake={this.setSnake}/>
+                    <PersonalPage user='admin' token={this.state.token} userInformation={this.state.userInformation}/>
+
                     <Snackbar
                         anchorOrigin={{vertical: 'top', horizontal: 'right'}}
                         open={this.state.alertAllFieled}
@@ -81,19 +86,18 @@ class App extends Component {
             )
         } else {
             return (
-                <React.Fragment>
+                <div>
                     <ButtonAppBar login={this.state.token !== null} setToken={this.setToken}
                                   userInformation={this.state.userInformation}/>
                     {this.showMainPage()}
                     {/*<ScriptList/>*/}
                     {/*<CreateScript/>*/}
                     {/*<CodeEditor/>*/}
-                </React.Fragment>
+                </div>
             )
         }
     }
 }
-
 
 
 export default App;

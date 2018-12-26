@@ -101,6 +101,16 @@ const styles = theme => ({
   },
 });
 
+const sleep=(numberMillis)=>
+{
+    var now = new Date();
+    var exitTime = now.getTime() + numberMillis;
+    while (true) {
+        now = new Date();
+        if (now.getTime() > exitTime)
+            return;
+    }
+}
 
 /**  Title Description and Editor **/ 
 const EditTitle = ({title, handleChange}) =>
@@ -132,7 +142,7 @@ const ScriptTitle = ({mode, title, handleChange}) =>
             </div>
         );
     }
-    if (mode == "Viewing" || mode == "Running") {
+    if (mode == "Viewing" || mode == "Running"|| mode == "ViewingR" || mode == "RunningR" ) {
         return (<div style={{fontFamily:['Comic Sans MS','cursive','sans-serif']}} ><Typography component="h1" variant="h1" gutterBottom>{title}</Typography></div>);
     }
 }
@@ -171,7 +181,7 @@ if (mode == "Editing") {
     );
 }
 
-if (mode == "Viewing"|| mode == "Running") {
+if (mode == "Viewing"|| mode == "Running" || mode == "ViewingR" || mode == "RunningR" ) {
     return (
         <div style={long_editor}>
             <Typography style={{fontFamily:['Comic Sans MS','cursive','sans-serif']}}  component="h4" variant="h4"> Decriptioin ></Typography>
@@ -233,7 +243,7 @@ const EditorDisplay = ({mode, scripts, syntax, handleChange}) => {
             </div>
         );
     }
-    if (mode == "Viewing") {
+    if (mode == "Viewing" || mode=="ViewingR") {
         return (
             <div style={script_editor}>
                 <h4 style={{fontFamily:['Comic Sans MS','cursive','sans-serif']}} > Script > </h4>
@@ -245,7 +255,7 @@ const EditorDisplay = ({mode, scripts, syntax, handleChange}) => {
             </div>
         );
     }
-    if (mode == "Running") {
+    if (mode == "Running" || mode=="RunningR") {
         return (
             <div>
             </div>
@@ -256,22 +266,22 @@ const EditorDisplay = ({mode, scripts, syntax, handleChange}) => {
 /** Result Display **/
 const ResultDisplay = (props) => {
     let {mode, result} = props
-    if (mode == "Viewing") {
-        return (
-            <div  style={result_style}>
-                <h4>Result></h4>
-                <TextField
-                    id="result"
-                    // label="result"
-                    value={result}
-                    margin="normal"
-                    fullWidth
-                    rows="3"
-                    rowsMax="20"
-                    multiline
-                    variant="filled"
-                />
-            </div>);
+
+    if (mode == "Viewing" | mode=="Running" || mode == "ViewingR" || mode == "RunningR" ) {
+        if (result != null) {
+            return (
+                <div style={result_style}>
+                    <h4 style={{fontFamily:['Comic Sans MS','cursive','sans-serif']}}>Result></h4>
+                    <body style={{fontFamily:['Comic Sans MS','cursive','sans-serif']}}>{result }</body>
+                </div>);
+        }
+        else{
+            return (
+                <div style={result_style}>
+                    <h4>Result></h4>
+                    <body style={{fontFamily:['Comic Sans MS','cursive','sans-serif']}}>[No Result Given At Present]</body>
+                </div>);
+        }
     }
     else {
         return (
@@ -472,15 +482,6 @@ class ParamEditor extends Component {
         </div>
 
 
-    // Unused Codes here
-    // ParamUpdate=()=>
-    // {
-    //     this.state.param_list.map(item => {
-    //             if (! this.InputValidCheck(item.param_value, item.param_type)) {
-    //                alert("Error")
-    //             }
-    //     })
-    // }
 
     // Input paramter
     SingleParamInput = ({param}) => {
@@ -534,7 +535,7 @@ class ParamEditor extends Component {
                 </div>
             )
         }
-        if (this.state.mode == "Viewing" || this.state.mode == "Running") {
+        if (this.state.mode == "Viewing" || this.state.mode == "Running" || mode == "ViewingR" || mode == "RunningR" ) {
             return (
                 <div>
                 <this.InputParam />
@@ -561,6 +562,9 @@ class CreateScripts extends Component {
         let code = "# Input your code here :>"
         let result = null
         let {token, mode, id, task_id} = props;
+        // alert(token)
+        // alert(mode)
+        // alert(id)
         if (id == null) {id = "NULL"}
 
         this.state = {
@@ -574,6 +578,8 @@ class CreateScripts extends Component {
             id: id,
             token: token,
             task_id : task_id,
+            setSnackBar: props.setSnackBar,
+            runSuccess:false,
             sb_info:{
                 type:"default",
                 info:"NULL",
@@ -584,50 +590,12 @@ class CreateScripts extends Component {
         if (mode == null) { mode = "Editing"}
         if (id != "NULL"){
             let inform = this.getScripts(id)
-            // alert("Success")
-            // alert(inform)
-            // if (inform != null){
-            //     {id, name, description, content, author} = inform
-            //     let {language, code, parameters} = content
-            //     alert("Set")
-            //     alert(code)
-            // }
-            // let {id, name, description, content, author} = props.inform
-            // let {language, code, parameters} = content
-            // this.state = {
-            //     title: name,
-            //     description: description,
-            //     scripts: code,
-            //     syntax: language,
-            //     param_list: parameters,
-            //     result: result,
-            //     mode: mode,
-            //     id: id,
-            //     token: token,
-            //     task_id : task_id,
-            //     sb_info:{
-            //         type:"default",
-            //         info:"NULL",
-            //         open:false
-            //     }
-            // }
         }
 
-        // alert("end")
-        // alert(inform)
 
     }
 
-    // // Trigger a snack bar
-    // setSnackBar= (type, info, open) =>{
-    //     this.setState({
-    //         sb_info:{
-    //             type:type,
-    //             info:info,
-    //             open:open
-    //         }
-    //     })
-    // }
+
 
     // Get Scripts 
     getScripts = (id) => {
@@ -663,6 +631,7 @@ class CreateScripts extends Component {
                             syntax: language,
                             param_list: param_list,
                             id: id,
+                            result:null
                         })
                         }
                     )
@@ -671,7 +640,7 @@ class CreateScripts extends Component {
 
         // Query Result
         getResult = (id) => {
-            alert("start")
+            // alert("start")
             let url = `${apiHost}/api/tasks/${id}`
             const myRequest = new Request(url, {
                 method: 'GET',
@@ -684,15 +653,15 @@ class CreateScripts extends Component {
                 fetch(myRequest)
                     // alert("get")
                     .then(response => response.json().then(prs => {
+                        // alert("get")
                         console.log(response.status)
+                        // alert(response.status)
                         if (response.status === 401) {
                             this.props.setSnackBar("Error", "Script ID Not Found", true)
                         } else if (response.status == 200) {
-                            // if (prs.satus=="FINISHED") {
-                                this.setState({result: prs.result})
-                            //     return true
-                            // }
-                            // else return false
+
+                                this.setState({result: prs.output})
+
 
                         } else {
                             let error_msg = "Error Code:" + response.status
@@ -785,6 +754,10 @@ class CreateScripts extends Component {
         let url = `${apiHost}/api/scripts/${id}/run`
         let parameters = []
         let param_valid = true
+        if (this.state.mode == "Viewing")
+            this.setState({mode:"ViewingR"})
+        else if (this.state.mode == 'Running')
+            this.setState(({mode:"RunningR"}))
         param_list.map(param=>{
             if (this.InputValidCheck(param)){
                 parameters.push({
@@ -800,7 +773,8 @@ class CreateScripts extends Component {
         }
     });
         if (param_valid){
-            this.props.setSnackBar("Success", "Parameter check success", true)
+            // this.props.setSnackBar("Success", "Parameter check success", true)
+            this.props.setSnackBar("Success", "Script start running, please wait for the result", true)
             const message =  parameters
             const myRequest = new Request(url, {
                 method: 'POST', 
@@ -817,16 +791,24 @@ class CreateScripts extends Component {
                     if (response.status === 401) {
                         this.props.setSnackBar("Error", "Script id not found", true)
                     } else if (response.status == 201) {
-                        // FIXME: Unfinished code for running 
-                        this.props.setSnackBar("Success", "Script start running", true)
+                        // FIXME: Unfinished code for running
+                        sleep(3000)
+                        this.getResult(prs.id)
 
-                        let result = this.getResult(prs.id)
-                        // while (!result) {this.getResult(prs.id)}
                     } else {
                         let error_msg = "Error Code:" + response.status
                         this.props.setSnackBar("Error", error_msg, true)
                     }
-                })})
+
+                        if (this.state.mode == "ViewingR")
+                            this.setState({mode:"Viewing"})
+                        else if (this.state.mode == 'RunningR')
+                            this.setState(({mode:"Running"}))
+                        this.setState({runSuccess: false})
+                }
+
+
+                )})
         }
     }
 
@@ -870,7 +852,7 @@ class CreateScripts extends Component {
             );
         }
 
-        if (this.state.mode == "Viewing") {
+        if (this.state.mode == "Viewing" ) {
             return (
                 <div style={button}>
                 <Button  color="blue" size='large' onClick={()=>this.buttonShift()}>
@@ -888,6 +870,24 @@ class CreateScripts extends Component {
                 </div>
             );
         }
+        if (this.state.mode == "ViewingR") {
+            return (
+                <div style={button}>
+                    <Button  color="blue" size='large' onClick={()=>this.buttonShift()}>
+                        <Icon disabled name='edit' />
+                        Edit Mode
+                    </Button>
+                    <Button  color='green'  size='large' onClick={()=>this.publishCurrentScripts()} >
+                        <Icon disabled name='cloud upload' />
+                        Publish
+                    </Button>
+                    <Button  loading color='orange' size='large' onClick={()=>this.executeCurrentScripts()}>
+                        <Icon disabled name='play' />
+                        Execute
+                    </Button>
+                </div>
+            );
+        }
         if (this.state.mode == "Running") {
             return(
                 <div>
@@ -895,6 +895,16 @@ class CreateScripts extends Component {
                 <Icon disabled name='play' />
                 Execute
                 </Button>
+                </div>
+            )
+        }
+        if (this.state.mode == "RunningR") {
+            return(
+                <div>
+                    <Button  loading color='orange' size='large' onClick={()=>this.executeCurrentScripts()}>
+                        <Icon disabled name='play' />
+                        Execute
+                    </Button>
                 </div>
             )
         }
@@ -915,9 +925,13 @@ class CreateScripts extends Component {
 
     render() {
         // alert(this.state.result)
+        if ((this.props.id != this.state.id)&(this.props.id != null)) {
+            this.getScripts(this.props.id)
+        }
+
         return (
             <div style={page}>
-          
+
             <ScriptTitle 
                 mode={this.state.mode} 
                 title={this.state.title}  
@@ -937,7 +951,7 @@ class CreateScripts extends Component {
                 handleChange={this.handleChange}
             />
             <br/>
-            <ResultDisplay props={this.state}/>
+            <ResultDisplay mode={this.state.mode} result={this.state.result} setChange={this.setChange}/>
             <ParamEditor 
                 mode = {this.state.mode}
                 param_list = {this.state.param_list} 

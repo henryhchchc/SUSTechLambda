@@ -46,7 +46,7 @@ const allmember = [
 const style = {
     Paper: {
         backgroundImage: `url(${require("./image/he.jpg")})`,
-        height: 1851,
+        height: 1700,
         backgroundSize: 'cover'
     },
     button: {
@@ -103,18 +103,19 @@ class HomePage extends Component {
             allmember.map(pr => {
                     return (
                         <Grid item xs={2} style={{marginLeft: 'auto', marginTop: 10}}>
-                            <Card style={{width: (window.screen.width / allmember.length) / 1.5, height: 300}}>
+                            <Card style={{width: (window.screen.width / allmember.length) / 1.8, height: 240,backgroundColor:"#2a3743"}}>
                                 <Avatar style={{
-                                    marginLeft: (window.screen.width / allmember.length) / 3 - 45,
+                                    marginLeft: 'auto',
+                                    marginRight:'auto',
                                     width: 80,
                                     height: 80,
                                     marginTop:10
                                 }} src={require(`./image/${pr.name}.jpeg`)}/>
                                 <CardContent>
-                                    <Typography gutterBottom variant="h5" component="h2">
+                                    <Typography gutterBottom variant="h5" component="h2" style={{color:'#ffffff'}}>
                                         {pr.name}
                                     </Typography>
-                                    <Typography component="p">
+                                    <Typography component="p" style={{color:'#ffffff'}}>
                                         {pr.Introduction}
                                     </Typography>
                                 </CardContent>
@@ -133,7 +134,6 @@ class HomePage extends Component {
         })
     }
     render() {
-        console.log(window.screen.availWidth)
         return (
             <React.Fragment>
                 <Paper style={style.Paper}>
@@ -164,8 +164,9 @@ class HomePage extends Component {
                             <Player autoPlay={true}
                                     fluid={false}
                                     width={800}
+
                             >
-                                <source src={'http://media.w3.org/2010/05/bunny/movie.mp4'}/>
+                                <source src={require(`./image/startmovie.mov`)}/>
                                 <ControlBar autoHide={true} disableCompletely/>
                             </Player>
                         </Grid>
@@ -180,16 +181,16 @@ class HomePage extends Component {
                             <Login type="in" setToken={this.props.setToken} handleModal={this.handleModal} setSnake={this.setSnake}/>
                         </DialogContent>
                     </Dialog>
-                    <Grid container spacing={24} style={{marginTop: 500}}>
+                    <Grid container spacing={24} style={{marginTop: 300}}>
                         <Grid item>
-                            <div style={{width: window.screen.width, height: 450, backgroundColor: '#101319'}}>
+                            <div style={{width: window.screen.width, height: 430, backgroundColor: '#101319'}}>
                                 <Grid container>
                                     {this.showMembers()}
 
                                 </Grid>
                                 <Grid container>
-                                    <Typography style={{color: '#ffffff', marginTop: 50, marginLeft: 200}}>
-                                        By clicking “Sign up for GitHub”, you agree to our terms of service and privacy
+                                    <Typography style={{color: '#ffffff', marginTop: 50, marginLeft: 'auto',marginRight:'auto'}}>
+                                        By clicking “Sign up”, you agree to our terms of service and privacy
                                         statement. We’ll occasionally send you account related emails.
                                     </Typography>
                                 </Grid>

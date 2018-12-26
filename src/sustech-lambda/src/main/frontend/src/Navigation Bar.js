@@ -100,7 +100,7 @@ class ButtonAppBar extends Component {
                             width: 30,
                             height: 30,
                             marginLeft:30
-                        }} src={require("./image/avatar.png")}
+                        }} src={require("./image/avatar2.jpg")}
                         />
                         <Typography style={{color: '#ffffff', marginLeft: 10,marginTop:5,fontSize:14}}>
                             {this.props.userInformation['displayName']}
@@ -132,7 +132,7 @@ class ButtonAppBar extends Component {
             )
         } else {
             return (
-                <Grid item style={{marginLeft: window.screen.width -930, marginTop: 14}}>
+                <Grid item style={{marginLeft: window.screen.width -790, marginTop: 14}}>
                     <Grid container 
                     >
                     <Grid style={{width:300}}>

@@ -196,7 +196,9 @@ EnhancedTable2Toolbar = withStyles(toolbarStyles)(EnhancedTable2Toolbar);
 
 const styles = theme => ({
     root: {
-        width: '100%',
+        width: '95%',
+        marginLeft: 'auto',
+        marginRight:'auto',
         marginTop: theme.spacing.unit * 3,
     },
     table: {
@@ -408,7 +410,7 @@ class EnhancedTable2 extends React.Component {
                         </Table>
                     </div>
                     <TablePagination
-                        rowsPerPageOptions={[5, 10, 25]}
+                        rowsPerPageOptions={[5]}
                         component="div"
                         count={data.length}
                         rowsPerPage={rowsPerPage}

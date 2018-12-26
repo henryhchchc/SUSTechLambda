@@ -215,15 +215,16 @@ class Profile extends Component {
         return (
             <Grid container style={{height: 400}}>
                 <Grid item>
-                    <Paper style={{width: 300, marginLeft: 50, marginTop: 50, marginRight: 50, height: 700}}>
+                    <Paper style={{width: 260, marginLeft: 50, marginTop: 50, marginRight: 30, height: 800}}>
                         <Grid container>
                             <Avatar style={{
                                 width: 80,
                                 height: 80,
-                                marginLeft: 110,
+                                marginLeft: 'auto',
+                                marginRight:'auto',
                                 marginTop: 60,
                                 borderStyle: 'solid', borderWidth: 3, borderColor: "#919191"
-                            }} src={require("./image/avatar.png")}
+                            }} src={require("./image/avatar2.jpg")}
                             />
                         </Grid>
                         <Grid container style={{marginTop: 30}}>
@@ -327,7 +328,7 @@ class Profile extends Component {
                     </Paper>
                 </Grid>
                 <Grid item>
-                    <Paper style={{width: 900, marginTop: 50, height: 800}}>
+                    <Paper style={{width: 800, marginTop: 50, height: 800}}>
                         {this.showContent()}
                     </Paper>
                 </Grid>

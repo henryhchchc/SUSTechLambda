@@ -102,7 +102,7 @@ class ScriptList extends Component {
                                     Like
                                 </Button>
                                 <Label as='a' basic color='red' pointing='mini'>
-                                    {Math.floor(Math.random()*(500-20)+20)}
+                                    123
                                 </Label>
                             </Button>
                         </ListItem>
@@ -112,9 +112,8 @@ class ScriptList extends Component {
         )
     }
     showRunScript = () => {
-        console.log(this.state.content)
         return (
-            <CreateScripts mode="Running" id = {this.state.content['id']} setSnakeBar={this.props.setSnakeBar}/>
+            <CreateScripts mode="Running" id = {this.state.content['id']} token={this.props.token} setSnackBar={this.props.setSnackBar}/>
         )
     }
 
@@ -124,12 +123,12 @@ class ScriptList extends Component {
                 <div>
                     <Grid container style={{height: 600,fontFamily:['Comic Sans MS','cursive','sans-serif']}}>
                         <Grid item>
-                            <Paper style={{height: 1000, marginLeft: 25, marginTop: 20, width: 550}}>
+                            <Paper style={{height: 800, marginLeft: 50, marginTop: 50, width: 400}}>
                                 {this.showScriptList()}
                             </Paper>
                         </Grid>
                         <Grid item>
-                            <Paper style={{height:1000, marginLeft: 30, marginTop: 20, width: 800}}>
+                            <Paper style={{height:800, marginLeft: 30, marginTop: 50, width: 670}}>
                                 {this.showRunScript()}
                             </Paper>
                         </Grid>
