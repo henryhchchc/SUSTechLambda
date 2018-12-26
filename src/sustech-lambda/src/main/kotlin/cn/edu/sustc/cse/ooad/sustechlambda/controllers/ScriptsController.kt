@@ -44,13 +44,13 @@ class ScriptsController
             @RequestParam("page_idx", defaultValue = "0") pageIndex: Int,
             @ApiParam("Page size")
             @RequestParam("page_size", defaultValue = "10") pageSize: Int
-    ) = pagingQuery(pageIndex, pageSize, this.scriptsRepository)
+    ) = pagingQuery(pageIndex, pageSize, this.scriptsRepository) { it.toDto() }
 
 
     @RolesAllowed("USER", "DESIGNER", "ADMIN")
     @ApiOperation("Get a script", authorizations = [Authorization("Bearer")])
     @GetMapping("{id}")
-    fun getScript(@PathVariable id: UUID) = getById(id, this.scriptsRepository)
+    fun getScript(@PathVariable id: UUID) = getById(id, this.scriptsRepository) { it.toDto() }
 
     @RolesAllowed("DESIGNER")
     @ApiOperation("Get scripts created by current user.", authorizations = [Authorization("Bearer")])
@@ -122,7 +122,7 @@ class ScriptsController
                 null,
                 this.identityService.getCurrentUser()!!
         )
-        this.taskService.runTask(task)
+        task.containerId = this.taskService.runTask(task)
         this.tasksRepository.save(task)
         return ResponseEntity.created(URI.create("/api/tasks/${task.id}")).body(task)
     }

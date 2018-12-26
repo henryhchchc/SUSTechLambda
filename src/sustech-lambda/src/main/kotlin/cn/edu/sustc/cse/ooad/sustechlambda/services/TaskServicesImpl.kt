@@ -20,9 +20,12 @@ private val infoToStatusMap = mapOf(
         "dead" to TaskStatus.ERROR
 )
 
-private val supportedLanguages = listOf("python", "javascript", "bash")
 
-private val languageImages = mapOf(*supportedLanguages.map { it to "sustech_lambda_$it" }.toTypedArray())
+private val languageImages = mapOf(
+        "python" to "sustech_lambda_python3",
+        "javascript" to "sustech_lambda_node8",
+        "shell" to "sustech_lambda_ubuntu16"
+)
 
 private val languageExtensions = mapOf(
         "python" to "py",
@@ -37,7 +40,7 @@ class TaskServicesImpl : TaskServices {
     } else null
 
 
-    private val dockerClient: DockerClient = DefaultDockerClient.fromEnv().build()
+    private val dockerClient: DockerClient = DefaultDockerClient("unix:///var/run/docker.sock")
 
 
     override fun runTask(task: Task): String {
@@ -58,7 +61,6 @@ class TaskServicesImpl : TaskServices {
     } else null
 
 
-
     private fun createContainer(task: Task): ContainerCreation {
         val imageId = languageImages[task.script.content.language]
         val config = ContainerConfig.builder()
@@ -76,11 +78,24 @@ class TaskServicesImpl : TaskServices {
         Files.createDirectory(tempDir)
 
         val parametersJson = extractParametersJson(task)
-        File("${tempDir}script.${languageExtensions[task.script.content.language]}").writeText(task.script.content.code)
-        File("${tempDir}parameters.json").writeText(parametersJson)
+        File("$tempDir/script.${languageExtensions[task.script.content.language]}").writeText(task.script.content.code)
+        File("$tempDir/parameters.json").writeText(parametersJson)
         return tempDir
     }
 
     private fun extractParametersJson(task: Task) = GsonBuilder().setPrettyPrinting().create().toJson(task.parameters)
+
+    companion object {
+        init {
+            val tmpPath = File("/tmp/sustech-lambda/").toPath()
+            if (!Files.exists(tmpPath)) {
+                Files.createDirectory(tmpPath)
+            }
+            val taksTmpPath = File("/tmp/sustech-lambda/tasks/").toPath()
+            if (!Files.exists(taksTmpPath)) {
+                Files.createDirectory(taksTmpPath)
+            }
+        }
+    }
 
 }

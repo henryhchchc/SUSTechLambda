@@ -7,10 +7,11 @@ import Typography from "@material-ui/core/Typography/Typography";
 import Paper from "@material-ui/core/Paper/Paper";
 import SyntaxHighlighter from "react-syntax-highlighter/dist/esm/default-highlight";
 import TextField from "@material-ui/core/TextField/TextField";
-import Button from "@material-ui/core/Button/Button";
 import SnackbarContent from "@material-ui/core/SnackbarContent/SnackbarContent";
 import Snackbar from "@material-ui/core/Snackbar/Snackbar";
 import ErrorIcon from "@material-ui/core/SvgIcon/SvgIcon";
+import CreateScripts from "./CreateScripts";
+import {Button,Icon,Label} from "semantic-ui-react";
 
 const isDebug = true;
 
@@ -21,29 +22,8 @@ class ScriptList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            scripts: [{
-                "content": {
-                    "code": "\n" +
-                        "import multiprocessing as mp\n" +
-                        "import time\n" +
-                        "import sys\n" +
-                        "import numpy as np",
-                    "language": "Python",
-                    "parameters": [
-                        {
-                            "name": "P1",
-                            "type": "STRING"
-                        },
-                        {
-                            "name": "P2",
-                            "type": "INT"
-                        }
-                    ]
-                },
-                "description": "This is a test example",
-                "name": "Hello World"
-            }],
-            content: null,
+            scripts: [],
+            content: {id:null},
             parameterValues: {},
             snakebarContent: '',
             alertAllFieled: false
@@ -64,85 +44,67 @@ class ScriptList extends Component {
 
     componentDidMount() {
         //TODO open it when the create script api is usable
-        /*
         let url = ''
-        if(this.props.type=='run' || this.props.type=='admin edit') {
+        if (this.props.type == 'run' || this.props.type == 'admin edit') {
             url = `${apiHost}/api/scripts?page_idx=0&page_size=100`
-        }else if(this.props.type=='user edit'){
-            url = `${apiHost}/api/scripts/mine`
+            const myRequest = new Request(url, {
+                method: 'GET', headers: {
+                    'Authorization': `Bearer ${this.props.token}`
+                }
+            });
+            fetch(myRequest)
+                .then(response => response.json().then(prs => {
+                        this.setState({scripts: prs.content,content:prs.content[0]})
+                    }
+                ));
+        } else if (this.props.type == 'user edit' || this.props.type == 'user history') {
+            if (this.props.type == 'user edit') {
+                url = `${apiHost}/api/scripts/mine`
+            } else {
+                url = `${apiHost}/api/tasks/mine`
+            }
+            const myRequest = new Request(url, {
+                method: 'GET', headers: {
+                    'Authorization': `Bearer ${this.props.token}`
+                }
+            });
+            fetch(myRequest)
+                .then(response => response.json().then(prs => {
+                        this.setState({scripts: prs})
+                    }
+                ));
+
         }
 
-        const myRequest = new Request(url, {
-            method: 'GET', headers: {
-                'Authorization': `Bearer ${this.props.token}`
-            }
-        });
 
-        fetch(myRequest)
-            .then(res => res.json())
-            .then(prs => {
-
-                    this.setState({scripts: prs.content})
-
-            });
-            */
     }
 
     selectPr = (pr, index) => {
-        if(this.props.type == 'run') {
+        if (this.props.type == 'run') {
             this.setState({
                 content: pr,
             });
-        }else{
+        } else {
             this.props.handleSelectScript(pr)
         }
     }
-    handleParameterIn = name => event => {
-        let t = this.state.parameterValues
-        t[name] = event.target.value
-        this.setState({
-            parameterValues: t,
-        })
-    }
 
-    handleRunScript = () => {
-        let parameter = this.state.parameterValues
-        let verified = true
-        this.state.content['content']['parameters'].map(
-            item => {
-                if (parameter[item['name']] === undefined || parameter[item['name']] === "") {
-                    verified = false
-                    this.setState({
-                        snakebarContent: 'Please fill all required parameter',
-                        alertAllFieled: true,
-                    })
-                } else {
-                    if (!this.verifyType(typeof(parameter[item['name']]), item['type'])) {
-                        verified = false
-                    }
-                }
-
-            }
-        )
-        if (verified) {
-            //TODO post parameter to server to run
-        }
-    }
-
-    verifyType = (type1, type2) => {
-        if ((type2 == 'STRING' && type1 == 'string') || (type2 == 'NUMBER' && type1 == 'number')) {
-            return true
-        }
-        return false
-    }
     showScriptList = () => {
-        console.log(this.state.scripts)
         return (
-            <List >
+            <List>
                 {
                     this.state.scripts.map((pr, index) =>
-                        <ListItem button key={pr.name} onClick={() => this.selectPr(pr, index)}>
-                            <ListItemText primary={pr.name} secondary={pr.description}/>
+                        <ListItem button key={pr.name} onClick={() =>this.selectPr(pr, index)} style={{fontFamily:['Comic Sans MS','cursive','sans-serif']}}>
+                            <ListItemText primary={pr.name} secondary={pr.description} />
+                            <Button as='div' labelPosition='right' size='mini'>
+                                <Button color='red' size='tiny'>
+                                    <Icon name='heart' />
+                                    Like
+                                </Button>
+                                <Label as='a' basic color='red' pointing='mini'>
+                                    123
+                                </Label>
+                            </Button>
                         </ListItem>
                     )
                 }
@@ -150,60 +112,8 @@ class ScriptList extends Component {
         )
     }
     showRunScript = () => {
-        let title = 'name'
-        let code = 'XXXXaaaa'
-        let parameter = []
-        let language = 'XXX'
-        if (this.state.content != null) {
-            title = this.state.content['name']
-            code = this.state.content['content']['code']
-            parameter = this.state.content['content']['parameters']
-            language = this.state.content['content']['language']
-        }
-
         return (
-            <div>
-                <Typography style={{fontSize: 25, fontFamily: 'courier', paddingLeft: 30, paddingTop: 30}}>
-                    {title}
-                </Typography>
-                <Paper style={{marginLeft: 20, marginRight: 20}}>
-                    <SyntaxHighlighter
-                        language={language}
-                    >
-                        {code}
-                    </SyntaxHighlighter>
-
-                </Paper>
-                <Paper style={{marginLeft: 20, marginRight: 20}}>
-                    <form noValidate autoComplete="off" style={{marginLeft: 0}}>
-                        {parameter.map(
-                            item =>
-                                <Grid container style={{marginTop: 1}}>
-                                    <TextField
-                                        id="standard-name"
-                                        label={item['name']}
-                                        placeholder={item['type']}
-                                        onChange={this.handleParameterIn(item['name'])}
-                                        style={{margin: 8}}
-                                        InputLabelProps={{
-                                            shrink: true,
-                                            style: {marginTop: 4}
-                                        }}
-                                    />
-                                </Grid>
-                        )}
-                    </form>
-                </Paper>
-                <Button variant="contained" style={{marginTop: 20, marginLeft: 20}}
-                        onClick={() => this.handleRunScript()}>
-                    Run
-                </Button>
-                <Paper style={{marginTop: 20, marginLeft: 20, marginRight: 20}}>
-                    <Typography>
-                        OutPut
-                    </Typography>
-                </Paper>
-            </div>
+            <CreateScripts mode="Running" id = {this.state.content['id']} token={this.props.token} setSnackBar={this.props.setSnackBar}/>
         )
     }
 
@@ -211,14 +121,14 @@ class ScriptList extends Component {
         if (this.props.type == 'run') {
             return (
                 <div>
-                    <Grid container style={{height: 600}}>
+                    <Grid container style={{height: 600,fontFamily:['Comic Sans MS','cursive','sans-serif']}}>
                         <Grid item>
-                            <Paper style={{height: 600, marginLeft: 25, marginTop: 20,width:550}}>
+                            <Paper style={{height: 800, marginLeft: 50, marginTop: 50, width: 400}}>
                                 {this.showScriptList()}
                             </Paper>
                         </Grid>
                         <Grid item>
-                            <Paper style={{height: 600, marginLeft: 30, marginTop: 20, width: 800}}>
+                            <Paper style={{height:800, marginLeft: 30, marginTop: 50, width: 670}}>
                                 {this.showRunScript()}
                             </Paper>
                         </Grid>

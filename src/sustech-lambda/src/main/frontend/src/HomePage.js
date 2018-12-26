@@ -1,22 +1,24 @@
 import React, {Component} from 'react';
-import ButtonAppBar from './Navigation Bar'
 import Paper from "@material-ui/core/Paper/Paper";
 import Typography from "@material-ui/core/Typography/Typography";
 import Grid from "@material-ui/core/Grid/Grid";
 import Fade from "@material-ui/core/Fade/Fade";
 import {ControlBar, Player} from 'video-react';
 import "video-react/dist/video-react.css";
-import Button from "@material-ui/core/Button/Button";
-import Modal from "@material-ui/core/Modal/Modal";
+import { Button } from 'semantic-ui-react'
 import Login from "./login";
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
 import Avatar from "@material-ui/core/Avatar/Avatar";
+import Dialog from "@material-ui/core/Dialog/Dialog";
+import DialogContent from "@material-ui/core/DialogContent/DialogContent";
+import SnackbarContent from "@material-ui/core/SnackbarContent/SnackbarContent";
+import ErrorIcon from "@material-ui/core/SvgIcon/SvgIcon";
+import Snackbar from "@material-ui/core/Snackbar/Snackbar";
 
 const allmember = [
     {
-        name: 'Zhang Zhaoxu',
+        name: 'Zhu Hengcheng',
         Phonenumber: 133333333,
         Introduction: 'hahahahahah'
     },
@@ -26,17 +28,17 @@ const allmember = [
         Introduction: 'hahahahahah'
     },
     {
-        name: 'Zhang Zhaoxu',
+        name: 'Wang Yutong',
         Phonenumber: 133333333,
         Introduction: 'hahahahahah'
     },
     {
-        name: 'Zhang Zhaoxu',
+        name: 'Zhang Siyu',
         Phonenumber: 133333333,
         Introduction: 'hahahahahah'
     },
     {
-        name: 'Zhang Zhaoxu',
+        name: 'He Haibin',
         Phonenumber: 133333333,
         Introduction: 'hahahahahah'
     }
@@ -44,7 +46,7 @@ const allmember = [
 const style = {
     Paper: {
         backgroundImage: `url(${require("./image/he.jpg")})`,
-        height: 1851,
+        height: 1700,
         backgroundSize: 'cover'
     },
     button: {
@@ -85,7 +87,10 @@ const style = {
 
 class HomePage extends Component {
     state = {
-        open: false
+        open: false,
+        alertAllFieled:false,
+        snakebarContent: ' ',
+
     }
     handleModal = a => {
         this.setState({open: false})
@@ -98,13 +103,19 @@ class HomePage extends Component {
             allmember.map(pr => {
                     return (
                         <Grid item xs={2} style={{marginLeft: 'auto', marginTop: 10}}>
-                            <Card style={{width: (window.screen.width / allmember.length) / 1.5, height: 300}}>
-                                <Avatar style={{marginLeft: (window.screen.width / allmember.length) /3 - 45, width:80,height:80}}>{pr.name.charAt(0)}</Avatar>
+                            <Card style={{width: (window.screen.width / allmember.length) / 1.8, height: 240,backgroundColor:"#2a3743"}}>
+                                <Avatar style={{
+                                    marginLeft: 'auto',
+                                    marginRight:'auto',
+                                    width: 80,
+                                    height: 80,
+                                    marginTop:10
+                                }} src={require(`./image/${pr.name}.jpeg`)}/>
                                 <CardContent>
-                                    <Typography gutterBottom variant="h5" component="h2">
+                                    <Typography gutterBottom variant="h5" component="h2" style={{color:'#ffffff'}}>
                                         {pr.name}
                                     </Typography>
-                                    <Typography component="p">
+                                    <Typography component="p" style={{color:'#ffffff'}}>
                                         {pr.Introduction}
                                     </Typography>
                                 </CardContent>
@@ -115,9 +126,14 @@ class HomePage extends Component {
             )
         )
     }
+    setSnake = (f,c) =>{
+        this.setState({
+            alertAllFieled:f,
+            snakebarContent:c,
 
+        })
+    }
     render() {
-        console.log(window.screen.availWidth)
         return (
             <React.Fragment>
                 <Paper style={style.Paper}>
@@ -133,7 +149,7 @@ class HomePage extends Component {
                     <Grid container spacing={24}>
                         <Grid item>
                             <Fade in={true} timeout={1000}>
-                                <Button variant="contained" style={style.bootstrapRoot} onClick={() => {
+                                <Button inverted style={style.bootstrapRoot} color='black' onClick={() => {
                                     this.setState({open: true})
                                 }}>
                                     <Typography style={{color: '#FFFFFF', fontFamily: 'Arial', fontSize: 20}}>
@@ -148,30 +164,33 @@ class HomePage extends Component {
                             <Player autoPlay={true}
                                     fluid={false}
                                     width={800}
+
                             >
-                                <source src={'http://media.w3.org/2010/05/bunny/movie.mp4'}/>
+                                <source src={require(`./image/startmovie.mov`)}/>
                                 <ControlBar autoHide={true} disableCompletely/>
                             </Player>
                         </Grid>
                     </Grid>
-                    <Modal
+                    <Dialog
                         open={this.state.open}
                         onClose={() => {
                             this.setState({open: false})
                         }}
                     >
-                        <Login type={"in"} setToken={this.props.setToken} handleModal={this.handleModal}/>
-                    </Modal>
-                    <Grid container spacing={24} style={{marginTop: 500}}>
+                        <DialogContent>
+                            <Login type="in" setToken={this.props.setToken} handleModal={this.handleModal} setSnake={this.setSnake}/>
+                        </DialogContent>
+                    </Dialog>
+                    <Grid container spacing={24} style={{marginTop: 300}}>
                         <Grid item>
-                            <div style={{width: window.screen.width, height: 450, backgroundColor: '#101319'}}>
+                            <div style={{width: window.screen.width, height: 430, backgroundColor: '#101319'}}>
                                 <Grid container>
                                     {this.showMembers()}
 
                                 </Grid>
-                                <Grid container >
-                                    <Typography style={{color: '#ffffff', marginTop: 50,marginLeft: 200}}>
-                                        By clicking “Sign up for GitHub”, you agree to our terms of service and privacy
+                                <Grid container>
+                                    <Typography style={{color: '#ffffff', marginTop: 50, marginLeft: 'auto',marginRight:'auto'}}>
+                                        By clicking “Sign up”, you agree to our terms of service and privacy
                                         statement. We’ll occasionally send you account related emails.
                                     </Typography>
                                 </Grid>
@@ -180,7 +199,22 @@ class HomePage extends Component {
                         </Grid>
                     </Grid>
                 </Paper>
+                <Snackbar
+                    anchorOrigin={{vertical: 'top', horizontal: 'right'}}
+                    open={this.state.alertAllFieled}
+                    onClose={()=>{this.setState({alertAllFieled:false})}}
+                    autoHideDuration={1000}
 
+                >
+                    <SnackbarContent
+                        style={{backgroundColor: "#ff1a24"}}
+                        message={<span style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                        }}>  <ErrorIcon/>{this.state.snakebarContent}</span>}
+                    >
+                    </SnackbarContent>
+                </Snackbar>
                 {/*<ButtonAppBar/>*/}
             </React.Fragment>
         );

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import TextField from '@material-ui/core/TextField';
 import SyntaxHighlighter from 'react-syntax-highlighter';
-import Button from '@material-ui/core/Button';
+// import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import MenuItem from '@material-ui/core/MenuItem';
 import {List, withStyles} from '@material-ui/core';
@@ -9,10 +9,16 @@ import Typography from '@material-ui/core/Typography';
 import { types } from 'util';
 import green from '@material-ui/core/colors/green';
 import SaveIcon from '@material-ui/icons/Save';
+import PublishIcon from '@material-ui/icons/Publish';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
-import DeleteIcon from '@material-ui/icons/Delete';
-import GridList from '@material-ui/core/GridList';
+import { Icon } from 'semantic-ui-react'
 import Grid from '@material-ui/core/Grid';
+// import { Grid, Image } from 'semantic-ui-react'
+import SnackbarContent from "@material-ui/core/SnackbarContent/SnackbarContent";
+import Snackbar from "@material-ui/core/Snackbar/Snackbar";
+import ErrorIcon from "@material-ui/core/SvgIcon/SvgIcon";
+import { Button, Segment } from 'semantic-ui-react'
+import InputLabel from '@material-ui/core/InputLabel';
 
 
 const isDebug = true; 
@@ -22,6 +28,7 @@ const short_editor_edit= {
     width: '100%',
     // maxWidth: 700,
     height:'150px',
+    fontFamily:['Comic Sans MS','cursive','sans-serif']
     // float:'left',
 }
 
@@ -29,10 +36,12 @@ const short_editor_display= {
     width: '100%',
     // maxWidth: 700,
     height:'50px',
+    fontFamily:['Comic Sans MS','cursive','sans-serif']
 }
 
 const long_editor= {
     width: '100%',
+    fontFamily:['Comic Sans MS','cursive','sans-serif']
     // maxWidth: 700,
 }
 
@@ -40,6 +49,7 @@ const script_editor= {
     width: '100%',
     // maxWidth: 700,
     height:'200px',
+    fontFamily:['Comic Sans MS','cursive','sans-serif']
 }
 
 const button = {
@@ -56,16 +66,19 @@ const result_style = {
     width: '100%',
     // maxWidth: 700,
     height:'200px',
+    fontFamily:['Comic Sans MS','cursive','sans-serif']
 }
 
 const page = {
-    padding: '5%'
+    padding: '5%',
+    fontFamily:['Comic Sans MS','cursive','sans-serif']
 }
 
 const param_editor_edit= {
     width: '100%',
     height:'150px',
-    float:'left'
+    float:'left',
+    fontFamily:['Comic Sans MS','cursive','sans-serif']
 }
 
 const param_list = []
@@ -88,17 +101,27 @@ const styles = theme => ({
   },
 });
 
+const sleep=(numberMillis)=>
+{
+    var now = new Date();
+    var exitTime = now.getTime() + numberMillis;
+    while (true) {
+        now = new Date();
+        if (now.getTime() > exitTime)
+            return;
+    }
+}
 
 /**  Title Description and Editor **/ 
 const EditTitle = ({title, handleChange}) =>
 <div className="short-editor">
     <TextField
         id="title"
-        // label="Title"
+        label="Script Title"
+        variant="outlined"
         value={title}
         onChange={handleChange('title')}
         placeholder="Input your title here"
-        helperText="Please Input your title"
         margin="normal"
         fullWidth
         item
@@ -111,7 +134,7 @@ const ScriptTitle = ({mode, title, handleChange}) =>
     if (mode == "Editing") {
         return (
             <div style={short_editor_edit}>
-                <Typography component="h1" variant="h1" gutterBottom>{mode} Mode</Typography>
+                <Typography style={{fontFamily:['Comic Sans MS','cursive','sans-serif']}} component="h1" variant="h1" gutterBottom>{mode} Mode</Typography>
                 <EditTitle
                     title={title}
                     handleChange={handleChange}
@@ -119,19 +142,22 @@ const ScriptTitle = ({mode, title, handleChange}) =>
             </div>
         );
     }
-    if (mode == "Viewing" || mode == "Running") {
-        return (<div style={short_editor_display}><Typography component="h1" variant="h1" gutterBottom>{title}</Typography></div>);
+    if (mode == "Viewing" || mode == "Running"|| mode == "ViewingR" || mode == "RunningR" ) {
+        return (<div style={{fontFamily:['Comic Sans MS','cursive','sans-serif']}} ><Typography component="h1" variant="h1" gutterBottom>{title}</Typography></div>);
     }
 }
 
 
 /** Description Display and Editor  **/
 const DescriptionEditor = ({description, handleChange}) =>
+    <div>
+    <h4 style={{fontFamily:['Comic Sans MS','cursive','sans-serif']}}> Description </h4>
     <TextField
         id="description"
         // label="Description"
         placeholder="Input your description here"
         helperText="Please Input your description"
+        variant="filled"
         value={description}
         onChange={handleChange('description')}
         margin="normal"
@@ -140,12 +166,13 @@ const DescriptionEditor = ({description, handleChange}) =>
         rowsMax="20"
         multiline
     />
+    </div>
 
 
 const DescriptionDisplay = ({mode, description, handleChange}) => {
 if (mode == "Editing") {
     return (
-        <div style={long_editor}>
+        <div style={{fontFamily:['Comic Sans MS','cursive','sans-serif']}} >
             <DescriptionEditor
                 description={description}
                 handleChange={handleChange}
@@ -154,11 +181,11 @@ if (mode == "Editing") {
     );
 }
 
-if (mode == "Viewing"|| mode == "Running") {
+if (mode == "Viewing"|| mode == "Running" || mode == "ViewingR" || mode == "RunningR" ) {
     return (
         <div style={long_editor}>
-            <Typography component="h2" variant="h2"> Decriptioin ></Typography>
-            <Typography component="h4" variant="h4">{description}</Typography>
+            <Typography style={{fontFamily:['Comic Sans MS','cursive','sans-serif']}}  component="h4" variant="h4"> Decriptioin ></Typography>
+            <Typography style={{fontFamily:['Comic Sans MS','cursive','sans-serif']}}  component="h4" variant="h4">{description}</Typography>
         </div>
     );
 }
@@ -183,6 +210,7 @@ const EditorDisplay = ({mode, scripts, syntax, handleChange}) => {
     if (mode == "Editing") {
         return (
             <div style={script_editor}>
+                    <h4 style={{fontFamily:['Comic Sans MS','cursive','sans-serif']}}> Script </h4>
                     <TextField
                         id="code"
                         helperText="Please input your scripts here"
@@ -215,10 +243,10 @@ const EditorDisplay = ({mode, scripts, syntax, handleChange}) => {
             </div>
         );
     }
-    if (mode == "Viewing") {
+    if (mode == "Viewing" || mode=="ViewingR") {
         return (
             <div style={script_editor}>
-                <h2> Script > </h2>
+                <h4 style={{fontFamily:['Comic Sans MS','cursive','sans-serif']}} > Script > </h4>
                 <SyntaxHighlighter
                     language={syntax}
                 >{scripts}
@@ -227,7 +255,7 @@ const EditorDisplay = ({mode, scripts, syntax, handleChange}) => {
             </div>
         );
     }
-    if (mode == "Running") {
+    if (mode == "Running" || mode=="RunningR") {
         return (
             <div>
             </div>
@@ -236,22 +264,24 @@ const EditorDisplay = ({mode, scripts, syntax, handleChange}) => {
 }
 
 /** Result Display **/
-const ResultDisplay = ({mode, result}) => {
-    if (mode == "Viewing"|| mode =="Running") {
-        return (
-            <div  style={result_style}>
-                <h2>Result></h2>
-                <TextField
-                    id="result"
-                    // label="result"
-                    value={result}
-                    margin="normal"
-                    fullWidth
-                    rows="3"
-                    rowsMax="20"
-                    multiline
-                />
-            </div>);
+const ResultDisplay = (props) => {
+    let {mode, result} = props
+
+    if (mode == "Viewing" | mode=="Running" || mode == "ViewingR" || mode == "RunningR" ) {
+        if (result != null) {
+            return (
+                <div style={result_style}>
+                    <h4 style={{fontFamily:['Comic Sans MS','cursive','sans-serif']}}>Result></h4>
+                    <body style={{fontFamily:['Comic Sans MS','cursive','sans-serif']}}>{result }</body>
+                </div>);
+        }
+        else{
+            return (
+                <div style={result_style}>
+                    <h4>Result></h4>
+                    <body style={{fontFamily:['Comic Sans MS','cursive','sans-serif']}}>[No Result Given At Present]</body>
+                </div>);
+        }
     }
     else {
         return (
@@ -282,7 +312,7 @@ class ParamEditor extends Component {
     checkDuplicateName = (param_name) => {
         const filter_list = this.state.param_list.filter((item) => item.param_name == param_name)
         if (filter_list.length > 0) {
-            alert("You cannot add duplicate paramter");
+            this.props.setSnackBar("Error", "You cannot have duplicate parameter", true)
             return false;
         }
         return true;
@@ -355,7 +385,7 @@ class ParamEditor extends Component {
                 onChange={(event)=>{
                     this.setState({pt_temp:event.target.value})
                 }}
-                helperText="Please select the parameter type"
+                helperText="Please select the type of pram"
                 margin="normal"
                 >
                     {var_type_list.map(option=>(
@@ -366,9 +396,7 @@ class ParamEditor extends Component {
                     }
                 </TextField>
                 <Button
-                    variant="fab"
-                    color="default"
-                    aria-label="Add-param"
+                    inverted color="violet"
                     onClick={() =>{
                         new_param.param_name=this.state.pn_temp
                         new_param.param_type=this.state.pt_temp
@@ -378,7 +406,8 @@ class ParamEditor extends Component {
                     }
                     }
                 >
-                    <AddIcon/>
+                <Icon disabled name='add' />
+                    Add
                 </Button>
             </div>
         );
@@ -416,11 +445,11 @@ class ParamEditor extends Component {
                     margin="normal"
                 />
                 <Button
-                    variant="fab"
-                    color="default"
-                    aria-label="Add-param"
+                    inverted
+                    color="red"
                     onClick={() => this.handleDelParam(item.param_name)}
                 >
+                <Icon disabled name='close' />
                   Del
             </Button>
              </span>
@@ -433,10 +462,9 @@ class ParamEditor extends Component {
     EditParam = () => {
         return (
             <div className="editParam" style={param_editor_edit}>
-                <h4>Parameter</h4>
+                <h4 style={{fontFamily:['Comic Sans MS','cursive','sans-serif']}} >Parameter</h4>
                     <this.DisplayParamEdit/>
                     <this.SingleParamEdit/>
-                    <br/>
             </div>
         );
     }
@@ -449,37 +477,12 @@ class ParamEditor extends Component {
                 {item.param_name}
                 {item.param_value}  
             </span>
-                        <br/>
                     </div>
             )}
         </div>
 
-    InputValidCheck = (value, type) => 
-    {
-        if (type.localeCompare("Number")) {
-            if (!isNaN(value)) {
-                return true;
-            }
-            else {
-                alert("Please input a number!");
-                return false;
-            }
-        }
-        else{
-            return true;
-        }
-    }
 
-    ParamUpdate=()=>
-    {
-        this.state.param_list.map(item => {
-            // if (item.param_name == param.param_name) {
-                if (! this.InputValidCheck(item.param_value, item.param_type)) {
-                   alert("Error")
-                }
-            // }
-        })
-    }
+
     // Input paramter
     SingleParamInput = ({param}) => {
         return (
@@ -532,7 +535,7 @@ class ParamEditor extends Component {
                 </div>
             )
         }
-        if (this.state.mode == "Viewing" || this.state.mode == "Running") {
+        if (this.state.mode == "Viewing" || this.state.mode == "Running" || mode == "ViewingR" || mode == "RunningR" ) {
             return (
                 <div>
                 <this.InputParam />
@@ -543,32 +546,64 @@ class ParamEditor extends Component {
     }
 }
 
+
+
+
 class CreateScripts extends Component {
 
     // Constructor 
     constructor(props) {
         super(props);
-        let {token} = props;
+        //FIXME: Unchecked codes for initialization
+        let name = "Untitled Script"
+        let description = "#TODO"
+        let parameters = []
+        let language = "bash"
+        let code = "# Input your code here :>"
+        let result = null
+        let {token, mode, id, task_id} = props;
+        // alert(token)
+        // alert(mode)
+        // alert(id)
+        if (id == null) {id = "NULL"}
+
         this.state = {
-            title: "Untitled Script",
-            description: null,
-            scripts: "# Input your codes here :>",
-            syntax: 'bash',
-            param_list: param_list,
-            result: "NULL",
-            mode: "Editing",
-            id:"NULL",
+            title: name,
+            description: description,
+            scripts: code,
+            syntax: language,
+            param_list: parameters,
+            result: result,
+            mode: mode,
+            id: id,
             token: token,
+            task_id : task_id,
+            setSnackBar: props.setSnackBar,
+            runSuccess:false,
+            sb_info:{
+                type:"default",
+                info:"NULL",
+                open:false
+            }
         }
+
+        if (mode == null) { mode = "Editing"}
+        if (id != "NULL"){
+            let inform = this.getScripts(id)
+        }
+
+
     }
 
-    // Query Scripts 
-    getScripts = () => {
-        let url = `${apiHost}/api/scripts`
+
+
+    // Get Scripts 
+    getScripts = (id) => {
+        let url = `${apiHost}/api/scripts/${id}`
         const message = {}
+
         const myRequest = new Request(url, {
-            method: 'GET', 
-            body: JSON.stringify(message), 
+            method: 'GET',
             headers:{
                 'Authorization': `Bearer ${this.state.token}`,
                 'Content-Type': 'application/json',
@@ -576,16 +611,64 @@ class CreateScripts extends Component {
             }
         });
         fetch(myRequest)
-            .then(response => {
-                console.log(response.status)
-                if (response.status === 401) {
-                    alert("Script ID Not Found")
-                } else if (response.status == 200) {
-                    // TODO 
-                }
-            })
+            .then(response => response.json().then(prs => {
+                        let {id, name, description, content, author} = prs
+                        let {language, code, parameters} = content;
+
+
+                        let param_list = []
+                        parameters.map(param=>(
+                            param_list.push({
+                                param_name: param.name,
+                                param_type: param.type,
+                            })
+                        ))
+
+                        this.setState({
+                            title: name,
+                            description: description,
+                            scripts: code,
+                            syntax: language,
+                            param_list: param_list,
+                            id: id,
+                            result:null
+                        })
+                        }
+                    )
+            )
     }
 
+        // Query Result
+        getResult = (id) => {
+            // alert("start")
+            let url = `${apiHost}/api/tasks/${id}`
+            const myRequest = new Request(url, {
+                method: 'GET',
+                headers:{
+                    'Authorization': `Bearer ${this.state.token}`,
+                    'Content-Type': 'application/json',
+                    'accept': 'application/json'
+                }
+            });
+                fetch(myRequest)
+                    // alert("get")
+                    .then(response => response.json().then(prs => {
+                        // alert("get")
+                        console.log(response.status)
+                        // alert(response.status)
+                        if (response.status === 401) {
+                            this.props.setSnackBar("Error", "Script ID Not Found", true)
+                        } else if (response.status == 200) {
+
+                                this.setState({result: prs.output})
+
+
+                        } else {
+                            let error_msg = "Error Code:" + response.status
+                            this.props.setSnackBar("Error", error_msg, true)
+                        }
+                    }))
+        }
         
     // Create Scripts & Update
     setScripts = (props, id) => {
@@ -627,58 +710,108 @@ class CreateScripts extends Component {
             }
         });
 
-
         fetch(myRequest)
             .then(response => {
                 console.log(response.status)
-                alert(response.status) 
-                alert(url)
                 if (response.status === 401) {
-                    alert("Script ID Not Found")
+                    this.props.setSnackBar("Error","Error: Script ID Not Found", true)
                 } else if (response.status == 201) {
-                    // handling 
+                    // Created Success
                     const {id, name, description, content, author}=response.body; 
                     if (mode == "create") {
                         this.setState({id:{id}})
                     }
+                    this.props.setSnackBar("Success","Script save sucess", true)
+                }
+                else if (response.status == 200) {
+                    this.props.setSnackBar("Success","Code update sucess", true)
+                }else {
+                    let error_msg = "Error Code:"+ response.status
+                    this.props.setSnackBar("Error",error_msg, true)
                 }
             })
     }
 
 
     // Run a script 
+    InputValidCheck = (param) => 
+    {
+        let {value, param_type} = param
+        if (param_type == "NUMBER") {
+            if (!isNaN(value)) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        else{
+            return true;
+        }
+    }
+
     runScript=(param_list, id)=>{
         let url = `${apiHost}/api/scripts/${id}/run`
-        let param_msg = []
-        param_list.map(param=>(
-            param_msg.push({
-                "name": param.param_name,
-                "type": param.param_type,
-                "value": param.param_value
-            })
-        )
-        );
-        const message = {param_msg}
-        const myRequest = new Request(url, {
-            method: 'POST', 
-            body: JSON.stringify(message), 
-            headers:{
-                'Authorization': `Bearer ${this.state.token}`,
-                'Content-Type': 'application/json',
-                'accept': 'application/json'
-            }
-        });
-        fetch(myRequest)
-            .then(response => {
-                console.log(response.status)
-                if (response.status === 401) {
-                    alert("Script ID Not Found")
-                } else if (response.status == 200) {
-                    // FIXME: Unfinished code for running 
-                    let result = response.body;
+        let parameters = []
+        let param_valid = true
+        if (this.state.mode == "Viewing")
+            this.setState({mode:"ViewingR"})
+        else if (this.state.mode == 'Running')
+            this.setState(({mode:"RunningR"}))
+        param_list.map(param=>{
+            if (this.InputValidCheck(param)){
+                parameters.push({
+                    "name": param.param_name,
+                    "type": param.param_type,
+                    "value": param.value
+                })
+        }
+        else{
+            param_valid=false
+            let error_msg = "Input parameter:" + param.param_name + " is not a number"
+            this.props.setSnackBar("Error", error_msg, true)
+        }
+    });
+        if (param_valid){
+            // this.props.setSnackBar("Success", "Parameter check success", true)
+            this.props.setSnackBar("Success", "Script start running, please wait for the result", true)
+            const message =  parameters
+            const myRequest = new Request(url, {
+                method: 'POST', 
+                body: JSON.stringify(message), 
+                headers:{
+                    'Authorization': `Bearer ${this.state.token}`,
+                    'Content-Type': 'application/json',
+                    'accept': 'application/json'
                 }
-            })
+            });
+            fetch(myRequest)
+                .then(response => {response.json().then(prs => {
+                    console.log(response.status)
+                    if (response.status === 401) {
+                        this.props.setSnackBar("Error", "Script id not found", true)
+                    } else if (response.status == 201) {
+                        // FIXME: Unfinished code for running
+                        sleep(3000)
+                        this.getResult(prs.id)
+
+                    } else {
+                        let error_msg = "Error Code:" + response.status
+                        this.props.setSnackBar("Error", error_msg, true)
+                    }
+
+                        if (this.state.mode == "ViewingR")
+                            this.setState({mode:"Viewing"})
+                        else if (this.state.mode == 'RunningR')
+                            this.setState(({mode:"Running"}))
+                        this.setState({runSuccess: false})
+                }
+
+
+                )})
+        }
     }
+
 
 
 /** Buttons For Shift ***/
@@ -690,15 +823,20 @@ class CreateScripts extends Component {
         if (this.state.mode == "Editing") {
             this.modeShift("Viewing");
             this.setScripts(this.state, this.state.id);
+            this.props.setSnackBar("Info", "Switch to Viewing Mode",true)
         }
-        ;
         if (this.state.mode == "Viewing") {
             this.modeShift("Editing")
+            this.props.setSnackBar("Info", "Switch to Editing Mode",true)
         }
     }
 
     executeCurrentScripts = () => {
         this.runScript(this.state.param_list, this.state.id)
+    }
+    publishCurrentScripts = () => {
+        this.setScripts(this.state, this.state.id)
+        this.props.setSnackBar("Success","Script publish success", true)
     }
 
     /** Button Display **/
@@ -706,37 +844,67 @@ class CreateScripts extends Component {
         if (this.state.mode == "Editing") {
             return (
                 <div style={button}>
-                    <Button variant="contained" color="secondary" onClick={()=>this.buttonShift()}>
-                    <SaveIcon />
+                    <Button  color="blue" size='large' onClick={()=>this.buttonShift()}>
+                    <Icon disabled name='save' />
                         Edit Mode
                     </Button>
                 </div>
             );
         }
 
-        if (this.state.mode == "Viewing") {
+        if (this.state.mode == "Viewing" ) {
             return (
                 <div style={button}>
-                <Button variant="contained" color="secondary" onClick={()=>this.buttonShift()}>
-                <SaveIcon />
+                <Button  color="blue" size='large' onClick={()=>this.buttonShift()}>
+                    <Icon disabled name='edit' />
                     Edit Mode
                 </Button>
-                <Button variant="contained" color="primary" >
-                    Publish
-                    <CloudUploadIcon />
+                <Button  color='green'  size='large' onClick={()=>this.publishCurrentScripts()} >
+                    <Icon disabled name='cloud upload' />
+                    Publish  
                 </Button>
-                <Button variant="contained" color="default" onClick={()=>this.executeCurrentScripts()}>
+                <Button  color='orange' size='large' onClick={()=>this.executeCurrentScripts()}>
+                <Icon disabled name='play' />
                 Execute
                 </Button>
+                </div>
+            );
+        }
+        if (this.state.mode == "ViewingR") {
+            return (
+                <div style={button}>
+                    <Button  color="blue" size='large' onClick={()=>this.buttonShift()}>
+                        <Icon disabled name='edit' />
+                        Edit Mode
+                    </Button>
+                    <Button  color='green'  size='large' onClick={()=>this.publishCurrentScripts()} >
+                        <Icon disabled name='cloud upload' />
+                        Publish
+                    </Button>
+                    <Button  loading color='orange' size='large' onClick={()=>this.executeCurrentScripts()}>
+                        <Icon disabled name='play' />
+                        Execute
+                    </Button>
                 </div>
             );
         }
         if (this.state.mode == "Running") {
             return(
                 <div>
-                <Button variant="contained" color="default" onClick={()=>this.executeCurrentScripts()}>
-                    Execute
+                <Button  color='orange' size='large' onClick={()=>this.executeCurrentScripts()}>
+                <Icon disabled name='play' />
+                Execute
                 </Button>
+                </div>
+            )
+        }
+        if (this.state.mode == "RunningR") {
+            return(
+                <div>
+                    <Button  loading color='orange' size='large' onClick={()=>this.executeCurrentScripts()}>
+                        <Icon disabled name='play' />
+                        Execute
+                    </Button>
                 </div>
             )
         }
@@ -756,42 +924,42 @@ class CreateScripts extends Component {
     }
 
     render() {
+        // alert(this.state.result)
+        if ((this.props.id != this.state.id)&(this.props.id != null)) {
+            this.getScripts(this.props.id)
+        }
+
         return (
             <div style={page}>
+
             <ScriptTitle 
                 mode={this.state.mode} 
                 title={this.state.title}  
                 handleChange={this.handleChange}  
             />
+            <br/>
             <DescriptionDisplay
                 mode={this.state.mode}
                 description={this.state.description}
                 handleChange={this.handleChange}
             />
+            <br/>
             <EditorDisplay
                 mode={this.state.mode}
                 scripts={this.state.scripts}
                 syntax={this.state.syntax}
                 handleChange={this.handleChange}
             />
-            <ResultDisplay
-                mode={this.state.mode}
-                result={this.state.result}
-                button={this.ButtonDisplay}
-            />
-            <Grid container spacing={24}>
-             <Grid item xs={7}>
+            <br/>
+            <ResultDisplay mode={this.state.mode} result={this.state.result} setChange={this.setChange}/>
             <ParamEditor 
                 mode = {this.state.mode}
                 param_list = {this.state.param_list} 
                 setChange = {this.setChange}
                 button={this.ButtonDisplay}
+                setSnackBar={this.props.setSnackBar}
                 />
-            </Grid>
-            <Grid item xs={6}>
                 <this.ButtonDisplay />
-            </Grid>
-            </Grid>
             </div>
         )
     }

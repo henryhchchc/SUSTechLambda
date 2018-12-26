@@ -6,8 +6,11 @@ import Paper from "@material-ui/core/Paper/Paper";
 import SnackbarContent from "@material-ui/core/SnackbarContent/SnackbarContent";
 import Snackbar from "@material-ui/core/Snackbar/Snackbar";
 import ErrorIcon from '@material-ui/icons/Error';
-import Button from "@material-ui/core/Button/Button";
 import Typography from "@material-ui/core/Typography/Typography";
+import Input from "@material-ui/core/Input/Input";
+import InputLabel from "@material-ui/core/InputLabel/InputLabel";
+import Avatar from "@material-ui/core/Avatar/Avatar";
+import {Button} from "semantic-ui-react";
 
 const isDebug = true;
 
@@ -24,11 +27,10 @@ class Login extends Component {
         }
         this.state = {
             parameterValues: {},
-            alertAllFieled: false,
             showType: this.props.type,
             fields: t,
             showText: q,
-            snakebarContent: '',
+
         }
     }
 
@@ -61,35 +63,24 @@ class Login extends Component {
         fetch(myRequest)
             .then(response => {
                 if (response.status === 401) {
-                    this.setState({
-                        snakebarContent: 'Wrong username or password',
-                        alertAllFieled: true,
-
-                    })
+                    console.log(123)
+                    this.props.setSnake(true, 'Wrong username or password')
                 } else if (response.status == 200) {
                     response.json().then(data => {
-
                         let url = `${apiHost}/api/identity/profile`
                         let myHeaders = new Headers();
                         myHeaders.append('Authorization', `Bearer ${data['access_token']}`)
-                        let displayName = ''
                         fetch(url, {method: 'GET', headers: myHeaders})
                             .then(response => response.json().then(data2 => {
-                                displayName = data2['displayName']
-                                this.props.setToken(data['access_token'], data['roles'].indexOf('ADMIN') !== -1 ? 'admin' : 'user', displayName)
+                                this.props.setToken(data['access_token'], data['roles'].indexOf('ADMIN') !== -1 ? 'admin' : 'user', data2)
                                 this.props.handleModal()
                             }))
-
-
                     })
                     //this.props.setToken(token)
                 } else if (response.status == 201) {
                     this.signIn('in')
                 } else if (response.status == 409) {
-                    this.setState({
-                        snakebarContent: 'This id has been occupied',
-                        alertAllFieled: true,
-                    })
+                    this.props.setSnake(true, 'This id has been occupied')
                 }
             })
 
@@ -114,10 +105,7 @@ class Login extends Component {
             item => {
                 if (parameter[[item]] === undefined || parameter[[item]] === "") {
                     verified = false
-                    this.setState({
-                        snakebarContent: 'Please fill all fields',
-                        alertAllFieled: true,
-                    })
+                    this.props.setSnake(true, 'Please fill all fields')
                 }
             }
         )
@@ -138,8 +126,8 @@ class Login extends Component {
     showWords = () => {
         if (this.state.showType == 'up') {
             return (
-                <Grid container>
-                    <Typography style={{fontSize: 12, marginLeft: 20}}>
+                <Grid item style={{marginLeft: 'auto', marginRight: 'auto'}}>
+                    <Typography style={{fontSize: 12, marginLeft: 20,marginTop:5,marginBottom:5}}>
                         Make sure it's more than 15 characters OR at least 8 characters including a number and a
                         lowercase letter.
                     </Typography>
@@ -147,12 +135,26 @@ class Login extends Component {
             )
         } else {
             return (
-                <Grid container>
-                    <Typography style={{fontSize: 12, marginLeft: 25}} onClick={() => {
-                        this.setState({showType: 'up',fields:['Username', 'Id', 'Password'],showText:"Sign up for SUSTech Lambda"})
-                    }}>
-                        New to SUSTech Lambda? Click here to sign up!
-                    </Typography>
+                <Grid item style={{marginLeft: 'auto', marginRight: 'auto', marginTop: 20,marginBottom:5}}>
+                    <Grid container>
+                        <Typography style={{fontSize: 12}}>
+                            New to SUSTech Lambda?
+                        </Typography>
+                    </Grid>
+                    <Grid container>
+                        <Typography style={{color: '#5eb85d',}}
+                                    onClick={() => {
+                                        this.setState({
+                                            showType: 'up',
+                                            fields: ['Username', 'Id', 'Password'],
+                                            showText: "Sign up for SUSTech Lambda"
+                                        })
+                                    }}>
+                            <a href='#'>Click here</a>
+                        </Typography>
+                    </Grid>
+
+
                 </Grid>
             )
         }
@@ -162,60 +164,86 @@ class Login extends Component {
     render() {
 
         return (
-            <Paper style={{height: 400, width: 300, marginLeft: 550, marginTop: 200}}>
-                <form noValidate autoComplete="off">
-                    {this.state.fields.map(
-                        item => {
-                            if (item == 'Password') {
-                                return (
-                                    <Grid container style={{marginTop: 15, marginLeft: 'auto'}}>
-                                        <TextField
-                                            required
-                                            id="standard-name"
-                                            placeholder={item}
-                                            onChange={this.handleParameterIn({item})}
-                                            margin="normal"
-                                            type='password'
-                                        />
-                                    </Grid>)
-                            } else {
-                                return (
-                                    <Grid container style={{marginTop: 15, marginLeft: 'auto'}}>
-                                        <TextField
-                                            required
-                                            id="standard-name"
-                                            placeholder={item}
-                                            onChange={this.handleParameterIn({item})}
-                                            margin="normal"
-                                        />
-                                    </Grid>)
+            <Grid container style={{width: 300}}>
+                <Grid container>
+                    <Avatar style={{
+                        marginLeft: 'auto',
+                        marginRight: 'auto',
+                        width: 80,
+                        height: 80,
+                        marginTop: 3
+                    }} src={require(`./image/SUSTechLambda.png`)}/>
+                </Grid>
+                <Grid item style={{marginLeft: 'auto', marginRight: 'auto'}}>
+                    <form noValidate autoComplete="off">
+                        {this.state.fields.map(
+                            item => {
+                                if (item == 'Password') {
+                                    return (
+                                        <div>
+                                            <Grid container
+                                                  style={{marginLeft: 'auto', marginRight: 'auto', marginTop: 5}}>
+                                                <InputLabel>
+                                                    {item}
+                                                </InputLabel>
+                                            </Grid>
+                                            <Grid container
+                                                  style={{marginLeft: 'auto', marginRight: 'auto', marginTop: 5}}>
+                                                <Input
+                                                    placeholder={item}
+                                                    disableUnderline={true}
+
+                                                    style={{
+                                                        borderRadius: 4,
+                                                        backgroundColor: '#ffffff',
+                                                        border: '1px solid #ced4da',
+                                                        fontSize: 16
+                                                    }}
+                                                    onChange={this.handleParameterIn({item})}
+                                                    type='password'
+                                                />
+                                            </Grid>
+                                        </div>
+                                    )
+                                } else {
+                                    return (
+                                        <div>
+                                            <Grid container style={{marginTop: 5}}>
+                                                <InputLabel>
+                                                    {item}
+                                                </InputLabel>
+                                            </Grid>
+                                            <Grid container style={{marginTop: 5}}>
+                                                <Input
+                                                    placeholder={item}
+                                                    disableUnderline={true}
+                                                    onChange={this.handleParameterIn({item})}
+                                                    style={{
+                                                        borderRadius: 4,
+                                                        backgroundColor: '#ffffff',
+                                                        border: '1px solid #ced4da',
+                                                        fontSize: 16
+                                                    }}
+                                                />
+                                            </Grid>
+                                        </div>)
+                                }
                             }
-                        }
-                    )}
-                </form>
+                        )}
+                    </form>
+                </Grid>
                 {this.showWords()}
-                <Snackbar
-                    anchorOrigin={{vertical: 'top', horizontal: 'right'}}
-                    open={this.state.alertAllFieled}
-                    onClose={this.handleClose}
-                    autoHideDuration={1000}
-                >
-                    <SnackbarContent
-                        style={{backgroundColor: "#ff1a24"}}
-                        message={<span style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                        }}>  <ErrorIcon/>{this.state.snakebarContent}</span>}
-                    >
-                    </SnackbarContent>
-                </Snackbar>
-                < Button onClick={this.handleSubmit}
-                         style={{backgroundColor: "#5eb85d", marginTop: 30, marginRight: "20%", marginLeft: "20%"}}>
-                    <Typography style={{color: "#ffffff"}}>
-                        {this.state.showText}
-                    </Typography>
+
+                {/*< Button onClick={this.handleSubmit}*/}
+                         {/*style={{backgroundColor: "#5eb85d", marginTop: 15, marginRight: "auto", marginLeft: "auto"}}>*/}
+                    {/*<Typography style={{color: "#ffffff"}}>*/}
+                        {/*{this.state.showText}*/}
+                    {/*</Typography>*/}
+                {/*</Button>*/}
+                <Button color='teal' fluid size='large' onClick={this.handleSubmit}>
+                    {this.state.showText}
                 </Button>
-            </Paper>
+            </Grid>
         )
     }
 }
