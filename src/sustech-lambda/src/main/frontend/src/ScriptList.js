@@ -109,7 +109,7 @@ class ScriptList extends Component {
             return (
                 <List>
                     {
-                        this.state.scripts.map((pr, index) =>
+                        this.state.scripts.slice(0,11).map((pr, index) =>
                             <ListItem button key={pr.name} onClick={() =>this.selectPr(pr, index)} style={{fontFamily:['Comic Sans MS','cursive','sans-serif']}}>
                                 <ListItemText primary={pr.name} secondary={pr.description} />
                                 <Button as='div' labelPosition='right' size='mini'>

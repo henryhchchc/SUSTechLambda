@@ -720,10 +720,12 @@ class CreateScripts extends Component {
                     this.props.setSnackBar("Error","Error: Script ID Not Found", true)
                 } else if (response.status == 201) {
                     // Created Success
-                    const {id, name, description, content, author}=response.body;
-                    if (mode == "create") {
-                        this.setState({id:{id}})
-                    }
+                    response.json().then(prs=>{
+                        // const {id, name, description, content, author}=prs;
+                        // if (mode == "create") {
+                        this.setState({id:prs.id})
+                        // }
+                    })
                     // this.props.setSnackBar("Success","Script save sucess", true)
                 }
                 else if (response.status == 200 | response.status == 204 ) {
@@ -931,7 +933,7 @@ class CreateScripts extends Component {
                     this.setState({scripts:"# This is a sample program for bash \np1=$1\nnum1=$2\necho ${p1}\necho ${num1}"})
                 }
                 else if  (event.target.value == "javascript"){
-                    this.setState({scripts:"function run(param){\n  // This is an example program for JS.\n  // The most import thing here is that you must name your main function 'run' and take a    let para = param['para']\n   console.log(para);\n}\nmodule.exports = run"})
+                    this.setState({scripts:"function run(param){\n  // This is an example program for JS.\n  // The most import thing here is that you must name your main function 'run' and take a let para = param['para']\n let para = param['para'];\n  console.log(para);\n}\nmodule.exports = run"})
                 }
             }
         }
